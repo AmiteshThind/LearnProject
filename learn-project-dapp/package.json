@@ -6,11 +6,28 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "@tailwindcss/typography": "^0.5.0",
+    "@walletconnect/web3-provider": "^1.7.0",
+    "headlessui": "0.0.0",
+    "heroicons": "^1.0.5",
+    "moralis": "0.0.182",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-image-file-resizer": "^0.4.7",
+    "react-markdown": "^8.0.0",
+    "react-moralis": "^0.3.11",
+    "react-parallax-tilt": "^1.5.85",
+    "react-scroll": "^1.8.4",
+    "remark-gfm": "^3.0.1",
+    "slugify": "^1.6.5",
+    "use-state-if-mounted": "^1.0.4",
+    "zustand": "^3.6.9"
   },
   "devDependencies": {
+    "animated-tailwindcss": "^2.6.1",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.4",
     "tailwindcss": "^3.0.0"
