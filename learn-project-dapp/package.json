@@ -8,7 +8,6 @@
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
-    "@tailwindcss/typography": "^0.5.0",
     "@walletconnect/web3-provider": "^1.7.0",
     "headlessui": "0.0.0",
     "heroicons": "^1.0.5",
@@ -27,9 +26,13 @@
     "zustand": "^3.6.9"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/line-clamp": "^0.3.1",
+    "@tailwindcss/typography": "^0.5.0",
     "animated-tailwindcss": "^2.6.1",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.4",
-    "tailwindcss": "^3.0.0"
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.15"
   }
 }

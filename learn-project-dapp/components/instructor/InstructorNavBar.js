@@ -103,7 +103,7 @@ function InstructorNavbar() {
                                         onClick={!isAuthenticated? authenticate : logout}
 										offset={50}
 										duration={500}
-										className="cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="cursor-pointer max-w-[12rem]  border-2   border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
 									>
 									    {isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'} 
 									</button>
