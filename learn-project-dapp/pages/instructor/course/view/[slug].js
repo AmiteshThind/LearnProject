@@ -10,6 +10,9 @@ import Tooltip from '../../../../components/Tooltip'
 import Image from 'next/image'
 import remarkGfm from 'remark-gfm'
 import Modal from '../../../../components/Modal'
+import { toast, ToastContainer } from 'react-toastify'
+import Router from 'next/router'
+import axios from 'axios'
 
 
 function CourseView() {
@@ -17,25 +20,28 @@ function CourseView() {
     const router = useRouter();
     const { slug } = router.query;
     const [isLoading, setIsLoading] = useState(true);
-   const [visible,setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const { user, isAuthenticated } = useMoralis();
+
     //for lessons
 
-    const [values,setValues] = useState({
-        title:"",
-        content:"",
-        video: ""
+    const [values, setValues] = useState({
+        title: "",
+        content: "",
+        video: {}
     })
 
-    const [uploading,setUploading] = useState(false)
-    const [uploadBtnText,setUploadBtnText] = useState("Upload Video")
-     
-
+    const [uploading, setUploading] = useState(false)
+    const [uploadBtnText, setUploadBtnText] = useState("Upload Video")
+    const [progress, setProgress] = useState(0);
+ 
     useEffect(() => {
         //load course from moralis based on slug 
         //console.log(course)
 
         loadCourse();
-        
+
+
         //console.log(course)
 
 
@@ -49,29 +55,128 @@ function CourseView() {
         console.log("1")
         const result = await query.find();
         console.log("2")
-        console.log(result)
+        console.log(result[0])
         setCourse(result)
         console.log("3")
-
+ 
         setIsLoading(false)
     }
 
     //functions for add Lessons
 
-    const handleAddLesson = (e) =>{
+    const handleAddLesson = async (e) => {
         //add lesson to course array
         e.preventDefault();
+
+        try {
+             
+            if(values.title!='' && values.content!='' && values.video!={}){
+                //create Lesson in Lessons Class in Moralis while referecing course to which this Lesson belongs to
+                const Lesson = Moralis.Object.extend("Lesson");
+                const newLesson = new Lesson();
+                newLesson.set('title',values.title);
+                newLesson.set('content',values.content);
+                newLesson.set('video',values.video);
+                newLesson.set('course',course[0]);
+                const addedLesson = await newLesson.save();
+               
+                // add this lesson object to the lessons array under the course to which it belongs 
+                course[0].addUnique("lessons",addedLesson.id);
+                await course[0].save()    
+                setVisible(false);
+                setUploadBtnText("Upload Video")
+                setValues({...values,
+                    title:'',
+                    content:'',
+                    video:{}
+            })
+
+            } else{
+                toast("Please Input All Fields")
+                console.log('here i am')
+            }
+
+
+        } catch{
+
+        }
         console.log(values)
+        // creates a lesson in the database which includes the video hash and url, title, course object id, , content 
     }
 
-    const handleVideo = (e) =>{
-         const file = e.target.files[0];
-         if(file){
-        setUploadBtnText(file.name);
-        console.log('handle video upload')
-        console.log(values)
-         }
+    const handleVideo = async (e) => {
+        //uploads file to the IPFS and returns a hash which we will store in db to later retreive the content. 
+        console.log('wow')
+        try {
+            const instructorId = course[0].attributes.instructor.id;
+            console.log("im here")
+            const file = e.target.files[0];
+            if (file) {
+                console.log(file)
+                const videoData = new FormData();
+                videoData.append('video', file);
+                setUploading(true);
+                // get current user objectId
+
+                //sendData.append("userId",userObjectId)
+
+
+                await axios.post(`http://localhost:8000/api/course/video-upload/${instructorId}`, videoData, {
+                    onUploadProgress: (e) => {
+                        setProgress(Math.round((100 * e.loaded) / e.total))
+                        console.log(e)
+                    },
+                    withCredentials: true
+                }
+                ).then(function (response) {
+
+                    setProgress(0);
+                    setUploading(false);
+                    setUploadBtnText(file.name);
+                    // console.log(data)
+
+
+
+                    //once response is received 
+
+                    setValues({ ...values, video: response.data })
+                    console.log(values)
+                }
+
+                )
+            }
+
+
+
+
+            // work on progress bar
+
+        } catch (error) {
+            console.log(error)
+            setUploading(false);
+            toast("Video Upload Failed")
+
+
+        }
+
     }
+
+    const handleVideoRemove = async (e) => {
+        try {
+            setUploading(true);
+            const instructorId = course[0].attributes.instructor.id;
+            const { data } = await axios.post(`http://localhost:8000/api/course/video-remove/${instructorId}`, values.video, {
+                withCredentials: true
+            });
+            setValues({ ...values, video: {} })
+            setProgress(0)
+            setUploading(false);
+            setUploadBtnText("Upload Another Video")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 
     return (
@@ -88,7 +193,7 @@ function CourseView() {
                         </Link>
                     </div>
 
-
+                    
                     <div className='flex  lg:w-6/12 md:w-6/12 sm:w-full  items-start flex-col m-10   flex-stretch justify-center   '>
                         <div className='flex   w-full  '>
                             <div className=" px-1 flex flex-wrap text-4xl   text-green-500 ">
@@ -128,9 +233,9 @@ function CourseView() {
                             <h1>Manage Lessons </h1>
                         </div>
                         <div className='flex items-center justify-center mt-10'>
-                            <button onClick={()=>{setVisible(true)}}  class="bg-green-500 shadow-lg shadow-green-500/50 rounded-2xl justify-center text-md   w-full px-3 mx-10 py-3 flex"><UploadIcon className='h-6 w-6  '/> Add Lesson</button>
-                            <Modal uploadBtnText={uploadBtnText} values={values} setValues={setValues} handleAddLesson={handleAddLesson} visible={visible} setVisible={setVisible} uploading={uploading} handleVideo={handleVideo}>
-                                 
+                            <button onClick={() => { setVisible(true) }} class="bg-green-500 shadow-lg shadow-green-500/50 rounded-2xl justify-center text-md   w-full px-3 mx-10 py-3 flex"><UploadIcon className='h-6 w-6  ' /> Add Lesson</button>
+                            <Modal uploadBtnText={uploadBtnText} setUploadBtnText={setUploadBtnText} values={values} setValues={setValues} handleAddLesson={handleAddLesson} visible={visible} setVisible={setVisible} uploading={uploading} handleVideo={handleVideo} progress={progress} handleVideoRemove={handleVideoRemove}>
+
                             </Modal>
                         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState,useLayoutEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Image from "next/image";
 import {useMoralis} from 'react-moralis'
@@ -6,12 +6,36 @@ import Router, {useRouter} from "next/router";
 import { Link } from "react-scroll";
 import ActiveLink from "../ActiveLink";
 import Tilt from 'react-parallax-tilt';
+import axios from 'axios'
+import useStore from "../../store/store"
 
 function UserNavbar() {
 	const [isOpen, setIsOpen] = useState(false);
     const {user,isAuthenticated,authenticate,logout} = useMoralis();
+	let jwtRecieved = useStore.getState().jwtRecieved
 
-	
+	useLayoutEffect(() => {
+
+		async function verify() {
+			console.log(jwtRecieved)
+			if (isAuthenticated && !jwtRecieved) {
+				const { data } = await axios.post("http://localhost:8000/authenticate", {
+					user:user
+				}, {withCredentials:true})
+				if (data) {
+					useStore.setState({ jwtRecieved: true })
+				}
+			}
+		}
+		verify();
+	}, [isAuthenticated])
+
+	const logOutUser= ()=>{
+		useStore.setState({ jwtRecieved: false })
+		console.log(jwtRecieved)
+		logout();
+
+	}
 
 	return (
 		<div>
@@ -94,10 +118,10 @@ function UserNavbar() {
 										activeClass="contact"
 										to="contact"
 										smooth={true}
-                                        onClick={!isAuthenticated? authenticate : logout}
+                                        onClick={!isAuthenticated? authenticate : logOutUser}
 										offset={50}
 										duration={500}
-										className="cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500  px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
 									>
 									    {isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'} 
 									</button>

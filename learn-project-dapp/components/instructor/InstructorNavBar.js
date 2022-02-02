@@ -1,33 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Image from "next/image";
-import {useMoralis} from 'react-moralis'
-import Router, {useRouter} from "next/router";
+import { useMoralis } from 'react-moralis'
+import Router, { useRouter } from "next/router";
 import { Link } from "react-scroll";
 import ActiveLink from "../ActiveLink";
+import axios from 'axios'
+import Moralis from "moralis";
+import useStore from "../../store/store"
 
 
 function InstructorNavbar() {
-	const [isOpen, setIsOpen] = useState(false);
-    const {user,isAuthenticated,authenticate,logout} = useMoralis();
 
-	
+	let jwtRecieved = useStore(state => state.jwtRecieved)
+
+	const [isOpen, setIsOpen] = useState(false);
+	const { user, isAuthenticated, authenticate, logout } = useMoralis();
+
+	useLayoutEffect(() => {
+
+		async function verify() {
+			console.log(jwtRecieved)
+			if (isAuthenticated && !jwtRecieved) {
+				const { data } = await axios.post("http://localhost:8000/authenticate", {
+					user: user
+				}, { withCredentials: true })
+				if (data) {
+					useStore.setState({ jwtRecieved: true })
+
+				}
+			}
+		}
+		verify();
+	}, [isAuthenticated])
+
+	const logOutUser = () => {
+		useStore.setState({ jwtRecieved: false })
+		logout();
+
+	}
+
 	return (
 		<div>
+
 			<nav className=" shadow-md  bg-white dark:bg-zinc-700 w-full  z-50">
 				<div  >
 					<div className="flex items-center h-20 w-full">
 						<div className="flex items-center  mx-20  justify-between w-full">
-							<div  onClick={() => Router.push('/marketplace')} className="flex justify-center items-center flex-shrink-0 ">
+							<div onClick={() => Router.push('/marketplace')} className="flex justify-center items-center flex-shrink-0 ">
 								<h1 className=" font-bold text-3xl cursor-pointer text-emerald-500">
 									$L<span className="text-gray-800 dark:text-white">EARN</span>
 								</h1>
-                               
+
 							</div>
 							<div className="hidden md:block">
 								<div className="ml-10 flex items-baseline space-x-4">
-                                <button
-                                    onClick={() => Router.push('/marketplace')}
+									<button
+										onClick={() => Router.push('/marketplace')}
 										activeClass="about"
 										to="about"
 										smooth={true}
@@ -35,10 +64,10 @@ function InstructorNavbar() {
 										duration={500}
 										className="cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 rounded-md text-md font-medium"
 									>
-										 <ActiveLink href="/marketplace">Marketplace</ActiveLink>
+										<ActiveLink href="/marketplace">Marketplace</ActiveLink>
 									</button>
 									<button
-                                        onClick={() => Router.push('/instructor/dashboard')}
+										onClick={() => Router.push('/instructor/dashboard')}
 										activeClass="text-green"
 										to="about"
 										smooth={true}
@@ -46,11 +75,11 @@ function InstructorNavbar() {
 										duration={500}
 										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 font-semibold px-3 py-2 text-md  "
 									>
-                                        <ActiveLink href="/instructor/dashboard">Dashboard</ActiveLink>
-										 
+										<ActiveLink href="/instructor/dashboard">Dashboard</ActiveLink>
+
 									</button>
 									<button
-                                    onClick={() => Router.push('/mycourses')}
+										onClick={() => Router.push('/mycourses')}
 										activeClass="about"
 										to="about"
 										smooth={true}
@@ -58,7 +87,7 @@ function InstructorNavbar() {
 										duration={500}
 										className="cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 rounded-md text-md font-medium"
 									>
-										 <ActiveLink href="/login">Revenue</ActiveLink>
+										<ActiveLink href="/login">Revenue</ActiveLink>
 									</button>
 									<button
 										activeClass="work"
@@ -82,9 +111,9 @@ function InstructorNavbar() {
 										<ActiveLink href="/myprofile">Profile</ActiveLink>
 									</button>
 
-                                    <button
-                                        
-                                        onClick={() => Router.push('/instructor/course/create')}
+									<button
+
+										onClick={() => Router.push('/instructor/course/create')}
 										activeClass="active"
 										to="about"
 										smooth={true}
@@ -92,20 +121,20 @@ function InstructorNavbar() {
 										duration={500}
 										className=" mx-10 cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
 									>
-                                        
-										 Create Course
+
+										Create Course
 									</button>
 
 									<button
 										activeClass="contact"
 										to="contact"
 										smooth={true}
-                                        onClick={!isAuthenticated? authenticate : logout}
+										onClick={!isAuthenticated ? authenticate : logOutUser}
 										offset={50}
 										duration={500}
-										className="cursor-pointer max-w-[12rem]  border-2   border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
 									>
-									    {isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'} 
+										{isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'}
 									</button>
 								</div>
 							</div>
@@ -181,7 +210,7 @@ function InstructorNavbar() {
 									duration={500}
 									className="cursor-pointer hover:bg-emerald-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
 								>
-									  <ActiveLink href="/user/dashboard">Dashboard</ActiveLink>
+									<ActiveLink href="/user/dashboard">Dashboard</ActiveLink>
 								</button>
 								<button
 									href="/about"
@@ -192,7 +221,7 @@ function InstructorNavbar() {
 									duration={500}
 									className="cursor-pointer hover:bg-emerald-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
 								>
-								 <ActiveLink href="/login">My Courses</ActiveLink>
+									<ActiveLink href="/login">My Courses</ActiveLink>
 								</button>
 
 								<button
@@ -217,30 +246,30 @@ function InstructorNavbar() {
 								>
 									<ActiveLink href="/myprofile">Profile</ActiveLink>
 								</button>
-                                <button
-                                        
-                                        onClick={() => Router.push('/user/dashboard')}
-										activeClass="active"
-										to="about"
-										smooth={true}
-										offset={50}
-										duration={500}
-										className="cursor-pointer hover:bg-emerald-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-									>
-										<ActiveLink href="/instructor">Become Instructor</ActiveLink>
-									</button>
+								<button
+
+									onClick={() => Router.push('/user/dashboard')}
+									activeClass="active"
+									to="about"
+									smooth={true}
+									offset={50}
+									duration={500}
+									className="cursor-pointer hover:bg-emerald-500 text-black hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+								>
+									<ActiveLink href="/instructor">Become Instructor</ActiveLink>
+								</button>
 
 								<button
 									href="/contact"
 									activeClass="work"
 									to="work"
-                                    onClick={!isAuthenticated? authenticate : logout}
+									onClick={!isAuthenticated ? authenticate : logout}
 									smooth={true}
 									offset={50}
 									duration={500}
 									className="cursor-pointer hover:bg-emerald-500 text-black truncate hover:text-white block px-4 py-2 rounded-md text-base font-large"
 								>
-								 {isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'} 
+									{isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'}
 								</button>
 							</div>
 						</div>
