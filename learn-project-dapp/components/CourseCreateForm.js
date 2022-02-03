@@ -6,7 +6,7 @@ import {useState,useEffect} from 'react'
 function CourseCreateForm({handleSubmit,handleImage,handleChange,values, setValues, preview}) {
 
 
-
+    //for price of course
     const children = []
     for (let i = 5; i<=50;i+=1){
         children.push(<option key={i}>{i}</option>)

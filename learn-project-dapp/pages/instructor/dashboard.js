@@ -38,10 +38,10 @@ const loadCourses = async ()=>{
     
 
     return (
-        <div>
+        <div className="min-h-screen bg-gradient-radial from-emerald-800   to-gray-800">
             <InstructorNavbar />
-            <Banner title={"Instructor Dashboard"} />
-            <div className="m-12">
+            {/* <Banner title={"Instructor Dashboard"} /> */}
+            <div className="">
             <CourseList courses={courses}/>
             {/* <pre>{JSON.stringify(courses,null,3)}</pre> */}
             </div>

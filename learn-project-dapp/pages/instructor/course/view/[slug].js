@@ -180,7 +180,7 @@ function CourseView() {
 
 
     return (
-        <div className=''>
+        <div className='min-h-screen bg-gradient-radial from-slate-800   to-zinc-900'>
             <InstructorNavbar />
 
 

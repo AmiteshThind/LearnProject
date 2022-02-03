@@ -43,18 +43,63 @@ function InstructorNavbar() {
 	return (
 		<div>
 
-			<nav className=" shadow-md  bg-white dark:bg-zinc-700 w-full  z-50">
+			<nav className="   dark:bg-zinc-700 w-full  z-50">
 				<div  >
-					<div className="flex items-center h-20 w-full">
-						<div className="flex items-center  mx-20  justify-between w-full">
-							<div onClick={() => Router.push('/marketplace')} className="flex justify-center items-center flex-shrink-0 ">
-								<h1 className=" font-bold text-3xl cursor-pointer text-emerald-500">
-									$L<span className="text-gray-800 dark:text-white">EARN</span>
-								</h1>
+					<div className="flex justify-center   items-center pt-5 pb-5  w-full ">
 
+					<div className="ml-10 mr-5 flex lg:hidden ">
+							<button
+								onClick={() => setIsOpen(!isOpen)}
+								type="button"
+								className="bg-emerald-500 inline-flex     p-2 rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-emerald-500 focus:ring-white"
+								aria-controls="mobile-menu"
+								aria-expanded="false"
+							>
+								<span className="sr-only">Open main menu</span>
+								{!isOpen ? (
+									<svg
+										className="block h-6 w-6"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											d="M4 6h16M4 12h16M4 18h16"
+										/>
+									</svg>
+								) : (
+									<svg
+										className="block h-6 w-6"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+
+						<div className="flex items-center justify-center  sm:justify-between md:justify-between lg:justify-between xl:justify-between  w-full">
+							<div onClick={() => Router.push('/marketplace')} className=" hidden  sm:flex  md:flex lg:flex justify-center items-center   ">
+								<h1 className=" ml-5 font-bold text-3xl     cursor-pointer text-green-500  drop-shadow-sm  ">
+									$LEARN
+								</h1>
 							</div>
-							<div className="hidden md:block">
-								<div className="ml-10 flex items-baseline space-x-4">
+							<div className="hidden lg:block shadow-lg shadow-green-500/50 rounded-lg  ">
+								<div className=" border-4 border-green-500 rounded-lg p-3 flex-wrap space-x-4">
 									<button
 										onClick={() => Router.push('/marketplace')}
 										activeClass="about"
@@ -62,7 +107,8 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 rounded-md text-md font-medium"
+										className={" shadow-emerald-500/100 cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2  rounded-md text-md font-medium" }
+										
 									>
 										<ActiveLink href="/marketplace">Marketplace</ActiveLink>
 									</button>
@@ -110,7 +156,9 @@ function InstructorNavbar() {
 									>
 										<ActiveLink href="/myprofile">Profile</ActiveLink>
 									</button>
-
+									 
+								 
+									
 									<button
 
 										onClick={() => Router.push('/instructor/course/create')}
@@ -119,12 +167,14 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className=" mx-10 cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md font-medium"
 									>
 
 										Create Course
 									</button>
-
+									</div>
+									</div>
+									<div>
 									<button
 										activeClass="contact"
 										to="contact"
@@ -132,57 +182,15 @@ function InstructorNavbar() {
 										onClick={!isAuthenticated ? authenticate : logOutUser}
 										offset={50}
 										duration={500}
-										className="cursor-pointer max-w-[12rem]  border-2  border-emerald-500 text-emerald-500 dark:text-white px-5 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="mr-5 shadow-lg shadow-green-500/50 cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  border-4  border-green-500 text-green-500 dark:text-white px-3 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
 									>
 										{isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'}
 									</button>
 								</div>
-							</div>
+						 
+							
 						</div>
-						<div className="mr-10 flex md:hidden ">
-							<button
-								onClick={() => setIsOpen(!isOpen)}
-								type="button"
-								className="bg-emerald-500 inline-flex items-center justify-center p-2 rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-emerald-500 focus:ring-white"
-								aria-controls="mobile-menu"
-								aria-expanded="false"
-							>
-								<span className="sr-only">Open main menu</span>
-								{!isOpen ? (
-									<svg
-										className="block h-6 w-6"
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth="2"
-											d="M4 6h16M4 12h16M4 18h16"
-										/>
-									</svg>
-								) : (
-									<svg
-										className="block h-6 w-6"
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth="2"
-											d="M6 18L18 6M6 6l12 12"
-										/>
-									</svg>
-								)}
-							</button>
-						</div>
+
 					</div>
 				</div>
 
@@ -196,7 +204,7 @@ function InstructorNavbar() {
 					leaveTo="opacity-0 scale-95"
 				>
 					{(ref) => (
-						<div className="md:hidden" id="mobile-menu">
+						<div className="" id="mobile-menu">
 							<div
 								ref={ref}
 								className="bg-white px-2 pt-2 pb-3 space-y-1 sm:px-3"
@@ -259,18 +267,6 @@ function InstructorNavbar() {
 									<ActiveLink href="/instructor">Become Instructor</ActiveLink>
 								</button>
 
-								<button
-									href="/contact"
-									activeClass="work"
-									to="work"
-									onClick={!isAuthenticated ? authenticate : logout}
-									smooth={true}
-									offset={50}
-									duration={500}
-									className="cursor-pointer hover:bg-emerald-500 text-black truncate hover:text-white block px-4 py-2 rounded-md text-base font-large"
-								>
-									{isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'}
-								</button>
 							</div>
 						</div>
 					)}

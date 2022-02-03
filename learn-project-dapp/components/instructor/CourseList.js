@@ -10,11 +10,11 @@ import Link from 'next/link'
 
 
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col mt-10  hidden;  ">
         <div className=''>
-          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div className="shadow-2xl overflow-hidden border-b border-gray-200  rounded-lg">
-              <table className="min-w-full divide-y  divide-gray-200 ">
+          <div className="py-2  falign-middle table-auto  min-w-full sm:px-6 lg:px-8">
+            <div className="shadow-2xl mb-10 border-b overflow-auto   border-gray-200  rounded-lg">
+              <table className=" min-w-full divide-y    divide-gray-200 ">
                 <thead className="bg-gray-200  " >
                   <tr >
                     <th
@@ -33,7 +33,7 @@ import Link from 'next/link'
                       scope="col"
                       className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
                     >
-                      Paid or Free
+                      Price
                     </th>
                     <th
                       scope="col"
@@ -87,8 +87,10 @@ import Link from 'next/link'
 
                       
                       <td className="px-6 py-4 whitespace-nowrap">
-                         {course.attributes.paid && <div>Paid</div>}
+                        <div>
+                         {course.attributes.paid && <div>{course.attributes.price} BUSD</div>}
                          {!course.attributes.paid && <div>Free</div>}
+                         </div>
                       </td>
 
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{course.attributes.usersEnrolled.length }</td>

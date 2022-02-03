@@ -8,12 +8,14 @@ function marketplace() {
     const {user,isAuthenticated} = useMoralis();
 
     return (
-        <div className="     min-h-screen  ">
+        <div className="     min-h-screen  bg-gray-900 ">
+            <div>
             { isAuthenticated && user.attributes.role == 'instructor'?
              <InstructorNavbar/> :
                 <UserNavbar/>
             }
-            <Banner title={"Marketplace"}/>
+            {/* <Banner title={"Marketplace"}/> */}
+            </div>
         </div>
     )
 }
