@@ -1,6 +1,6 @@
 import { UploadIcon } from "@heroicons/react/solid"
 
-function AddLessonForm({ values, setValues, handleAddLesson, uploadBtnText, handleVideo, uploading, progress }) {
+function AddLessonForm({ values, setValues, handleAddLesson, uploadBtnText, handleVideo, uploading, progress, sections }) {
     return (
         <div className="pr-2">
             <form onSubmit={handleAddLesson}>
@@ -18,7 +18,27 @@ function AddLessonForm({ values, setValues, handleAddLesson, uploadBtnText, hand
                         onChange={(e) => setValues({ ...values, title: e.target.value })}
                     />
                 </div>
-                <label className="block text-sm mt-3 font-medium text-gray-700">Content</label>
+                <label className="block text-sm font-medium mt-3 text-gray-700">
+                    Section
+                </label>
+
+                <div className="flex">
+                    <div className="flex flex-col  ">
+                         
+                        <div class="flex justify-center ">
+                            <div class="  w-full">
+                                <select  onChange={v => setValues({...values,section:v.target.value})} value={values.section} class="text-center w-full mt-2   rounded-md border border-gray-200 shadow-sm py-2 bg-white text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                <option value={''}>Select</option>
+                                {sections.map((section, index) => (
+                                    <option value={section}>{section}</option>
+                                ))}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <label className="block text-sm mt-2 font-medium text-gray-700">Content</label>
 
                 <div>
                     <textarea onChange={(e) => setValues({ ...values, content: e.target.value })} name='content' required placeholder="eg. Setting up a server" type="text" className=" text-sm  rounded    border-gray-200 mt-1 px-2 w-full h-20    border"></textarea>

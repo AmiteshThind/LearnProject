@@ -21,6 +21,7 @@ function CourseCreate() {
         paid: true,
         loading: false,
         category:'',
+        sections:[]
          
     })
 
@@ -33,6 +34,15 @@ function CourseCreate() {
         console.log(e.target.name)
         console.log(e.target.value)
         setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values)
+    }
+
+    const handleSections = (e) => {
+
+       let arr = e.target.value.split(',');
+
+       console.log(arr)
+        setValues({ ...values, [e.target.name]: arr });
         console.log(values)
     }
 
@@ -65,6 +75,7 @@ function CourseCreate() {
         newCourse.set('category',values.category);
         newCourse.set('instructor',user)
         newCourse.set('slug',slugify(values.name.toLowerCase()));
+        newCourse.set('sections',values.sections);
 
         uploadFile(newCourse);
 
@@ -82,15 +93,14 @@ function CourseCreate() {
 
 
     return (
-        <div>
+        <div className=" min-h-min bg-gradient-to-b from-cyan-100 via-white to-red-100">
             <InstructorNavbar />
-            <Banner title={"Create Course"} />
-            <div>
-                <div class="w-full      min-h-screen ">
+            <div className="flex justify-center">
+                <div class="w-3/4 justify-center    min-h-screen ">
                     <div class="w-fullmx-auto px-6  flex justify-center items-center  ">
-                        <div class="bg-white w-full shadow-2xl  rounded  sm:p-12 mt-5 mb-5 ">
+                        <div class="bg-white w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
                             <p class="text-3xl font-bold leading-7 text-center text-emerald-500"> </p>
-                            <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} values = {values} setValues ={setValues} preview={preview}/>
+                            <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} handleSections={handleSections} values = {values} setValues ={setValues} preview={preview} />
                         </div>
                     </div>
                 </div>

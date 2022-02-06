@@ -19,7 +19,9 @@ function ActiveLink({router,href,children}) {
                 margin:0,
                 padding:0,
                 fontWeight: isCurrentPath? "bold" : "normal",
-                color: isCurrentPath ? "#10b981" : "black"
+                color: isCurrentPath ? "#10b981" : "#94a3b8",
+              
+
 
             }}>
             {children}

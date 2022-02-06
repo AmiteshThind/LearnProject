@@ -5,14 +5,15 @@ import { ExclamationIcon } from '@heroicons/react/outline'
 import { PlusIcon } from '@heroicons/react/solid'
 import AddLessonForm from './AddLessonForm'
 
-export default function Modal({ visible, setVisible, setValues, values, handleAddLesson, uploading, uploadBtnText, handleVideo, setUploadBtnText, progress, handleVideoRemove }) {
+export default function Modal({ visible, setVisible, setValues, values, handleAddLesson, uploading, uploadBtnText, handleVideo, setUploadBtnText, progress, handleVideoRemove, sections }) {
 
 
     const resetForm = (e) => {
         setValues({
             title: "",
             content: "",
-            video: {}
+            video: {},
+            section:""
         })
         setVisible(false);
         setUploadBtnText("Upload Video")
@@ -55,13 +56,13 @@ export default function Modal({ visible, setVisible, setValues, values, handleAd
 
                                     <div className="mt-3 divide-y w-full text-center item sm:mt-0 sm:ml-4 sm:text-left">
                                       
-                                        <Dialog.Title as="h3" className="text-2xl leading-6 font-medium text-gray-900">
+                                        <Dialog.Title as="h3" className="text-2xl leading-6 font-medium text-emerald-500">
                                             Lesson
                                         </Dialog.Title>
 
                                         <div className="mt-2">
                                             <div className='mt-3'>
-                                                <AddLessonForm uploadBtnText={uploadBtnText} values={values} handleAddLesson={handleAddLesson} setValues={setValues} handleVideo={handleVideo} uploading={uploading} progress={progress} />
+                                                <AddLessonForm uploadBtnText={uploadBtnText} values={values} handleAddLesson={handleAddLesson} setValues={setValues} handleVideo={handleVideo} uploading={uploading} progress={progress} sections={sections} />
                                             </div>
                                         </div>
 
@@ -92,7 +93,7 @@ export default function Modal({ visible, setVisible, setValues, values, handleAd
                             }
                                 <button
                                     type="button"
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     onClick={handleAddLesson}
                                     disabled={uploading}
                                 >

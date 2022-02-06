@@ -8,7 +8,7 @@ function marketplace() {
     const {user,isAuthenticated} = useMoralis();
 
     return (
-        <div className="     min-h-screen  bg-gray-900 ">
+        <div className="     min-h-screen bg-gradient-to-b from-cyan-100 via-white to-red-100 ">
             <div>
             { isAuthenticated && user.attributes.role == 'instructor'?
              <InstructorNavbar/> :

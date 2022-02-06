@@ -10,51 +10,51 @@ import Link from 'next/link'
 
 
     return (
-      <div className="flex flex-col mt-10  hidden;  ">
+      <div className="flex flex-col mt-5  hidden;  ">
         <div className=''>
           <div className="py-2  falign-middle table-auto  min-w-full sm:px-6 lg:px-8">
-            <div className="shadow-2xl mb-10 border-b overflow-auto   border-gray-200  rounded-lg">
-              <table className=" min-w-full divide-y    divide-gray-200 ">
-                <thead className="bg-gray-200  " >
-                  <tr >
+            <div className="shadow-2xl mb-10 m-12   overflow-auto   bg-white  rounded-xl">
+              <table className=" min-w-full divide-y-2 divide-gray-200        ">
+                <thead className="   " >
+                  <tr className='transition duration-300 ease-in-out' >
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
+                      className="px-6 py-3 text-left text-lg font-bold text-red-300    tracking-wider"
                     >
-                      Course
+                      COURSE
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
+                      className="px-6 py-3 text-left text-lg font-bold text-red-300    tracking-wider"
                     >
-                      Lessons
+                      LESSONS
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
+                      className="px-6 py-3 text-left text-lg font-bold text-red-300    tracking-wider"
                     >
-                      Price
+                      PRICE
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
+                      className="px-6 py-3 text-left text-lg font-bold text-red-300     tracking-wider"
                     >
-                      Students
+                      STUDENTS
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-lg font-bold text-gray-800   tracking-wider"
+                      className="px-6 py-3 text-left text-lg font-bold text-red-300  tracking-wider"
                     >
-                      Status
+                      STATUS
                     </th>
                     
     
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className=" ">
                   {courses.map((course) => (
                       
-                    <tr className = "hover:bg-gray-50" key={course.attributes.slug}>
+                    <tr className = "hover:border-emerald-500 hover:border-2  transition duration-100 ease-in-out hover:shadow-emerald-500/50 hover:shadow-md" key={course.attributes.slug}>
                       <td className="px-6 py-4 whitespace-nowrap ">
                       <Link href={`/instructor/course/view/${course.attributes.slug}`}>
                           
@@ -65,10 +65,10 @@ import Link from 'next/link'
                           </div>
                           <div className="ml-4">
                                
-                            <div className="text-lg font-medium text-gray-800">{course.attributes.name}</div>
+                            <div className="text-lg font-medium text-gray-700">{course.attributes.name}</div>
                             
-                            <div className="text-sm mt-2 text-gray-500">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-green-800">{course.attributes.category}
+                            <div className="text-sm mt-2 text-gray-700">
+                            <span className="px-2 inline-flex text-xs leading-5 rounded-full shadow-emerald-500/75 sahdow-lg border-2 border-emerald-500 text-emerald-500">{course.attributes.category}
                             </span></div>
                             
                           </div>
@@ -78,7 +78,7 @@ import Link from 'next/link'
                       </td>
                       
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm   text-gray-800">{course.attributes.lessons.length}</div>
+                        <div className="text-sm   text-gray-700">{course.attributes.lessons.length}</div>
                         {course.attributes.lessons.length<5 && 
                         <div className="text-sm mt-3 text-gray-400">At least 8 lessons are required to publish a course</div>
                     }
@@ -86,20 +86,20 @@ import Link from 'next/link'
 
 
                       
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-700">
                         <div>
                          {course.attributes.paid && <div>{course.attributes.price} BUSD</div>}
                          {!course.attributes.paid && <div>Free</div>}
                          </div>
                       </td>
 
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{course.attributes.usersEnrolled.length }</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{course.attributes.usersEnrolled.length }</td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {course.attributes.published && <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        {course.attributes.published && <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-md shadow-green-500/50 bg-green-100 text-green-800">
                           Published
                         </span>
                         }
-                        {!course.attributes.published && <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-green-800">
+                        {!course.attributes.published && <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-md shadow-yellow-500/50 bg-amber-100 text-green-800">
                             Draft
                         </span>
                         }

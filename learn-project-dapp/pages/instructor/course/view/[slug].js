@@ -4,7 +4,7 @@ import InstructorNavbar from '../../../../components/instructor/InstructorNavBar
 import { useMoralis } from "react-moralis"
 import { Moralis } from 'moralis'
 import ReactMarkdown from 'react-markdown'
-import { ArrowCircleLeftIcon, ArrowLeftIcon, PencilIcon, CheckIcon, UploadIcon } from '@heroicons/react/solid'
+import { ArrowCircleLeftIcon, ArrowLeftIcon, PencilIcon, CheckIcon, UploadIcon, TrashIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import Tooltip from '../../../../components/Tooltip'
 import Image from 'next/image'
@@ -13,6 +13,7 @@ import Modal from '../../../../components/Modal'
 import { toast, ToastContainer } from 'react-toastify'
 import Router from 'next/router'
 import axios from 'axios'
+import Accordion from '../../../../components/Accordion'
 
 
 function CourseView() {
@@ -22,11 +23,14 @@ function CourseView() {
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
     const { user, isAuthenticated } = useMoralis();
+    const [lessons, setLessons] = useState([]);
+    const [sections, setSections] = useState([])
 
     //for lessons
 
     const [values, setValues] = useState({
         title: "",
+        section: "",
         content: "",
         video: {}
     })
@@ -34,12 +38,12 @@ function CourseView() {
     const [uploading, setUploading] = useState(false)
     const [uploadBtnText, setUploadBtnText] = useState("Upload Video")
     const [progress, setProgress] = useState(0);
- 
+
     useEffect(() => {
         //load course from moralis based on slug 
         //console.log(course)
 
-        loadCourse();
+        loadCourseandLessons();
 
 
         //console.log(course)
@@ -47,7 +51,7 @@ function CourseView() {
 
     }, [isLoading])
 
-    const loadCourse = async () => {
+    const loadCourseandLessons = async () => {
 
         const Course = Moralis.Object.extend("Course");
         const query = new Moralis.Query(Course);
@@ -57,8 +61,22 @@ function CourseView() {
         console.log("2")
         console.log(result[0])
         setCourse(result)
+        setSections(result[0].attributes.sections);
         console.log("3")
- 
+
+        const Lesson = Moralis.Object.extend("Lesson");
+        const query2 = new Moralis.Query(Lesson);
+        query2.equalTo("course", course[0]);
+        console.log("5")
+        const result2 = await query2.find();
+        setLessons([])
+        for (let lesson of result2) {
+            console.log(lesson)
+            setLessons((oldArray) => [...oldArray, lesson])
+        }
+
+        console.log(lessons.length)
+
         setIsLoading(false)
     }
 
@@ -69,35 +87,43 @@ function CourseView() {
         e.preventDefault();
 
         try {
-             
-            if(values.title!='' && values.content!='' && values.video!={}){
+
+            if (values.title != '' && values.content != '' && values.video != {} && values.section!='') {
                 //create Lesson in Lessons Class in Moralis while referecing course to which this Lesson belongs to
                 const Lesson = Moralis.Object.extend("Lesson");
                 const newLesson = new Lesson();
-                newLesson.set('title',values.title);
-                newLesson.set('content',values.content);
-                newLesson.set('video',values.video);
-                newLesson.set('course',course[0]);
+                newLesson.set('title', values.title);
+                newLesson.set('content', values.content);
+                newLesson.set('video', values.video);
+                newLesson.set('course', course[0]);
+                if(course[0].attributes.sections.includes(values.section)){
+                newLesson.set('section', values.section);
+                }else{
+                    console.log("select pending")
+                }
                 const addedLesson = await newLesson.save();
-               
+
                 // add this lesson object to the lessons array under the course to which it belongs 
-                course[0].addUnique("lessons",addedLesson.id);
-                await course[0].save()    
+                course[0].addUnique("lessons", addedLesson.id);
+                await course[0].save()
+                setLessons((oldArray) => [...oldArray, addedLesson])
+                console.log(lessons)
                 setVisible(false);
                 setUploadBtnText("Upload Video")
-                setValues({...values,
-                    title:'',
-                    content:'',
-                    video:{}
-            })
+                setValues({
+                    ...values,
+                    title: '',
+                    content: '',
+                    video: {}
+                })
 
-            } else{
+            } else {
                 toast("Please Input All Fields")
                 console.log('here i am')
             }
 
 
-        } catch{
+        } catch {
 
         }
         console.log(values)
@@ -180,27 +206,27 @@ function CourseView() {
 
 
     return (
-        <div className='min-h-screen bg-gradient-radial from-slate-800   to-zinc-900'>
+        <div className='min-h-screen  bg-gradient-to-b from-cyan-100 via-white to-red-100 '>
             <InstructorNavbar />
-
+            <div className='flex flex-wrap  '>
+                <Link href={"/instructor/dashboard"}><a>
+                    <ArrowCircleLeftIcon className="h-10 w-10 mt-6 ml-6  text-emerald-500" />
+                </a>
+                </Link>
+            </div>
 
             {course.length == 1 &&
-                <div className='flex  flex-wrap  '>
-                    <div className='flex flex-wrap  w-1/12 '>
-                        <Link href={"/instructor/dashboard"}><a>
-                            <ArrowCircleLeftIcon className="h-10 w-10 mt-6 ml-6  text-green-500" />
-                        </a>
-                        </Link>
-                    </div>
+                <div className='flex  flex-wrap  justify-center'>
 
-                    
-                    <div className='flex  lg:w-6/12 md:w-6/12 sm:w-full  items-start flex-col m-10   flex-stretch justify-center   '>
+
+
+                    <div className='flex bg-white  h-full sm:w-full md:w-6/12 shadow-2xl rounded-3xl lg:w-6/12 xl:6/12 p-5     items-start flex-col   ml-10 mb-10  mt-5 sm:mr-10 mr-10   flex-stretch   '>
                         <div className='flex   w-full  '>
-                            <div className=" px-1 flex flex-wrap text-4xl   text-green-500 ">
+                            <div className=" px-1 flex flex-wrap text-4xl   text-emerald-500 ">
                                 <h1>{course[0].attributes.name} </h1>
                             </div>
                             <div className='flex flex-grow      mr-10'>
-                                <PencilIcon className="h-8 w-8 mx-3   text-green-200 hover:text-green-400" />
+                                <PencilIcon className="h-8 w-8 mx-3   text-green-200 hover:text-emerald-500" />
                                 <CheckIcon className="h-8 w-8   text-gray-200 hover:text-gray-400" />
                             </div>
                         </div>
@@ -209,7 +235,7 @@ function CourseView() {
 
                         </div>
                         <div className="text-sm  mt-2 text-gray-500">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-green-800">{course[0].attributes.category}
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border-2 border-emerald-500 text-emerald-800">{course[0].attributes.category}
                             </span>
                         </div>
 
@@ -228,17 +254,51 @@ function CourseView() {
 
                     </div>
 
-                    <div className='flex bg-gray-200 lg:w-3/12 md:w-3/12 sm:w-full flex-col  m-10'>
-                        <div className="   flex flex-wrap text-4xl justify-center  text-green-500 ">
+                    <div className='flex h-full bg-white shadow-2xl rounded-3xl border-none py-5 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col  mr-10 ml-10 mb-10 mt-5 '>
+
+                        <div className="   flex flex-wrap text-4xl justify-center  text-emerald-500 ">
                             <h1>Manage Lessons </h1>
                         </div>
                         <div className='flex items-center justify-center mt-10'>
-                            <button onClick={() => { setVisible(true) }} class="bg-green-500 shadow-lg shadow-green-500/50 rounded-2xl justify-center text-md   w-full px-3 mx-10 py-3 flex"><UploadIcon className='h-6 w-6  ' /> Add Lesson</button>
-                            <Modal uploadBtnText={uploadBtnText} setUploadBtnText={setUploadBtnText} values={values} setValues={setValues} handleAddLesson={handleAddLesson} visible={visible} setVisible={setVisible} uploading={uploading} handleVideo={handleVideo} progress={progress} handleVideoRemove={handleVideoRemove}>
+                            <button onClick={() => { setVisible(true) }} class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-emerald-500 shadow-md shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3 mx-10 py-3 flex"><UploadIcon className='h-6 w-6  ' /> Add Lesson</button>
+                            <Modal uploadBtnText={uploadBtnText} setUploadBtnText={setUploadBtnText} values={values} setValues={setValues} handleAddLesson={handleAddLesson} visible={visible} setVisible={setVisible} uploading={uploading} handleVideo={handleVideo} progress={progress} handleVideoRemove={handleVideoRemove} sections={sections} >
 
                             </Modal>
                         </div>
+                        {/* // list of lessons will be rendered here  */}
+                        {/* <ul class="bg-white rounded-lg border border-gray-200 m-10 text-gray-900 text-sm  font-medium">
+                            {lessons.map((lesson, index) => (
+                                <li class="px-4 py-5 border-b border-gray-200 w-full justify-between flex rounded-t-lg">
+                                    <div>
+                                        <span className='rounded-full bg-gray-200 px-3 py-1'>{index + 1}</span>
+                                        <span className=' px-3 py-1'>{lesson.attributes.title}</span>
+                                    </div>
+                                    <span className=' px-3 py-1 flex'>
+                                        <PencilIcon className="h-5 w-5  mr-2  text-cyan-400" />
+                                        <TrashIcon className="h-5 w-5    text-red-400" />
+                                    </span>
+                                </li>
+                            ))}
 
+                        </ul> */}
+                        {sections.map((section, index) => (
+                            <Accordion title={section} number={index + 1}>
+                                <ul class="bg-white rounded-xl border mx-10 border-gray-200 text-gray-900 text-sm  font-medium">
+                                    {lessons.filter(lesson=>lesson.attributes.section==section).map((lesson, index) => (
+                                        <li class="px-4 py-5 border-b border-gray-200 w-full justify-between flex rounded-lg">
+                                            <div>
+                                                <span className='rounded-full bg-gray-200 px-3 py-1'>{index + 1}</span>
+                                                <span className=' px-3 py-1'>{lesson.attributes.title}</span>
+                                            </div>
+                                            <span className=' px-3 py-1 flex'>
+                                                <PencilIcon className="h-5 w-5  mr-2  text-cyan-400" />
+                                                <TrashIcon className="h-5 w-5    text-red-400" />
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Accordion>
+                        ))}
                     </div>
 
 

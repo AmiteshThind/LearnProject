@@ -38,7 +38,7 @@ const loadCourses = async ()=>{
     
 
     return (
-        <div className="min-h-screen bg-gradient-radial from-emerald-800   to-gray-800">
+        <div className="min-h-screen bg-gradient-to-b from-cyan-100 via-white to-red-100 ">
             <InstructorNavbar />
             {/* <Banner title={"Instructor Dashboard"} /> */}
             <div className="">

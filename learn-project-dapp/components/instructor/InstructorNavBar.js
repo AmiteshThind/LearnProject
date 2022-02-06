@@ -45,13 +45,13 @@ function InstructorNavbar() {
 
 			<nav className="   dark:bg-zinc-700 w-full  z-50">
 				<div  >
-					<div className="flex justify-center   items-center pt-5 pb-5  w-full ">
+					<div className="flex justify-center   items-center pt-7 pb-5  w-full ">
 
-					<div className="ml-10 mr-5 flex lg:hidden ">
+					<div className="ml-10 mr-5  flex lg:hidden ">
 							<button
 								onClick={() => setIsOpen(!isOpen)}
 								type="button"
-								className="bg-emerald-500 inline-flex     p-2 rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-emerald-500 focus:ring-white"
+								className="bg-emerald-500 inline-flex     p-2 rounded-md text-white  hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-500 focus:ring-white"
 								aria-controls="mobile-menu"
 								aria-expanded="false"
 							>
@@ -93,13 +93,13 @@ function InstructorNavbar() {
 						</div>
 
 						<div className="flex items-center justify-center  sm:justify-between md:justify-between lg:justify-between xl:justify-between  w-full">
-							<div onClick={() => Router.push('/marketplace')} className=" hidden  sm:flex  md:flex lg:flex justify-center items-center   ">
-								<h1 className=" ml-5 font-bold text-3xl     cursor-pointer text-green-500  drop-shadow-sm  ">
-									$LEARN
-								</h1>
+							<div onClick={() => Router.push('/marketplace')} className=" hidden   sm:flex  md:flex lg:flex justify-center items-center   ">
+								<div className=" sm:ml-2 md:ml-10 lg:ml-2 xl:ml-10 ml-10 font-bold text-3xl  text-shadow-sm   cursor-pointer text-emerald-400   ">
+									$<span className="text-white text-shadow-md">LEARN</span>
+								</div>
 							</div>
-							<div className="hidden lg:block shadow-lg shadow-green-500/50 rounded-lg  ">
-								<div className=" border-4 border-green-500 rounded-lg p-3 flex-wrap space-x-4">
+							<div className="hidden  lg:block   drop-shadow-xl   ">
+								<div className=" bg-white   p-3 flex-wrap rounded-3xl    sm:space-x-2 md:space-x-2 lg:space-x-2 ">
 									<button
 										onClick={() => Router.push('/marketplace')}
 										activeClass="about"
@@ -107,7 +107,7 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className={" shadow-emerald-500/100 cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2  rounded-md text-md font-medium" }
+										className={" shadow-emerald-500/100 cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 text-md lg:text-lg  rounded-md text-md font-medium" }
 										
 									>
 										<ActiveLink href="/marketplace">Marketplace</ActiveLink>
@@ -119,7 +119,7 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 font-semibold px-3 py-2 text-md  "
+										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 font-semibold px-3 py-2 text-md lg:text-lg  "
 									>
 										<ActiveLink href="/instructor/dashboard">Dashboard</ActiveLink>
 
@@ -131,7 +131,7 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 rounded-md text-md font-medium"
+										className="cursor-pointer hover:text-emerald-500 text-black dark:text-white dark:hover:text-emerald-500  px-3 py-2 rounded-md text-md text-md lg:text-lg  font-medium"
 									>
 										<ActiveLink href="/login">Revenue</ActiveLink>
 									</button>
@@ -141,7 +141,7 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer   text-black dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md font-medium"
+										className="cursor-pointer   text-black dark:text-white hover:text-emerald-500 dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
 									>
 										<ActiveLink href="/staking">Staking</ActiveLink>
 									</button>
@@ -152,7 +152,7 @@ function InstructorNavbar() {
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md font-medium"
+										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
 									>
 										<ActiveLink href="/myprofile">Profile</ActiveLink>
 									</button>
@@ -161,16 +161,15 @@ function InstructorNavbar() {
 									
 									<button
 
-										onClick={() => Router.push('/instructor/course/create')}
-										activeClass="active"
+									 
 										to="about"
 										smooth={true}
 										offset={50}
 										duration={500}
-										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md font-medium"
+										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg font-medium"
 									>
 
-										Create Course
+										<ActiveLink href="/instructor/course/create	">Create Course</ActiveLink>
 									</button>
 									</div>
 									</div>
@@ -182,7 +181,7 @@ function InstructorNavbar() {
 										onClick={!isAuthenticated ? authenticate : logOutUser}
 										offset={50}
 										duration={500}
-										className="mr-5 shadow-lg shadow-green-500/50 cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  border-4  border-green-500 text-green-500 dark:text-white px-3 truncate py-3 rounded-md text-md font-medium hover:text-white hover:bg-emerald-500"
+										className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10   shadow-md bg-white text-emerald-500 hover:text-white hover:bg-emerald-500 transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
 									>
 										{isAuthenticated ? user.attributes.ethAddress : 'Connect Wallet'}
 									</button>
