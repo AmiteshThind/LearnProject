@@ -31,14 +31,14 @@ function LessonList({course}) {
             setLessons((oldArray)=>[...oldArray,lesson] )
         }
 
-        console.log(lessons.length)
+      
         setIsLoading(false)
     }
     return <div>
         
         <ul class="bg-white rounded-lg border border-gray-200 m-10 text-gray-900 text-sm  font-medium">
         {lessons.map((lesson,index) => (
-            <li class="px-4 py-5 border-b border-gray-200 w-full justify-between flex rounded-t-lg">
+            <li key={index} class="px-4 py-5 border-b border-gray-200 w-full justify-between flex rounded-t-lg">
                 <div>
                 <span className='rounded-full bg-gray-200 px-3 py-1'>{index+1}</span>
                 <span className=' px-3 py-1'>{lesson.attributes.title}</span>

@@ -54,7 +54,7 @@ import Link from 'next/link'
                 <tbody className=" ">
                   {courses.map((course) => (
                       
-                    <tr className = "hover:border-emerald-500 hover:border-2  transition duration-100 ease-in-out hover:shadow-emerald-500/50 hover:shadow-md" key={course.attributes.slug}>
+                    <tr className = "hover:border-emerald-500 hover:border-2  transition duration-150 ease-in-out hover:shadow-emerald-500/50 hover:shadow-md" key={course.attributes.slug}>
                       <td className="px-6 py-4 whitespace-nowrap ">
                       <Link href={`/instructor/course/view/${course.attributes.slug}`}>
                           
@@ -78,8 +78,8 @@ import Link from 'next/link'
                       </td>
                       
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm   text-gray-700">{course.attributes.lessons.length}</div>
-                        {course.attributes.lessons.length<5 && 
+                        <div className="text-sm   text-gray-700">{course.attributes.lessonCount}</div>
+                        {course.attributes.lessonCount<5 && 
                         <div className="text-sm mt-3 text-gray-400">At least 8 lessons are required to publish a course</div>
                     }
                       </td>

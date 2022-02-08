@@ -13,6 +13,11 @@ module.exports = {
       }
     },
   },
-  plugins:  [require('@tailwindcss/typography'), require('tailwindcss-textshadow') ],
+  plugins:  [require('@tailwindcss/typography'), require('tailwindcss-textshadow'),  require('daisyui') ],
+  daisyui: {
+    
+    themes: false,
+    
+  },
 
 }

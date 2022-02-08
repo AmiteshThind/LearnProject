@@ -169,7 +169,7 @@ function InstructorNavbar() {
 										className="cursor-pointer text-black dark:text-white hover:text-emerald-500 dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg font-medium"
 									>
 
-										<ActiveLink href="/instructor/course/create	">Create Course</ActiveLink>
+										<ActiveLink href="/instructor/course/create">Create Course</ActiveLink>
 									</button>
 									</div>
 									</div>

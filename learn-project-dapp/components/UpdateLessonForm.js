@@ -1,6 +1,7 @@
 import { UploadIcon } from "@heroicons/react/solid";
 import ReactPlayer from "react-player";
-function AddLessonForm({
+
+function UpdateLessonForm({
   values,
   setValues,
   handleAddLesson,
@@ -17,6 +18,7 @@ function AddLessonForm({
 
         <div className="mt-1 relative rounded-md shadow-sm">
           <input
+            value={values.title}
             type="text"
             name="title"
             className="focus:ring-emerald-500 focus:border-emerald-500 block w-full text-sm py-2 border border-gray-200   px-2    rounded-md"
@@ -41,7 +43,9 @@ function AddLessonForm({
                 >
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
-                    <option value={section}>{section}</option>
+                    <option key={index + 1} value={section}>
+                      {section}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -55,6 +59,7 @@ function AddLessonForm({
 
         <div>
           <textarea
+            value={values.content}
             onChange={(e) => setValues({ ...values, content: e.target.value })}
             name="content"
             required
@@ -99,8 +104,22 @@ function AddLessonForm({
                   hidden
                 />
               </label>
-              {values.video.Location &&
-              <div className=" flex justify-center p-2 ">
+                <div>
+                    <div className="flex justify-between ">
+                        <label className="block text-sm font-medium text-gray-700 mt-3">
+                        Preview
+                        </label>
+                        <div class=" card bordered">
+                            <div class="form-control">
+                                <label class="label">
+                                <span class="label-text"></span> 
+                                <input onChange={v => setValues({...values,free_preview: v.target.checked})} defaultChecked={values.free_preview} type="checkbox" disabled={uploading} class="toggle toggle-accent"/>
+                                </label>
+                            </div> 
+                        </div>
+                    </div>
+                    {values.free_preview &&
+                    <div className=" flex justify-center">
                         <ReactPlayer 
                         url={values.video.Location}
                         width={"410px"}
@@ -115,6 +134,7 @@ function AddLessonForm({
                         />
                     </div>
 }
+              </div>
             </div>
           </div>
         </div>
@@ -123,4 +143,4 @@ function AddLessonForm({
   );
 }
 
-export default AddLessonForm;
+export default UpdateLessonForm;

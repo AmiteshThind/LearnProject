@@ -41,7 +41,7 @@ function CourseCreate() {
 
        let arr = e.target.value.split(',');
 
-       console.log(arr)
+       console.log(e.target.name)
         setValues({ ...values, [e.target.name]: arr });
         console.log(values)
     }
@@ -100,7 +100,7 @@ function CourseCreate() {
                     <div class="w-fullmx-auto px-6  flex justify-center items-center  ">
                         <div class="bg-white w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
                             <p class="text-3xl font-bold leading-7 text-center text-emerald-500"> </p>
-                            <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} handleSections={handleSections} values = {values} setValues ={setValues} preview={preview} />
+                            <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} handleSections={handleSections} values = {values} setValues ={setValues} preview={preview} editing={false} />
                         </div>
                     </div>
                 </div>

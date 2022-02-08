@@ -6,7 +6,7 @@ function Accordion({ children, title, number }) {
     const [isOpen, setIsOpen] = useState(false)
 
     return <div>
-        <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:-translate-y-1 justify-between text-center bg-gray-100 mx-10  py-6 font-bold mt-5 rounded-2xl">
+        <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:-translate-y-1 justify-between   bg-gray-100 mx-10  py-6 font-bold mt-5 rounded-2xl">
             <div className='ml-5 text-lg'>
             <span className='mr-2'>{number}.</span>
             <span>{title}</span>

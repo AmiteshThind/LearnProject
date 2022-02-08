@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
-
-
-function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, setValues, preview, handleSections }) {
+function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, setValues, preview, handleSections, editing }) {
 
 
     //for price of course
@@ -38,14 +36,28 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
             <div className="mt-5 mb-4 w-full flex-col  flex-stretch justify-start">
                 <div className="flex  ">
                     <div className="flex">
-                        <div className="flex flex-col mr-5 ">
+                        <div className="flex flex-col sm:mr-5 md:mr-5 lg:mr-5 xl:mr-5 ">
                             <label className=" font-semibold leading-none mb-3 text-emerald-500 ">Paid</label>
                             <div class="flex justify-center ">
                                 <div class="mb-3 w-full">
-                                    <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md border border-gray-300 shadow-sm px-8 py-2 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
-                                        <option value={true}>Yes</option>
-                                        <option value={false}>No</option>
-                                    </select>
+                                    {values.paid &&
+                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md border border-gray-300 shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+
+
+                                            <option selected value={true}>Yes</option>
+                                            <option value={false}>No</option>
+
+                                        </select>
+                                    }
+                                    {!values.paid &&
+                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md border border-gray-300 shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+
+
+                                            <option value={true}>Yes</option>
+                                            <option selected value={false}>No</option>
+
+                                        </select>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -53,7 +65,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
 
                     {values.paid && <div className="flex">
                         <div className="flex flex-col mr-5 ">
-                            <label className=" font-semibold leading-none mb-3 text-emerald-500 ">Price (BUSD)</label>
+                            <label className=" font-semibold leading-none mb-3 text-emerald-500 ">Price(BUSD)</label>
                             <div class="flex justify-center text ">
                                 <div class="mb-3 w-full">
                                     <select defaultValue={5} onChange={v => setValues({ ...values, price: Number(v.target.value) })} value={values.price} class="text-center appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md border border-gray-300 shadow-sm px-8 py-2 bg-white text-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
@@ -88,7 +100,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
             <label class="inline-block  font-semibold text-emerald-500">Course Image Preview</label>
             <div class="flex justify-start  mt-3 px-3">
 
-                <div class="w-3/12 rounded-lg shadow-xl bg-gray-50 ">
+                <div class="w-full sm:w-4/12 md:w-8/12 lg:w-8/12 xl:w-3/12 rounded-lg shadow-xl bg-gray-50 ">
                     <div class="m-2">
 
                         <div class="flex items-center justify-center w-full">
@@ -114,7 +126,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
             </div>
             <div class="flex items-center justify-center w-full">
                 <button loading={values.loading} onClick={handleSubmit} disabled={values.loading || values.uploading} class=" mt-12 rounded-2xl font-semibold leading-none text-emerald-500 py-6 px-10  border-2 border-emerald-500 hover:text-white  hover:bg-emerald-500 focus:ring-2 focus:ring-offset-2  focus:outline-none">
-                    {values.loading ? "Saving..." : "Create & Continue"}
+                    {values.loading ? "Saving..." : !editing ? "Create & Continue" : "Update Course"}
                 </button>
             </div>
 
