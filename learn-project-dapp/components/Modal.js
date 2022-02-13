@@ -24,7 +24,7 @@ export default function Modal({
   handleUpdateLesson,
 }) {
   useEffect(() => {
-    console.log(values);
+    // console.log(values);
   });
 
   const resetForm = (e) => {
