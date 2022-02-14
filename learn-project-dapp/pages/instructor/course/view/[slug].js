@@ -41,8 +41,11 @@ function CourseView() {
   const [editing, setEditing] = useState(false);
   const [quizEditing, setQuizEditing] = useState(false);
   const [availableQuizSections, setAvailableQuizSections] = useState([]);
-  
-  const [showPublishModal,setShowPublishModal] = useState(false);
+
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [showCancelLessonModal, setShowCancelLessonModal] = useState(false);
+  const [showDeleteQuizQuestionModal, setShowDeleteQuizQuestionModal] =
+    useState(false);
   //for lessons
 
   const [values, setValues] = useState({
@@ -92,7 +95,7 @@ function CourseView() {
 
     const Lesson = Moralis.Object.extend("Lesson");
     const query2 = new Moralis.Query(Lesson);
-    query2.equalTo("course",result[0])
+    query2.equalTo("course", result[0]);
     query2.ascending("index");
     const result2 = await query2.find();
     // console.log(result2);
@@ -108,7 +111,7 @@ function CourseView() {
   const loadQuizQuestions = async () => {
     const QuizQuestion = Moralis.Object.extend("QuizQuestion");
     const query = new Moralis.Query(QuizQuestion);
-    query.equalTo("course",course[0])
+    query.equalTo("course", course[0]);
     const result = await query.find();
     let arr = [];
     // console.log(result2);
@@ -193,11 +196,11 @@ function CourseView() {
         setLessons((oldArray) => [...oldArray, addedLesson]);
         // console.log(lessons);
         toast.success("Lesson Added", {
-            duration: 2000,
-            iconTheme: {
-              primary: "#10b981",
-            },
-          });
+          duration: 2000,
+          iconTheme: {
+            primary: "#10b981",
+          },
+        });
         setVisible(false);
         setUploadBtnText("Upload Video");
         setValues({
@@ -286,6 +289,7 @@ function CourseView() {
       //   console.log(course[0]);
       //   console.log(courseUpdated);
       setCourse([courseUpdated]);
+      setShowCancelLessonModal(false);
       toast.success("Lesson Deleted", {
         duration: 2000,
         iconTheme: {
@@ -308,6 +312,7 @@ function CourseView() {
           (question) => question.id != quizQuestionToRemove.id
         )
       );
+      setShowDeleteQuizQuestionModal(false);
       toast.success("Question Deleted", {
         duration: 2000,
         iconTheme: {
@@ -474,26 +479,25 @@ function CourseView() {
     activated = false;
   };
 
-  const publishCourse = async()=>{
-      console.log(lessons.length)
-      if(lessons.length<5){
-          toast.error("Need 8 Lessons to publish a course")
-      } else{
-           //code here for updating the database with the published status for this course 
-           course[0].set("published", true);
-           await course[0].save();
-           setShowPublishModal(false)
-           toast.success("Published Course",{duration:2000}); 
-      }
-  }
+  const publishCourse = async () => {
+    console.log(lessons.length);
+    if (lessons.length < 5) {
+      toast.error("Need 8 Lessons to publish a course");
+    } else {
+      //code here for updating the database with the published status for this course
+      course[0].set("published", true);
+      await course[0].save();
+      setShowPublishModal(false);
+      toast.success("Published Course", { duration: 2000 });
+    }
+  };
 
-  const unPublishCourse = async()=>{
+  const unPublishCourse = async () => {
     course[0].set("published", false);
     await course[0].save();
-    setShowPublishModal(false)
-    toast.success("UnPublished Course",{duration:2000}); 
-
-  }
+    setShowPublishModal(false);
+    toast.success("UnPublished Course", { duration: 2000 });
+  };
 
   return (
     <div className="min-h-screen  bg-gradient-to-b from-cyan-100 via-white to-red-100 ">
@@ -526,23 +530,65 @@ function CourseView() {
                     className="h-8 w-8 mx-3 cursor-pointer  text-amber-200 hover:text-amber-300"
                   />
                 </div>
-                <div data-tip={!course[0].attributes.published ? "publish":"unpublish"} class="tooltip">
-                    {!course[0].attributes.published ?
-                  <CheckIcon onClick={()=>setShowPublishModal(true)} className="h-9 w-9 cursor-pointer  text-cyan-200  hover:text-cyan-400" />
-                  :  <XCircleIcon onClick={()=>setShowPublishModal(true)} className="h-9 w-9 cursor-pointer  text-cyan-200  hover:text-cyan-400" />
-                 }
+                <div
+                  data-tip={
+                    !course[0].attributes.published ? "publish" : "unpublish"
+                  }
+                  class="tooltip"
+                >
+                  {!course[0].attributes.published ? (
+                    <CheckIcon
+                      onClick={() => setShowPublishModal(true)}
+                      className="h-9 w-9 cursor-pointer  text-cyan-200  hover:text-cyan-400"
+                    />
+                  ) : (
+                    <XCircleIcon
+                      onClick={() => setShowPublishModal(true)}
+                      className="h-9 w-9 cursor-pointer  text-cyan-200  hover:text-cyan-400"
+                    />
+                  )}
                 </div>
 
-                <div class={showPublishModal? "modal modal-open" : "modal"}>
-                <div class="modal-box">
-                    {!course[0].attributes.published?<p>Once published users will be able to enroll in this course. Are you sure you want to publish this course?</p>:<p>By unpublishing this courses users will no longer be able to enroll in this course. Are you sure you want to unpublish this course?</p>}
+                <div class={showPublishModal ? "modal modal-open" : "modal"}>
+                  <div class="modal-box">
+                    {!course[0].attributes.published ? (
+                      <p>
+                        Once published users will be able to enroll in this
+                        course. Are you sure you want to publish this course?
+                      </p>
+                    ) : (
+                      <p>
+                        By unpublishing this courses users will no longer be
+                        able to enroll in this course. Are you sure you want to
+                        unpublish this course?
+                      </p>
+                    )}
                     <div class="modal-action">
-                    <label onClick={!course[0].attributes.published? publishCourse: unPublishCourse} for="my-modal-2" class="btn border-0 bg-emerald-500 hover:bg-emerald-600">{!course[0].attributes.published?<>Publish</> : <>UnPublish</> }</label> 
-                    <label onClick={()=>setShowPublishModal(false)} for="my-modal-2" class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300">Cancel</label>
+                      <label
+                        onClick={
+                          !course[0].attributes.published
+                            ? publishCourse
+                            : unPublishCourse
+                        }
+                        for="my-modal-2"
+                        class="btn border-0 bg-emerald-500 hover:bg-emerald-600"
+                      >
+                        {!course[0].attributes.published ? (
+                          <>Publish</>
+                        ) : (
+                          <>UnPublish</>
+                        )}
+                      </label>
+                      <label
+                        onClick={() => setShowPublishModal(false)}
+                        for="my-modal-2"
+                        class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                      >
+                        Cancel
+                      </label>
                     </div>
+                  </div>
                 </div>
-                </div>
-
               </div>
             </div>
             <div className="text-md mt-1 px-1 text-gray-700 ">
@@ -576,9 +622,7 @@ function CourseView() {
           </div>
 
           <div className="flex h-full bg-white shadow-2xl rounded-3xl border-none py-5 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col  mr-10 ml-10 mb-10 mt-5 ">
-            <Toaster
-            
-             />
+            <Toaster />
             <div className="   flex flex-wrap text-4xl justify-center  text-emerald-500 ">
               <h1>Manage Lessons </h1>
             </div>
@@ -709,9 +753,40 @@ function CourseView() {
                                 className="h-5 w-5  mr-2  text-cyan-400"
                               />
                               <TrashIcon
-                                onClick={() => handleDeleteLesson(lesson)}
+                                onClick={() => setShowCancelLessonModal(true)}
                                 className="h-5 w-5    text-red-400"
                               />
+                              <div
+                                class={
+                                  showCancelLessonModal
+                                    ? "modal modal-open"
+                                    : "modal"
+                                }
+                              >
+                                <div class="modal-box">
+                                  <p>
+                                    Are you sure you want delete this lesson?
+                                  </p>
+                                  <div class="modal-action">
+                                    <label
+                                      onClick={() => handleDeleteLesson(lesson)}
+                                      for="my-modal-2"
+                                      class="btn border-0 bg-red-500 hover:bg-red-600"
+                                    >
+                                      <p>Yes</p>
+                                    </label>
+                                    <label
+                                      onClick={() =>
+                                        setShowCancelLessonModal(false)
+                                      }
+                                      for="my-modal-2"
+                                      class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                                    >
+                                      No
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
                             </span>
                           </li>
                         ))}
@@ -746,10 +821,48 @@ function CourseView() {
                                       />
                                       <TrashIcon
                                         onClick={() =>
-                                          handleDeleteQuizQuestion(question)
+                                          setShowDeleteQuizQuestionModal(true)
                                         }
                                         className="h-5 w-5    text-red-400"
                                       />
+                                      <div
+                                        class={
+                                          showDeleteQuizQuestionModal
+                                            ? "modal modal-open"
+                                            : "modal"
+                                        }
+                                      >
+                                        <div class="modal-box">
+                                          <p>
+                                            Are you sure you want delete this
+                                            question?
+                                          </p>
+                                          <div class="modal-action">
+                                            <label
+                                              onClick={() =>
+                                                handleDeleteQuizQuestion(
+                                                  question
+                                                )
+                                              }
+                                              for="my-modal-2"
+                                              class="btn border-0 bg-red-500 hover:bg-red-600"
+                                            >
+                                              <p>Yes</p>
+                                            </label>
+                                            <label
+                                              onClick={() =>
+                                                setShowDeleteQuizQuestionModal(
+                                                  false
+                                                )
+                                              }
+                                              for="my-modal-2"
+                                              class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                                            >
+                                              No
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </span>
                                   </li>
                                 ))}
