@@ -56,9 +56,9 @@ function AddQuizForm({ sections, questionDetails,setQuestionDetails }) {
         <QuizQuestion questionDetails={questionDetails} setQuestionDetails={setQuestionDetails}/>
         </div>
         
-        <Toaster 
+        {/* <Toaster 
          
-        />
+        /> */}
          
         </div>
       </form>

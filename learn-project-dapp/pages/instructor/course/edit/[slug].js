@@ -80,6 +80,7 @@ function CourseEdit() {
         // we will create a new database instance for the course and take all data from the form and upload to the database including the image
         
         updateCourse();
+        
         console.log(values) //request to backend will be made here to create a course
     }
 

@@ -80,8 +80,13 @@ import Link from 'next/link'
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm   text-gray-700">{course.attributes.lessonCount}</div>
                         {course.attributes.lessonCount<5 && 
-                        <div className="text-sm mt-3 text-gray-400">At least 8 lessons are required to publish a course</div>
-                    }
+                        <div className="text-sm mt-3 text-gray-400">Minimum 8 lessons required to publish this course</div>
+                          }
+                        {course.attributes.lessonCount>=5 && 
+                          <div className="text-sm mt-3 text-emerald-500">Course is ready to be published</div>
+
+                        }
+                    
                       </td>
 
 

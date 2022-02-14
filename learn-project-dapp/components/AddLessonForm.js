@@ -1,5 +1,6 @@
 import { UploadIcon } from "@heroicons/react/solid";
 import ReactPlayer from "react-player";
+import { Toaster } from "react-hot-toast";
 function AddLessonForm({
   values,
   setValues,
@@ -14,7 +15,9 @@ function AddLessonForm({
     <div className="pr-2">
       <form onSubmit={handleAddLesson}>
         <label className="block text-sm font-medium text-gray-700">Title</label>
-
+        {/* <Toaster 
+         
+         /> */}
         <div className="mt-1 relative rounded-md shadow-sm">
           <input
             type="text"

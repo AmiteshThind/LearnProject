@@ -6,10 +6,12 @@ import InstructorNavbar from "../../../components/instructor/InstructorNavBar"
 import  { Moralis } from 'moralis'
 import { useMoralis } from "react-moralis"
 import slugify from 'slugify'
+import Router, { useRouter } from "next/router"
 
 function CourseCreate() {
 
     //state
+    const router = useRouter();
 
     const {user} = useMoralis();
     
@@ -58,6 +60,8 @@ function CourseCreate() {
         // we will create a new database instance for the course and take all data from the form and upload to the database including the image
         
         createNewCourse();
+        router.push(`/instructor/dashboard`)
+
         console.log(values) //request to backend will be made here to create a course
     }
 
