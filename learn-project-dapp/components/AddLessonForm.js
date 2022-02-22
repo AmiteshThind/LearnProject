@@ -12,9 +12,9 @@ function AddLessonForm({
   sections,
 }) {
   return (
-    <div className="pr-2">
+    <div className="pr-2 bg-zinc-800">
       <form onSubmit={handleAddLesson}>
-        <label className="block text-sm font-medium text-gray-700">Title</label>
+        <label className="block text-sm font-medium text-white">Title</label>
         {/* <Toaster 
          
          /> */}
@@ -22,12 +22,12 @@ function AddLessonForm({
           <input
             type="text"
             name="title"
-            className="focus:ring-emerald-500 focus:border-emerald-500 block w-full text-sm py-2 border border-gray-200   px-2    rounded-md"
+            className="focus:ring-emerald-500 text-white focus:border-emerald-500 block w-full text-sm py-2 border-2 bg-zinc-800 border-zinc-700 hover:border-emerald-500  px-2    rounded-md"
             placeholder="eg. Setup Server"
             onChange={(e) => setValues({ ...values, title: e.target.value })}
           />
         </div>
-        <label className="block text-sm font-medium mt-3 text-gray-700">
+        <label className="block text-sm font-medium mt-3 text-white">
           Section
         </label>
 
@@ -40,7 +40,7 @@ function AddLessonForm({
                     setValues({ ...values, section: v.target.value })
                   }
                   value={values.section}
-                  class="text-center w-full mt-2   rounded-md border border-gray-200 shadow-sm py-2 bg-white text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
+                  class="text-center w-full mt-2 bg-gradient-to-b from-teal-500   to-emerald-500  rounded-md   shadow-sm py-2  text-sm font-medium text-white"
                 >
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
@@ -52,7 +52,7 @@ function AddLessonForm({
           </div>
         </div>
 
-        <label className="block text-sm mt-2 font-medium text-gray-700">
+        <label className="block text-sm mt-2 font-medium text-white">
           Content
         </label>
 
@@ -63,16 +63,16 @@ function AddLessonForm({
             required
             placeholder="eg. Setting up a server"
             type="text"
-            className=" text-sm  rounded    border-gray-200 mt-1 px-2 w-full h-20    border"
+            className=" text-sm  rounded  bg-zinc-800  border-zinc-700 hover:border-emerald-500 mt-1 px-2 w-full h-20    border-2 text-white"
           ></textarea>
         </div>
         <div class="flex justify-center">
           <div class="w-full ">
             <div class="flex   flex-col   w-full">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-white">
                 Video
               </label>
-              <label class="flex flex-col  mt-1 w-full h-full border  border-gray-300 rounded-md  hover:bg-gray-50   ">
+              <label class="flex flex-col  mt-1 w-full h-full border-2  border-zinc-700 hover:border-emerald-500 rounded-md    ">
                 {progress > 0 && (
                   <div class="w-full bg-gray-200 h-1">
                     <div

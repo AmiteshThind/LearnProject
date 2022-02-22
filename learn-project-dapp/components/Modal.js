@@ -59,7 +59,7 @@ export default function Modal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay className="fixed inset-0 bg-zinc-500 backdrop-blur-sm bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -78,13 +78,13 @@ export default function Modal({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="inline-block align-bottom bg-zinc-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start ">
-                  <div className="mt-3 divide-y w-full text-center item sm:mt-0 sm:ml-4 sm:text-left">
+                  <div className="mt-3  w-full text-center item sm:mt-0 sm:ml-4 sm:text-left">
                     <Dialog.Title
                       as="h3"
-                      className="text-2xl leading-6 font-medium text-emerald-500"
+                      className="text-4xl py-2 font-extrabold leading-6  text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400"
                     >
                       Lesson
                     </Dialog.Title>
@@ -124,7 +124,7 @@ export default function Modal({
               <div className="  px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="mt-3 w-full btn inline-flex justify-center hover:border-gray-300 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full btn inline-flex justify-center hover:border-gray-300 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 hover:scale-95 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={resetForm}
                   ref={cancelButtonRef}
                 >
@@ -133,7 +133,7 @@ export default function Modal({
                 {!uploading && values.video.Location && (
                   <button
                     type="button"
-                    className="mt-3 w-full btn inline-flex justify-center rounded-md border  border-gray-300 shadow-sm px-4 py-2 bg-red-400 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2   sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="mt-3 w-full btn inline-flex justify-center rounded-md  hover:scale-95  shadow-sm px-4 py-2 bg-red-500 hover:bg-red-500 text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2   sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={handleVideoRemove}
                   >
                     Remove Video
@@ -142,7 +142,7 @@ export default function Modal({
                 {!editing && (
                   <button
                     type="button"
-                    className="w-full btn inline-flex justify-center hover:border-0 rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2   sm:ml-3 sm:w-auto sm:text-sm"
+                    className="w-full btn inline-flex justify-center hover:scale-95 rounded-md shadow-sm px-4 py-2  bg-gradient-to-br from-emerald-500 to-teal-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2   sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={handleAddLesson}
                     disabled={uploading}
                   >
@@ -152,7 +152,7 @@ export default function Modal({
                 {editing && (
                   <button
                     type="button"
-                    className="w-full inline-flex btn justify-center rounded-md hover:border-0 border border-transparent shadow-sm px-4 py-2 bg-emerald-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2  sm:ml-3 sm:w-auto sm:text-sm"
+                    className="w-full btn inline-flex justify-center hover:scale-95 rounded-md shadow-sm px-4 py-2  bg-gradient-to-br from-emerald-500 to-teal-400 text-base font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2   sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={handleUpdateLesson}
                     disabled={uploading}
                   >

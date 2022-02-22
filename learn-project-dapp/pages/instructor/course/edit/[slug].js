@@ -120,12 +120,12 @@ function CourseEdit() {
  
 
     return (
-        <div className=" min-h-min bg-gradient-to-b from-cyan-100 via-white to-red-100">
+        <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
             <InstructorNavbar />
             <div className="flex justify-center">
                 <div class="w-3/4 justify-center    min-h-screen ">
                     <div class="w-fullmx-auto px-6  flex justify-center items-center  ">
-                        <div class="bg-white w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
+                        <div class="bg-zinc-800 w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
                             <p class="text-3xl font-bold leading-7 text-center text-emerald-500"> </p>
                             <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} handleSections={handleSections} values = {values} setValues ={setValues} preview={preview} editing={true} />
                         </div>

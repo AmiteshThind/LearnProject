@@ -123,7 +123,7 @@ export default function QuizModal({
         initialFocus={cancelButtonRef}
         onClose={setQuizVisible}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 ">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -133,7 +133,7 @@ export default function QuizModal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay className="fixed inset-0 bg-zinc-500 backdrop-blur-sm bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -152,13 +152,13 @@ export default function QuizModal({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="inline-block align-bottom bg-zinc-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-zinc-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start ">
-                  <div className="mt-3 divide-y w-full text-center item sm:mt-0 sm:ml-4 sm:text-left">
+                  <div className="mt-3  w-full text-center item sm:mt-0 sm:ml-4 sm:text-left">
                     <Dialog.Title
                       as="h3"
-                      className="text-2xl leading-6 font-medium text-emerald-500"
+                      className="leading-6 font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 py-2 text-4xl"
                     >
                       Quiz
                     </Dialog.Title>
@@ -178,7 +178,7 @@ export default function QuizModal({
               <div className="  px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="mt-3 w-full btn hover:border-gray-300 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full btn items-center hover:scale-95 hover:border-gray-300 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={resetForm}
                   ref={cancelButtonRef}
                 >
@@ -188,7 +188,7 @@ export default function QuizModal({
 
                 <button
                   type="button"
-                  className="w-full btn inline-flex hover:border-0 justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-500 text-base font-medium text-white hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full btn hover:scale-95 inline-flex h justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-zinc-400 text-base font-medium text-white hover:bg-zinc-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={
                     !quizEditing ? handleAddQuestion : handleUpdateQuizQuestion
                   }
@@ -200,7 +200,7 @@ export default function QuizModal({
 
                 <button
                   type="button"
-                  className="w-full btn hover:border-0 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full btn hover:scale-95 hover:border-0 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gradient-to-b from-teal-500   to-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                   disabled={uploading}
                   onClick={DoneAddingQuizQuestions}
                 >

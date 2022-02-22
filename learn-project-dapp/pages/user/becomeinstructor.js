@@ -3,10 +3,11 @@ import {useMoralis} from 'react-moralis'
 import  { Moralis } from 'moralis'
 import { useState } from "react";
 import Banner from "../../components/Banner";
+import AuthErrorMsg from "../../components/AuthErrorMsg";
 
 function becomeinstructor() {
 
-    const { user } = useMoralis();
+    const { user, isAuthenticated } = useMoralis();
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [website,setWebsite] = useState('');
@@ -42,18 +43,19 @@ function becomeinstructor() {
     }
 
     return (
-        <div>
+        <div className="min-h-screen bg-gradient-to-b from-cyan-100 via-white to-red-100 ">
         <div >
               <Navbar />
         </div>
-        <div className="  min-h-screen">
-            <Banner title={"Become Instructor"}/>
+        {isAuthenticated ?
+        <div className="  min-h-screen ">
             <div class="w-full">
                 <div class=" "></div>
                 <div class="max-w-4xl mx-auto px-6 sm:px-6 flex justify-center items-center  ">
-                    <div class="bg-white w-full shadow-2xl rounded p-8 sm:p-12 mt-5 mb-5 ">
+                    <div class="bg-white w-full shadow-2xl rounded-3xl p-8 sm:p-12 mt-5 mb-5 ">
                         
                         <form onClick={(e)=>e.preventDefault()} >
+                           <div className="flex justify-center mb-10 text-4xl font-bold text-emerald-500">Instructor Application</div>
                             <div class="md:flex items-center  ">
                                 <div class="w-full md:w-1/2 flex flex-col">
                                     <label class="font-semibold leading-none">Name</label>
@@ -97,7 +99,14 @@ function becomeinstructor() {
                 </div>
             </div>
             </div>
-
+        
+    : 
+    
+    <div>
+        <AuthErrorMsg authErrorMsg={"Connect Wallet to Access Instructor Application"}/>
+    </div>
+    
+    }
         </div>
 
 
