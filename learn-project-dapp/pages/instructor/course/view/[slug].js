@@ -270,6 +270,15 @@ function CourseView() {
         },
       });
       setVisible(false);
+      setUploadBtnText("Upload Video");
+        setValues({
+          ...values,
+          title: "",
+          content: "",
+          section: "",
+          video: {},
+          free_preview: false
+        });
     } catch (error) {
       console.log(error);
     }
@@ -511,7 +520,7 @@ function CourseView() {
     try {
       console.log(lessons.length);
       if (lessons.length < 5) {
-        toast.error("Need 8 Lessons to publish a course");
+        toast.error("Need 5 Lessons to publish a course");
       } else {
         //code here for updating the database with the published status for this course
         course[0].set("published", true);
@@ -548,9 +557,9 @@ function CourseView() {
           </div>
           {course.length == 1 && (
             <div className="flex  flex-wrap justify-center">
-              <div className="flex pl-5 sm:p-5 md:p-10 lg:p-15 xl:p-15 pt-10  bg-zinc-800   h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12 p-5     items-start flex-col   ml-10 mb-10 pb-10 mt-5 sm:mr-10 mr-10   flex-stretch   ">
-                <div className="flex   w-full justify-between ">
-                  <div className=" px-1   flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
+              <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
+                <div className="flex flex-wrap  w-full justify-between ">
+                  <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
                     <h1>{course[0].attributes.name} </h1>
                   </div>
                   <div className="flex      mr-10">
@@ -660,7 +669,7 @@ function CourseView() {
                 </div>
               </div>
 
-              <div className="flex h-full bg-zinc-800  shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col  mr-10 ml-10 mb-10 mt-5  ">
+              <div className="flex h-full bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
                 <Toaster />
                 <div className="   flex flex-wrap text-4xl justify-center  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
                   <h1>Manage Lessons </h1>
@@ -780,8 +789,8 @@ function CourseView() {
                                   )
                                 }
                               >
-                                <div>
-                                  <span className="rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 px-3 py-1">
+                                <div className="flex">
+                                  <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500 px-2.5 to-teal-400">
                                     {lessonIndex + 1}
                                   </span>
                                   <span className=" px-3 py-1">
@@ -791,13 +800,13 @@ function CourseView() {
                                 <span className=" px-3 py-1 flex">
                                   <PencilIcon
                                     onClick={() => handleEditLesson(lesson)}
-                                    className="h-5 w-5  mr-2  text-yellow-200"
+                                    className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
                                   />
                                   <TrashIcon
                                     onClick={() =>
                                       setShowCancelLessonModal(true)
                                     }
-                                    className="h-5 w-5    text-red-400"
+                                    className="h-5 w-5    text-red-400 cursor-pointer"
                                   />
                                   <div
                                     class={
@@ -850,11 +859,11 @@ function CourseView() {
                                         key={questionIndex}
                                         class="px-4 py-5  w-full justify-between flex "
                                       >
-                                        <div>
-                                          <span className="rounded-full bg-gradient-to-br from-emerald-500 to-teal-400 px-3 py-1">
+                                        <div className="flex ">
+                                          <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
                                             {questionIndex + 1}
                                           </span>
-                                          <span className=" px-3 py-1">
+                                          <span className=" px-3   ">
                                             {question.attributes.question}
                                           </span>
                                         </div>
@@ -863,7 +872,7 @@ function CourseView() {
                                             onClick={() =>
                                               handleEditQuizQuestion(question)
                                             }
-                                            className="h-5 w-5  mr-2  text-yellow-200"
+                                            className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
                                           />
                                           <TrashIcon
                                             onClick={() =>
@@ -871,7 +880,7 @@ function CourseView() {
                                                 true
                                               )
                                             }
-                                            className="h-5 w-5    text-red-400"
+                                            className="h-5 w-5   cursor-pointer text-red-400"
                                           />
                                           <div
                                             class={
