@@ -4,6 +4,7 @@ import UserNavbar from '../components/user/UserNavBar';
 import { useState } from 'react';
 import {Moralis} from 'moralis';
 import { motion } from 'framer-motion';
+import '../styles/styles.css'
 
 
 function MyApp({ Component, pageProps,  }) {
