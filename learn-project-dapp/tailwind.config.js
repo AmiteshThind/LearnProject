@@ -14,7 +14,10 @@ module.exports = {
       }
     },
   },
-  plugins:  [require('@tailwindcss/typography'), require('tailwindcss-textshadow'),  require('daisyui'),    require('@tailwindcss/line-clamp'), require('tailwindcss-border-gradients')()
+  variants:{
+    scrollbar:['rounded']
+  },
+  plugins:  [require('@tailwindcss/typography'), require('tailwindcss-textshadow'), require('tailwind-scrollbar'),  require('daisyui'),    require('@tailwindcss/line-clamp'), require('tailwindcss-border-gradients')()
 ],
   daisyui: {
     
