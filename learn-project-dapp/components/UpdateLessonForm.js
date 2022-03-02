@@ -87,7 +87,7 @@ function UpdateLessonForm({
                   {!uploading && (
                     <div className="flex truncate text-sm text-gray-400">
                       <UploadIcon className="w-6 h-6" />
-                      Upload New Video
+                      Upload Video
                     </div>
                   )}
                   {uploading && (

@@ -17,7 +17,7 @@ function UserNavbar() {
 
   useLayoutEffect(() => {
     async function verify() {
-      console.log(jwtRecieved);
+      //console.log(jwtRecieved);
       if (isAuthenticated && !jwtRecieved) {
         const { data } = await axios.post(
           "http://localhost:8000/authenticate",
@@ -95,7 +95,7 @@ function UserNavbar() {
                 className=" hidden   sm:flex  md:flex lg:flex justify-center items-center   "
               >
                 <div className=" sm:ml-2 md:ml-10 lg:ml-2 xl:ml-10 ml-10 font-bold text-3xl  text-shadow-sm   cursor-pointer text-emerald-400   ">
-                  $<span className="text-white text-shadow-md">LEARN</span>
+                  $<span className="text-white text-shadow-md">LEARN</span> 
                 </div>
               </div>
               <div className="hidden  rounded-3xl lg:block shadow-xl   ">
