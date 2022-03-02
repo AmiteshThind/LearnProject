@@ -86,7 +86,7 @@ export default function CourseList({ courses }) {
                       </div>
                       {course.attributes.lessonCount < 5 && (
                         <div className="text-sm mt-3 text-gray-300">
-                          Minimum 8 lessons required to publish this course
+                          Minimum 5 lessons required to publish this course
                         </div>
                       )}
                       {course.attributes.lessonCount >= 5 && (
