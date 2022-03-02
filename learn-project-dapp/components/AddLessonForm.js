@@ -40,11 +40,11 @@ function AddLessonForm({
                     setValues({ ...values, section: v.target.value })
                   }
                   value={values.section}
-                  class="text-center w-full mt-2 bg-gradient-to-b from-teal-500   to-emerald-500  rounded-md   shadow-sm py-2  text-sm font-medium text-white"
+                  class="text-center w-full mt-2 bg-gradient-to-b from-teal-500   to-emerald-500  rounded-md   shadow-sm py-2  text-sm font-medium text-white truncate "
                 >
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
-                    <option value={section}>{section}</option>
+                    <option  value={section}>{section}</option>
                   ))}
                 </select>
               </div>
@@ -102,7 +102,7 @@ function AddLessonForm({
                   hidden
                 />
               </label>
-              {values.video.Location &&
+              {/* {values.video.Location &&
               <div className=" flex justify-center p-2 ">
                         <ReactPlayer 
                         url={values.video.Location}
@@ -117,7 +117,51 @@ function AddLessonForm({
                         onContextMenu={e => e.preventDefault()}
                         />
                     </div>
-}
+} */}
+<div>
+                <div className="flex justify-between ">
+                  <label className="block text-sm font-medium text-white mt-3">
+                    Preview
+                  </label>
+                  <div class=" card">
+                    <div class="form-control">
+                      <label class="label">
+                        <span class="label-text"></span>
+                        <input
+                          onChange={(v) =>
+                            setValues({
+                              ...values,
+                              free_preview: v.target.checked,
+                            })
+                          }
+                          defaultChecked={values.free_preview}
+                          type="checkbox"
+                          disabled={uploading}
+                          class="toggle toggle-accent "
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                {values.free_preview && values.video.Location && 
+                  <div className=" flex justify-center">
+                    <ReactPlayer
+                      url={values.video.Location}
+                      width={"410px"}
+                      height={"240px"}
+                      controls
+                      config={{
+                        file: {
+                          attributes: {
+                            controlsList: "nodownload",
+                          },
+                        },
+                      }}
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                  </div>
+                }
+              </div>
             </div>
           </div>
         </div>
