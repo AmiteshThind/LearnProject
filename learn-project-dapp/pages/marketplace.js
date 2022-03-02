@@ -44,8 +44,8 @@ function marketplace() {
         {/* <Banner title={"Marketplace"}/> */}
       </div>
       <div className="flex flex-col items-center  mx-2 ">
-        <div className="  justify-between w-full  md:w-3/4 lg:w-3/4 xl:w-2/3  py-5 mx-2 my-2 flex flex-wrap  rounded-2xl">
-          <div className="bg-gradient-to-b from-teal-500    to-emerald-500  py-5  my-2 flex-col  flex-wrap w-full   pl-3 sm:w-3/5 md:w-3/5 lg:w-3/5 xl:w-3/5 shadow-md rounded-2xl  ">
+        <div className="  justify-between w-full  md:w-3/4 lg:w-3/4 xl:w-2/3  py-5 mx-2 my-2 flex flex-wrap  rounded-2xl ">
+          <div className="bg-gradient-to-b from-teal-500    to-emerald-500  py-5  my-2 flex-col  flex-wrap w-full hover:scale-105 duration-300  pl-3 sm:w-3/5 md:w-3/5 lg:w-3/5 xl:w-3/5 shadow-md rounded-2xl  ">
             <div className="flex flex-wrap text-5xl font-extrabold text-white mx-3     ">
               <h1>Learn and Earn! </h1>
             </div>
