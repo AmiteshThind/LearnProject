@@ -38,9 +38,10 @@ function UserQuiz({ availableQuizSections, claimLearn, setRewardsEarned,rewardsE
   const handleAnswerOptionClick = (optionSelected) => {
     //check if question is correct nad update score
     console.log("here")
+    const newScore = Object.assign({}, score); // pass this object to compelte quiz to get updated state()
     if (optionSelected == quizQuestions[currentQuestion].attributes.answer) {
      console.log("CORRECTANSWER")
-      const newScore = Object.assign({}, score);
+      
       newScore[section] = score[section]+1;
       setScore(newScore);
       console.log("NEWSCORE: "+newScore[section])
@@ -55,11 +56,11 @@ function UserQuiz({ availableQuizSections, claimLearn, setRewardsEarned,rewardsE
       setCurrentQuestion(nextQuestion);
     } else {
       setShowScore(true);
-      completedQuiz();
+      completedQuiz(newScore);
     }
   };
 
-  const completedQuiz = async () => {
+  const completedQuiz = async (newScore) => {
 
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
     const query = new Moralis.Query(EnrolledUserCourses);
@@ -70,18 +71,18 @@ function UserQuiz({ availableQuizSections, claimLearn, setRewardsEarned,rewardsE
     let arr = completedQuizzes;
     arr.push(section);
     objectToUpdate.set("completedQuizzes", arr);
-    objectToUpdate.set("quizScore",score);
-    objectToUpdate.set("rewardsEarned",rewardsEarned+score[section]*rewardRate)
+    objectToUpdate.set("quizScore",newScore);
+    objectToUpdate.set("rewardsEarned",rewardsEarned+newScore[section]*rewardRate)
     //await objectToUpdate.save();
     setCompletedQuizzes((oldArray) => [...oldArray, section]);
-    setRewardsEarned(rewardsEarned+score[section]*rewardRate)
+    setRewardsEarned(rewardsEarned+newScore[section]*rewardRate)
 
     //check course completed and give rewards based on that
     if(completedQuizzes.length == availableQuizSections.length){
         //course completed
-      objectToUpdate.set("rewardsEarned",rewardsEarned+25*rewardRate+score[section]*rewardRate) //25+ learn token or 50 plus learn token if paid course on completion of course (value subject to change based on tokenomics)
+      objectToUpdate.set("rewardsEarned",rewardsEarned+25*rewardRate+newScore[section]*rewardRate) //25+ learn token or 50 plus learn token if paid course on completion of course (value subject to change based on tokenomics)
       toast.success("Course Completed. Earned Extra " +25*rewardRate + "$LEARN") 
-      setRewardsEarned(rewardsEarned+score[section]*rewardRate+25*rewardRate)
+      setRewardsEarned(rewardsEarned+newScore[section]*rewardRate+25*rewardRate)
     }
     await objectToUpdate.save()
 
