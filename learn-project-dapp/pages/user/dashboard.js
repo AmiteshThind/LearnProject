@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis";
 import { Moralis } from "moralis";
 import UserNavbar from "../../components/user/UserNavBar";
 import Router, { useRouter } from "next/router";
-import { PlusCircleIcon } from "@heroicons/react/outline";
+import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
 
 function Dashboard() {
   const [userEnrolledCourses, setUserEnrolledCourses] = useState([]);
@@ -75,7 +75,7 @@ function Dashboard() {
                     <div className="text-xl font-semibold w-1/4 ">
                       <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
                         <PlusCircleIcon className="w-5 h-5 mx-1 my-3 sm:my-0 text-emerald-500" />
-                        {course.attributes.rewardsEarned} LRN
+                        {course.attributes.rewardsEarned} $LEARN
                       </span>
                     </div>
                     <div

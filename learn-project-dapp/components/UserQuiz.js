@@ -104,13 +104,13 @@ function UserQuiz({ availableQuizSections, claimLearn, setRewardsEarned,rewardsE
                 Must anwser all questions to claim $LEARN rewards.
               </div>
 
-              <div className="text-5xl text-emerald-500 font-extrabold">
+              <div className="text-4xl text-emerald-500 font-extrabold">
                 {section} Quiz
               </div>
               <div className="text-xl font-extrabold text-zinc-500 flex-wrap my-3   ">
                 Question {currentQuestion + 1}/{quizQuestions.length}
               </div>
-              <div className="text-3xl font-extrabold">
+              <div className="text-xl font-extrabold">
                 {quizQuestions[currentQuestion].attributes.question}
               </div>
             </div>
