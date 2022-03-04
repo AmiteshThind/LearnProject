@@ -178,7 +178,7 @@ export default function QuizModal({
               <div className="  px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="mt-3 w-full btn items-center hover:scale-95 hover:border-gray-300 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="rounded-2xl mx-2 font-semibold leading-none text-teal-500 py-4 px-4 mb-2  border-2 border-teal-500 hover:text-white  hover:bg-gradient-to-b from-teal-400 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
                   onClick={resetForm}
                   ref={cancelButtonRef}
                 >
@@ -188,7 +188,7 @@ export default function QuizModal({
 
                 <button
                   type="button"
-                  className="w-full btn hover:scale-95 inline-flex h justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-zinc-400 text-base font-medium text-white hover:bg-zinc-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="rounded-2xl mx-2 font-semibold leading-none text-emerald-500 py-4 px-4 mb-2  border-2 border-emerald-500 hover:text-white  hover:bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
                   onClick={
                     !quizEditing ? handleAddQuestion : handleUpdateQuizQuestion
                   }
@@ -200,7 +200,7 @@ export default function QuizModal({
 
                 <button
                   type="button"
-                  className="w-full btn hover:scale-95 hover:border-0 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gradient-to-b from-teal-500   to-emerald-500 text-base font-medium text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="rounded-2xl mx-2 font-semibold leading-none text-emerald-500 py-4 px-4 mb-2  border-2 border-emerald-500 hover:text-white  hover:bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
                   disabled={uploading}
                   onClick={DoneAddingQuizQuestions}
                 >

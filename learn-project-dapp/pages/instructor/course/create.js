@@ -106,7 +106,7 @@ function CourseCreate() {
             <div className="flex justify-center">
                 <div class="w-3/4 justify-center    min-h-screen ">
                     <div class="w-full mx-auto px-6  flex justify-center items-center  ">
-                        <div class="bg-zinc-800 w-full shadow-inner shadow-teal-800 rounded-3xl  sm:p-12 mt-5 mb-5 ">
+                        <div class="bg-zinc-800 w-full  rounded-3xl  sm:p-12 mt-5 mb-5 ">
                             <p class="text-3xl font-bold leading-7 text-center text-emerald-500"> </p>
                             <CourseCreateForm handleSubmit={handleSubmit} handleImage={handleImage} handleChange={handleChange} handleSections={handleSections} values = {values} setValues ={setValues} preview={preview} editing={false} />
                         </div>

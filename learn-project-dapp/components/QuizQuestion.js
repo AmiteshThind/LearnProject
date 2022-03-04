@@ -44,7 +44,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         onChange = {handleQuestionTextChange}
           type="text"
           name="title"
-          className="focus:ring-emerald-500 text-white focus:border-emerald-500 block w-full text-sm py-2 border-2 bg-zinc-800 border-zinc-700 hover:border-emerald-500  px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="eg. What does P2P stand for?"
           value={questionDetails.question}
          />
@@ -58,7 +58,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         onChange = {(e)=> handleOptionChange(e,0)}
           type="text"
           name="title"
-          className="focus:ring-emerald-500      focus:border-emerald-500 block w-full text-sm py-2  border-2  focus:outline-none   border-zinc-700 bg-zinc-800   text-white  px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="Peer to Peer"
           value={questionDetails.options[0]}
          />
@@ -71,7 +71,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         onChange = {(e)=>handleOptionChange(e,1)}
           type="text"
           name="title"
-          className="focus:ring-emerald-500      focus:border-emerald-500 block w-full text-sm py-2  border-2  focus:outline-none   border-zinc-700 bg-zinc-800  text-white  px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="Product to Product"
           value={questionDetails.options[1]}
          />
@@ -84,7 +84,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         onChange = {(e)=>handleOptionChange(e,2)}
           type="text"
           name="title"
-          className="focus:ring-emerald-500      focus:border-emerald-500 block w-full text-sm py-2  border-2  focus:outline-none   border-zinc-700 bg-zinc-800  text-white   px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="Processing to Pay "
           value={questionDetails.options[2]}
          />
@@ -98,7 +98,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         
           type="text"
           name="title"
-          className="focus:ring-emerald-500      focus:border-emerald-500 block w-full text-sm py-2  border-2  focus:outline-none   border-zinc-700 bg-zinc-800   text-white  px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="Password to Password"
           value={questionDetails.options[3]}
          />
@@ -112,7 +112,7 @@ function QuizQuestion({questionDetails,setQuestionDetails}) {
         
           type="text"
           name="title"
-          className="focus:ring-emerald-500      focus:border-emerald-500 block w-full text-sm py-2  border-2 focus:outline-none  border-zinc-700 bg-zinc-800   text-white    px-2    rounded-md"
+          className="input input-ghost text-white w-full"
           placeholder="Peer to Peer"
           value={questionDetails.answer}
          />

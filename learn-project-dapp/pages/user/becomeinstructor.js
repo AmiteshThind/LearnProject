@@ -32,6 +32,7 @@ function becomeinstructor() {
         formSubmission.set('question1',q1);
         formSubmission.set('question2',q2);
         formSubmission.set('user',user)
+        user.set("description",q1);
         await formSubmission.save();
         } else{
 
@@ -59,34 +60,34 @@ function becomeinstructor() {
                             <div class="md:flex items-center  ">
                                 <div class="w-full md:w-1/2 flex flex-col">
                                     <label class="font-semibold leading-none text-white">Name</label>
-                                    <input onChange={(e) => setName(e.target.value)} required placeholder="eg. Satoshi Nakamoto" type="text" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                                    <input onChange={(e) => setName(e.target.value)} required placeholder="eg. Satoshi Nakamoto" type="text" class="input input-ghost mt-2" />
                                 </div>
                                 <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                                     <label class="font-semibold leading-none text-white">Email</label>
-                                    <input onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" type="email" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                                    <input onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" type="email" class="input input-ghost mt-2" />
                                 </div>
                             </div>
                             <div class="md:flex items-center mt-8">
                             <div placeholder="www.satoshi.com" class="w-full md:w-1/2 flex flex-col">
                                     <label class="font-semibold leading-none text-white">Website</label>
-                                    <input onChange={(e) => setWebsite(e.target.value)}   placeholder="www.satoshi.com" type="text" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                                    <input onChange={(e) => setWebsite(e.target.value)}   placeholder="www.satoshi.com" type="text" class="input input-ghost mt-2" />
                                 </div>
                                 <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                                     <label class="font-semibold leading-none text-white">LinkedIn</label>
-                                    <input onChange={(e) => setLinkedin(e.target.value)}   placeholder="linkedin.com/in/satoshinakamoto" type="text" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                                    <input onChange={(e) => setLinkedin(e.target.value)}   placeholder="linkedin.com/in/satoshinakamoto" type="text" class="input input-ghost mt-2" />
                                 </div>
 
                             </div>
                             <div>
                                 <div class="w-full flex flex-col mt-8">
                                     <label class="font-semibold leading-none text-white">Expereince</label>
-                                    <textarea onChange={(e) => setQ1(e.target.value)} required placeholder="Tell us about your background and previous experience in teaching and creating courses :)" type="text" class="h-40 text-base leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600"></textarea>
+                                    <textarea onChange={(e) => setQ1(e.target.value)} required placeholder="Tell us about your background and previous experience in teaching and creating courses :)" type="text" class="h-40 input input-ghost mt-2"></textarea>
                                 </div>
                             </div>
                             <div>
                                 <div class="w-full flex flex-col mt-8">
                                     <label class="font-semibold leading-none text-white">What do you hope to accomplish by using the LEARN Platform?</label>
-                                    <textarea onChange={(e) => setQ2(e.target.value)} required placeholder="We would love to hear from you how we can help support you and provide the best user expereince" type="text" class="h-40 text-base leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600"></textarea>
+                                    <textarea onChange={(e) => setQ2(e.target.value)} required placeholder="We would love to hear from you how we can help support you and provide the best user expereince" type="text" class="h-40 input input-ghost mt-2"></textarea>
                                 </div>
                             </div>
                             <div class="flex items-center justify-center w-full">

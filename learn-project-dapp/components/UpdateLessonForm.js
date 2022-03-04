@@ -21,7 +21,7 @@ function UpdateLessonForm({
             value={values.title}
             type="text"
             name="title"
-            className="focus:ring-emerald-500 focus:border-emerald-500 block w-full text-sm py-2 border-2 border-zinc-700 bg-zinc-800 text-white  px-2   hover:border-emerald-500 rounded-md"
+            className="input input-ghost text-white  w-full"
             placeholder="eg. Setup Server"
             onChange={(e) => setValues({ ...values, title: e.target.value })}
           />
@@ -53,7 +53,7 @@ function UpdateLessonForm({
           </div>
         </div>
 
-        <label className="block text-sm mt-2 font-medium text-white">
+        <label className="block text-sm mt-2 font-medium  text-white">
           Content
         </label>
 
@@ -65,7 +65,7 @@ function UpdateLessonForm({
             required
             placeholder="eg. Setting up a server"
             type="text"
-            className=" text-sm  rounded   bg-zinc-800 border-zinc-700 mt-1 px-2 w-full h-20  hover:border-emerald-500 text-white  border-2"
+            className=" input input-ghost text-white h-[8rem] w-full mt-2"
           ></textarea>
         </div>
         <div class="flex justify-center">
@@ -74,7 +74,7 @@ function UpdateLessonForm({
               <label className="block text-sm font-medium text-white">
                 Video
               </label>
-              <label class="flex flex-col  mt-1 w-full h-full border-2  border-zinc-700 hover:border-emerald-500 rounded-md     ">
+              <label class="flex flex-col  mt-1 w-full h-full border-2   border-zinc-700 hover:border-emerald-500 rounded-md     ">
                 {progress > 0 && (
                   <div class="w-full bg-gray-200 h-1">
                     <div

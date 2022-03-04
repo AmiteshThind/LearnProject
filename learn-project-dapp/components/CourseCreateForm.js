@@ -16,21 +16,21 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
             <div class="flex items-center  ">
                 <div class="w-full flex flex-col   ">
                     <label class="font-semibold leading-none text-white">Course Name</label>
-                    <input name='name' value={values.name} onChange={handleChange} required placeholder="eg. Beginners  Guide to Investing in Crypto " type="text" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                    <input name='name' value={values.name} onChange={handleChange} required placeholder="eg. Beginners  Guide to Investing in Crypto " type="text" class="  input input-ghost text-white  mt-3  " />
                 </div>
             </div>
 
             <div>
                 <div className="w-full flex flex-col mt-5  ">
                     <label class="font-semibold leading-none text-white">Description</label>
-                    <textarea name='description' value={values.description} onChange={handleChange} required placeholder="Give a breif overfiew of what students can expect to learn from this course" type="text" className="h-40 w-prose leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600 "></textarea>
+                    <textarea name='description' value={values.description} onChange={handleChange} required placeholder="Give a breif overfiew of what students can expect to learn from this course" type="text" className="h-40 w-prose input input-ghost text-white  mt-3  "></textarea>
                 </div>
             </div>
 
             <div class="flex items-center mt-5  ">
                 <div class="w-full flex flex-col   ">
                     <label class="font-semibold leading-none text-white ">Sections <span className='text-gray-400'>(Seperate by comma and include all sections in order)</span></label>
-                    <input name='sections' value={values.sections} onChange={handleSections} required placeholder="eg. Setup, Config, Defi ... " type="text" class="leading-none   p-3 focus:outline-none text-white focus:border-emerald-500 mt-4 bg-zinc-800 border-2 rounded border-zinc-600" />
+                    <input name='sections' value={values.sections} onChange={handleSections} required placeholder="eg. Setup, Config, Defi ... " type="text" class="input input-ghost text-white  mt-3 " />
                 </div>
             </div>
 
@@ -42,7 +42,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
                             <div class="flex justify-center ">
                                 <div class="mb-3 w-full">
                                     {values.paid &&
-                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md  bg-gradient-to-b from-teal-500   to-emerald-500 text-white   shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium hover:bg-gray-50 ">
+                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" select select-ghost text-white text-center ">
 
 
                                             <option selected value={true}>Yes</option>
@@ -51,7 +51,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
                                         </select>
                                     }
                                     {!values.paid &&
-                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md  bg-gradient-to-b from-teal-500 to-emerald-500  text-white  shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium hover:bg-gray-50">
+                                        <select onChange={v => setValues({ ...values, paid: !values.paid })} class=" select select-ghost text-white text-center ">
 
 
                                             <option value={true}>Yes</option>
@@ -69,7 +69,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
                             <label className=" font-semibold leading-none mb-3 text-white ">Price(BUSD)</label>
                             <div class="flex justify-center text ">
                                 <div class="mb-3 w-full">
-                                    <select defaultValue={5} onChange={v => setValues({ ...values, price: Number(v.target.value) })} value={values.price} class="text-center appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md  bg-gradient-to-b from-teal-500 text-white   to-emerald-500   shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium hover:bg-gray-50 focus:outline-none  ">
+                                    <select defaultValue={5} onChange={v => setValues({ ...values, price: Number(v.target.value) })} value={values.price} class="text-center select select-ghost text-white  ">
                                         {children}
                                     </select>
                                 </div>
@@ -83,7 +83,7 @@ function CourseCreateForm({ handleSubmit, handleImage, handleChange, values, set
                         <label className=" font-semibold leading-none mb-3 text-white">Category</label>
                         <div class="flex justify-center ">
                             <div class="mb-3 w-full">
-                                <select onChange={v => setValues({ ...values, category: v.target.value })} value={values.category} class=" text-center appearance-none inline-flex justify-center w-full mt-2 mb-3  rounded-md  bg-gradient-to-b from-teal-500 text-white   to-emerald-500   shadow-sm px-6 sm:px-8 md:px-8 lg:px-8 xl:px-8 py-2 bg-white text-md font-medium hover:bg-gray-50 focus:outline-none   ">
+                                <select onChange={v => setValues({ ...values, category: v.target.value })} value={values.category} class="  select select-ghost text-white text-center ">
                                     <option defaultValue={"blockchain"}>Blockchain</option>
                                     <option value={"education"}>Education</option>
                                     <option value={"defi"}>Defi</option>

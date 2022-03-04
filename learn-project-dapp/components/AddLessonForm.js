@@ -18,11 +18,11 @@ function AddLessonForm({
         {/* <Toaster 
          
          /> */}
-        <div className="mt-1 relative rounded-md shadow-sm">
+        <div className="  relative rounded-md shadow-sm">
           <input
             type="text"
             name="title"
-            className="focus:ring-emerald-500 text-white focus:border-emerald-500 block w-full text-sm py-2 border-2 bg-zinc-800 border-zinc-700 hover:border-emerald-500  px-2    rounded-md"
+            className="input input-ghost text-white  mt-2 w-full"
             placeholder="eg. Setup Server"
             onChange={(e) => setValues({ ...values, title: e.target.value })}
           />
@@ -40,7 +40,7 @@ function AddLessonForm({
                     setValues({ ...values, section: v.target.value })
                   }
                   value={values.section}
-                  class="text-center w-full mt-2 bg-gradient-to-b from-teal-500   to-emerald-500  rounded-md   shadow-sm py-2  text-sm font-medium text-white truncate "
+                  class="text-center select select-ghost w-full text-white truncate "
                 >
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
@@ -63,7 +63,7 @@ function AddLessonForm({
             required
             placeholder="eg. Setting up a server"
             type="text"
-            className=" text-sm  rounded  bg-zinc-800  border-zinc-700 hover:border-emerald-500 mt-1 px-2 w-full h-20    border-2 text-white"
+            className=" input input-ghost text-white  w-full h-[8rem]"
           ></textarea>
         </div>
         <div class="flex justify-center">
