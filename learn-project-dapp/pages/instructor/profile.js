@@ -21,6 +21,9 @@ function Profile() {
   useEffect(() => {
     if (isAuthenticated && user) {
       console.log(user);
+      if(user.attributes.description){
+      setDescription(user.attributes.description);
+      }
       if (user.attributes.profilePicture) {
         setPreview(user.attributes.profilePicture._url);
         console.log("yes");
@@ -42,6 +45,7 @@ function Profile() {
   const saveDetails = async (e) => {
     user.set("username", username);
     user.set("profilePicture", imageFile);
+    user.set("description", description);
     await user.save();
     toast.success("Saved Successfully");
   };
