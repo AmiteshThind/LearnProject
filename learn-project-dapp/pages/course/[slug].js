@@ -187,7 +187,7 @@ catch(error){
       {course[0] && lessons[0] && (
         <div className="flex flex-col p-5  items-stretch sm:p-10     ">
           <div className="flex flex-wrap justify-center ">
-            <div className="w-full lg:w-6/12 bg-zinc-800 p-10 rounded-3xl rounded-bl-3xl flex mx-5 flex-col">
+            <div className="w-full lg:w-6/12 h-full bg-zinc-800 p-10 rounded-3xl rounded-bl-3xl flex mx-5 flex-col">
               <div className=" text-4xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500   font-extrabold ">
                 {course[0].attributes.name}
               </div>

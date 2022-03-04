@@ -19,6 +19,7 @@ function marketplace() {
   const [courses,setCourses] = useState();
 
   useEffect(() => {
+    
       loadCourses();
   }, [isLoading]);
 

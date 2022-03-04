@@ -8,26 +8,44 @@ import axios from "axios";
 import Moralis from "moralis";
 import useStore from "../../store/store";
 import Link from "next/link";
+import defaultImage from "../../public/images/defaultImage.png"
 
 function UserNavbar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
+  const [profilePic, setProfilePic] = useState("");
 
   useLayoutEffect(() => {
+    Moralis.Web3.onAccountsChanged(function (accounts) {
+      console.log(accounts);
+      //window.location.reload(false);
+      logout();
+
+      // your code to run when "accountsChanged" happens
+    });
     async function verify() {
       //console.log(jwtRecieved);
-      if (isAuthenticated && !jwtRecieved) {
-        const { data } = await axios.post(
-          "http://localhost:8000/authenticate",
-          {
-            user: user,
-          },
-          { withCredentials: true }
-        );
-        if (data) {
-          useStore.setState({ jwtRecieved: true });
+      if (isAuthenticated) {
+        if (user.attributes.profilePicture) {
+          setProfilePic(user.attributes.profilePicture._url);
+        }
+        else{
+          setProfilePic(defaultImage)
+        }
+        
+        if (!jwtRecieved) {
+          const { data } = await axios.post(
+            "http://localhost:8000/authenticate",
+            {
+              user: user,
+            },
+            { withCredentials: true }
+          );
+          if (data) {
+            useStore.setState({ jwtRecieved: true });
+          }
         }
       }
     }
@@ -36,6 +54,7 @@ function UserNavbar() {
 
   const logOutUser = () => {
     useStore.setState({ jwtRecieved: false });
+    setProfilePic("");
     logout();
   };
 
@@ -95,7 +114,7 @@ function UserNavbar() {
                 className=" hidden   sm:flex  md:flex lg:flex justify-center items-center   "
               >
                 <div className=" sm:ml-2 md:ml-10 lg:ml-2 xl:ml-10 ml-10 font-bold text-3xl  text-shadow-sm   cursor-pointer text-emerald-400   ">
-                  $<span className="text-white text-shadow-md">LEARN</span> 
+                  $<span className="text-white text-shadow-md">LEARN</span>
                 </div>
               </div>
               <div className="hidden  rounded-3xl lg:block shadow-xl   ">
@@ -219,20 +238,31 @@ function UserNavbar() {
                   </button>
                 </div>
               </div>
-              <div className="">
-                <button
-                  activeClass="contact"
-                  to="contact"
-                  smooth={true}
-                  onClick={!isAuthenticated ? authenticate : logOutUser}
-                  offset={50}
-                  duration={500}
-                  className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500   transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
-                >
-                  {isAuthenticated
-                    ? user.attributes.ethAddress
-                    : "Connect Wallet"}
-                </button>
+              <div className="flex">
+                {profilePic && (
+                <div class="avatar mr-3 border-2 border-emerald-500 rounded-full">
+                  <div  class=" cursor-pointer w-16 h-16 rounded-full">
+                  <Link href="/user/profile">
+                  <Image src={profilePic} height={100} width={100} /> 
+                  </Link>
+                  </div>
+                </div>
+                )}
+                <div className="">
+                  <button
+                    activeClass="contact"
+                    to="contact"
+                    smooth={true}
+                    onClick={!isAuthenticated ? authenticate : logOutUser}
+                    offset={50}
+                    duration={500}
+                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
+                  >
+                    {isAuthenticated
+                      ? user.attributes.ethAddress
+                      : "Connect Wallet"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
