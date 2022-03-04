@@ -38,6 +38,8 @@ function CourseMainpage() {
   useEffect(() => {
     //check if user accessing this course is enrolled in this course
 
+    
+
     console.log("wow");
     loadCourseLessonsQuizData();
     //loadQuizQuestions();
@@ -204,7 +206,7 @@ function CourseMainpage() {
   const openQuiz = (section) => {
     if (unlockedQuizzes.includes(section)) {
       setCurrentQuizSection(section);
-      setShowQuiz(!showQuiz);
+      setShowQuiz(true);
     }
   };
 
