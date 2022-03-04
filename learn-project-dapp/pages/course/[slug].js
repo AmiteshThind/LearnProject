@@ -11,6 +11,7 @@ import ReactPlayer from "react-player";
 import Image from "next/image";
 import { PlayIcon } from "@heroicons/react/outline";
 import Accordion from "../../components/Accordion";
+import defaultImage from "../../public/images/defaultImage.png";
 import {
   EyeIcon,
   LockClosedIcon,
@@ -44,7 +45,7 @@ function SingleCourse() {
     // checkIfUserIsEnrolled();
 
     //console.log(course)
-  }, [isLoading, isAuthenticated,user]);
+  }, [isLoading, isAuthenticated, user]);
 
   const loadCourseandLessons = async () => {
     const Course = Moralis.Object.extend("Course");
@@ -73,7 +74,7 @@ function SingleCourse() {
     if (result2[0]) {
       //setPreview(result2[0].attributes.video.Location);
     }
-    checkIfUserIsEnrolled(result[0])
+    checkIfUserIsEnrolled(result[0]);
     setIsLoading(false);
   };
 
@@ -92,7 +93,6 @@ function SingleCourse() {
         arr.push(question.attributes.section);
       }
     }
-     
   };
 
   const checkIfUserIsEnrolled = async (course) => {
@@ -100,13 +100,13 @@ function SingleCourse() {
     const query = new Moralis.Query(EnrolledUsersCourses);
 
     console.log("this runs");
-     
+
     query.equalTo("course", course);
     query.equalTo("user", user);
     const result = await query.find();
-    console.log(result+'w')
-    if (result.length!=0 && isAuthenticated) {
-     console.log('r')
+    console.log(result + "w");
+    if (result.length != 0 && isAuthenticated) {
+      console.log("r");
       setIsUserEnrolled(true);
     } else {
       setIsUserEnrolled(false);
@@ -137,33 +137,34 @@ function SingleCourse() {
     //enrolled user class checks all the courses a user is enrolled in
 
     // make a query to EnrolledUsersCourses to add user with course they are enrolled in
-try{
-    const EnrolledUsersCourses = Moralis.Object.extend("EnrolledUsersCourses");
-    const newEnrolledUserCourse = new EnrolledUsersCourses();
-    // //check if user is already in enrolled in course first 
-    // const query = new Moralis.Query(newEnrolledUserCourse);
-    // query.equalTo("course",course[0])
-    // query.equalTo("user",user)
-    // const result = await query.find();
-    newEnrolledUserCourse.set("course", course[0]);
-    newEnrolledUserCourse.set("user", user);
+    try {
+      const EnrolledUsersCourses = Moralis.Object.extend(
+        "EnrolledUsersCourses"
+      );
+      const newEnrolledUserCourse = new EnrolledUsersCourses();
+      // //check if user is already in enrolled in course first
+      // const query = new Moralis.Query(newEnrolledUserCourse);
+      // query.equalTo("course",course[0])
+      // query.equalTo("user",user)
+      // const result = await query.find();
+      newEnrolledUserCourse.set("course", course[0]);
+      newEnrolledUserCourse.set("user", user);
 
-    let quizScore = {}
-    for(let section of course[0].attributes.sections){
-      quizScore[section]=0;
+      let quizScore = {};
+      for (let section of course[0].attributes.sections) {
+        quizScore[section] = 0;
+      }
+
+      newEnrolledUserCourse.set("quizScore", quizScore);
+
+      await newEnrolledUserCourse.save();
+      console.log("done");
+
+      setIsUserEnrolled(true);
+    } catch (error) {
+      console.log(error);
+      // must be conencted tot ry to enroll in course
     }
-
-    newEnrolledUserCourse.set("quizScore",quizScore)
-    
-    await newEnrolledUserCourse.save();
-    console.log("done");
-    
-    setIsUserEnrolled(true);
-}
-catch(error){
-    console.log(error)
-    // must be conencted tot ry to enroll in course
-}
   };
 
   const updatePreview = (lesson) => {
@@ -192,7 +193,7 @@ catch(error){
                 {course[0].attributes.name}
               </div>
               <div className=" text-md text-transparent bg-clip-text bg-gradient-to-br  from-teal-500 to-emerald-500 mt-2   font-semibold ">
-                By Satoshi Nakomeoti
+                By {course[0].attributes.instructor.attributes.username}
               </div>
 
               <div class="badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none px-4 py-4 mt-4     truncate   ">
@@ -215,8 +216,38 @@ catch(error){
                   children={course[0].attributes.description}
                 />
               </div>
+              <label className="font-extrabold text-3xl mt-10 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
+                Instructor
+              </label>
+              <div className="w-full flex-wrap  border p-5 flex rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-500   border-zinc-700">
+                <div className="flex-wrap justify-center w-full flex">
+                  <div class=" avatar">
+                    <div class="w-24 h-24 md:w-48 md:h-48 rounded-full  ">
+                      <label>
+                        {defaultImage && (
+                          <Image
+                            src={defaultImage}
+                            className="w-2 h-2"
+                            height={250}
+                            width={250}
+                          />
+                        )}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex mt-2 flex-col  flex-wrap px-5  w-full  ">
+                  <div className="text-xl flex-wrap font-extrabold">
+                    Hi I'm {course[0].attributes.instructor.attributes.username}
+                    !
+                  </div>
+                  <div className="mt-2 flex-wrap">
+                    {course[0].attributes.instructor.attributes.description}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="w-full  mt-10 lg:mt-0 flex flex-col lg:w-4/12 bg-zinc-800 mx-5 px-5 py-5 rounded-3xl  items-center  flex-wrap ">
+            <div className="w-full h-full pb-10 mt-10 lg:mt-0 flex flex-col lg:w-4/12 bg-zinc-800 mx-5 px-5 py-5 rounded-3xl  items-center  flex-wrap ">
               {lessons[0].attributes.video &&
               lessons[0].attributes.video.Location ? (
                 <div className="flex justify-start p-5 sm:p-10  w-full player-wrapper  ">

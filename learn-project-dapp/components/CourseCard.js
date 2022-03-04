@@ -19,7 +19,7 @@ function CourseCard({course}) {
         </figure>
         <div class=" mx-5 my-5 p-2   ">
         <div class="badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none px-4 py-4     truncate  ">{course.attributes.category}</div>
-        <h3 className=" mt-4 text-sm text-base-100 truncate">By Stoshi Nakomeoti</h3>
+        <h3 className=" mt-4 text-sm text-base-100 truncate">By {course.attributes.instructor.attributes.username}</h3>
           <p class="font-semibold text-2xl mt-4  h-24 text-white  line-clamp-3  ">{course.attributes.name}</p>
           
           
