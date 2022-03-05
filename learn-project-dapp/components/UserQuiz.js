@@ -104,6 +104,39 @@ function UserQuiz({
       );
     }
     await objectToUpdate.save();
+
+    const Leaderboard = Moralis.Object.extend("Leaderboard");
+    const leaderboardQuery = new Moralis.Query(Leaderboard);
+    leaderboardQuery.equalTo("address", user.attributes.ethAddress);
+    const leaderboardObject = await leaderboardQuery.first();
+
+    const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+    const queryEnrolledUserCourses = new Moralis.Query(EnrolledUserCourses);
+    queryEnrolledUserCourses.equalTo("user", user);
+    const enrolledUserCourses = await queryEnrolledUserCourses.find();
+
+    if (leaderboardObject!=undefined) {
+      //update total
+        console.log('update')
+      let totalRewards = 0; // start of with score from the section user just completed (which will be there first course quiz)
+
+      for (let enrolledCourse of enrolledUserCourses) {
+          console.log(enrolledCourse)
+        totalRewards += enrolledCourse.attributes.rewardsEarned;
+      }
+
+      leaderboardObject.set("totalRewards", totalRewards);
+      await leaderboardObject.save();
+    } else {
+        console.log('new')
+      //create new object and it to list
+      const newLeaderBoardObject = new Leaderboard();
+      newLeaderBoardObject.set("username", user.attributes.username);
+      newLeaderBoardObject.set("address", user.attributes.ethAddress);
+      newLeaderBoardObject.set("totalRewards", newScore[section] * rewardRate);
+      newLeaderBoardObject.set("user",user)
+      await newLeaderBoardObject.save();
+    }
   };
 
   return (

@@ -21,6 +21,7 @@ function UserNavbar() {
     Moralis.Web3.onAccountsChanged(function (accounts) {
       console.log(accounts);
       //window.location.reload(false);
+      setProfilePic("");
       logout();
 
       // your code to run when "accountsChanged" happens
@@ -60,7 +61,7 @@ function UserNavbar() {
 
   return (
     <div>
-      <nav className="      w-full  z-50">
+      <nav className="    w-full  z-50">
         <div>
           <div className="flex justify-center   items-center pt-7 pb-5  w-full ">
             <div className="ml-10 mr-5  flex lg:hidden ">
@@ -108,7 +109,7 @@ function UserNavbar() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center  sm:justify-between md:justify-between lg:justify-between xl:justify-between  w-full">
+            <div className="flex items-center justify-center  sm:justify-between    w-full">
               <div
                 onClick={() => Router.push("/marketplace")}
                 className=" hidden   sm:flex  md:flex lg:flex justify-center items-center   "
@@ -170,16 +171,16 @@ function UserNavbar() {
                   >
                     <div
                       className={
-                        router.pathname == "/user/staking"
+                        router.pathname == "/staking"
                           ? " text-emerald-300  font-extrabold : scale-110"
                           : ""
                       }
                     >
-                      <Link href="/user/staking">Staking</Link>
+                      <Link href="/staking">Staking</Link>
                     </div>
                   </button>
 
-                  <button
+                  {/* <button
                     activeClass="Services"
                     to="work"
                     smooth={true}
@@ -196,7 +197,7 @@ function UserNavbar() {
                     >
                       <Link href="/user/profile">Profile</Link>
                     </div>
-                  </button>
+                  </button> */}
 
                   <button
                     activeClass="Services"

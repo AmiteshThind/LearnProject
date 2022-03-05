@@ -52,6 +52,7 @@ function InstructorNavbar() {
 
   const logOutUser = () => {
     useStore.setState({ jwtRecieved: false });
+	setProfilePic("")
     logout();
   };
 
@@ -167,12 +168,12 @@ function InstructorNavbar() {
                   >
                     <div
                       className={
-                        router.pathname == "/user/staking"
+                        router.pathname == "/staking"
                           ? " text-emerald-300  font-extrabold : scale-110"
                           : ""
                       }
                     >
-                      <Link href="/user/staking">Staking</Link>
+                      <Link href="/staking">Staking</Link>
                     </div>
                   </button>
 
@@ -195,7 +196,7 @@ function InstructorNavbar() {
                     </div>
                   </button>
 
-                  <button
+                  {/* <button
                     activeClass="Services"
                     to="work"
                     smooth={true}
@@ -213,7 +214,7 @@ function InstructorNavbar() {
                     >
                       <Link href="/instructor/profile">Profile</Link>
                     </div>
-                  </button>
+                  </button> */}
 
                   <button
                     onClick={() => Router.push("/instructor/course/create")}

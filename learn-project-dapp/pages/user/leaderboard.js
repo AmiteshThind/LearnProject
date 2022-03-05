@@ -4,6 +4,8 @@ import { Moralis } from "moralis";
 import UserNavbar from "../../components/user/UserNavBar";
 import Router, { useRouter } from "next/router";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
+import Image from "next/image";
+import defaultImage from '../../public/images/defaultImage.png'
 
 function Leaderboard() {
   
@@ -11,6 +13,7 @@ function Leaderboard() {
   const { user, isAuthenticated } = useMoralis();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const [students,setStudents] = useState([])
    
 
   useEffect(() => {
@@ -20,11 +23,16 @@ function Leaderboard() {
   }, [isLoading, isAuthenticated, user]);
 
   const loadUserData = async()=>{
-    const Users = Moralis.Object.extend("User");
-    const query = new Moralis.Query(Users); 
+    const Leaderboard = Moralis.Object.extend("Leaderboard");
+    const query = new Moralis.Query(Leaderboard); 
+    query.equalTo("displayOnLeaderboard",true);
+    query.descending("totalRewards")
     const result = await query.find();
+    console.log(result)
     if(result[0]){
-        console.log(result[1])
+        
+        setStudents(result);
+        setIsLoading(false);
         
     }
 
@@ -41,46 +49,53 @@ function Leaderboard() {
       </div>
 
       
-        <div className="flex justify-center ">
+        <div className="flex mx-4 sm:mx-0 justify-center ">
           {/* {JSON.stringify(
             userEnrolledCourses[0].attributes.course.attributes,
             0,
             null
           )} */}
-          <div className="w-3/4 bg-zinc-800 rounded-3xl  flex-col mt-10">
-            <div className="text-4xl font-extrabold pt-8 pb-4 px-8 justify-center ">
-              Learning Leaderboard
+          <div className="w-full xl:w-6/12 mx-4 bg-zinc-800 rounded-3xl  flex-col mt-10">
+            <div className="text-4xl flex-wrap text-transparent bg-clip-text bg-gradient-to-br  text-center from-teal-500 to-emerald-500   font-extrabold pt-8 pb-4 px-8 justify-center ">
+              LEARN Leaderboard
             </div>
-            <div className="mx-5 flex flex-wrap  justify-center my-8 ">
-              
-                <div className="w-full mx-5 my-3  ">
+            <div className="mx-5 flex flex-wrap   justify-center my-8 ">
+              {students.map((student,index)=>(
+
+               
+                <div className="w-full border border-zinc-600 p-3 rounded-3xl   my-3  ">
                   <div className="flex flex-wrap  justify-between items-center">
-                    <div className="flex-shrink-0   h-20 w-20">
-                      <img
-                        className="h-20 w-20 rounded-full"
-                         
-                        alt=""
-                      />
+                    <div className="flex mx-5 w-full xl:w-1/4 justify-center items-center ">
+                      
+                      <div className="text-3xl mr-2  xl:mr-5 font-extrabold" >
+                        {index+1}.
+                      </div>
+                    <div class="avatar">
+                    <div className=" rounded-full   h-20 w-20">
+                    <Image
+                    src={student.attributes.profilePicture!=undefined ? student.attributes.profilePicture._url : defaultImage}
+                    className="hover:opacity-50 w-2 h-2"
+                    height={250}
+                    width={250}
+                  />
                     </div>
-                    <div className="text-xl font-semibold my-3 w-2/4 truncate  ">
-                    ff
                     </div>
-                    <div className="text-xl font-semibold w-1/4 ">
+                    </div>
+                    <div className="text-xl font-semibold my-3 w-full xl:w-2/5 text-center  truncate  ">
+                    {student.attributes.username}
+                    </div>
+                    <div className="text-xl font-semibold justify-center flex w-full xl:w-1/5   ">
                       <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
-                        <PlusCircleIcon className="w-5 h-5 mx-1 my-3 sm:my-0 text-emerald-500" />
-                         $LEARN
+                        
+                         {student.attributes.totalRewards} LEARN 
                       </span>
                     </div>
-                    <div
-                       
-                      className="btn bg-gradient-to-br  from-teal-500 to-emerald-500  hover:scale-95 my-3 sm:my-0  "
-                    >
-                      Go To Course
-                    </div>
+ 
                   </div>
                 </div>
-          
+              ))}
             </div>
+            
             
           </div>
         </div>

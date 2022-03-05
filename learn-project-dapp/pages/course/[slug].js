@@ -31,6 +31,8 @@ function SingleCourse() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [preview, setPreview] = useState("imagePreview");
   const [isUserEnrolled, setIsUserEnrolled] = useState(false);
+  const [instructorUsername,setInstructorUsername] = useState("")
+  const [instructorDescription,setInstructorDescription] = useState("")
 
   //using the slug find the correct course so you can read that data and display it on this page
   // will also need lessons
@@ -41,11 +43,14 @@ function SingleCourse() {
 
     loadCourseandLessons();
     loadQuizQuestions();
+    
 
     // checkIfUserIsEnrolled();
 
     //console.log(course)
   }, [isLoading, isAuthenticated, user]);
+
+ 
 
   const loadCourseandLessons = async () => {
     const Course = Moralis.Object.extend("Course");
@@ -57,6 +62,8 @@ function SingleCourse() {
     if (result[0]) {
       console.log(result);
       setCourse(result);
+      checkIfUserIsEnrolled(result[0]);
+      loadInstructorDetails(result[0]);
     }
 
     const Lesson = Moralis.Object.extend("Lesson");
@@ -74,7 +81,7 @@ function SingleCourse() {
     if (result2[0]) {
       //setPreview(result2[0].attributes.video.Location);
     }
-    checkIfUserIsEnrolled(result[0]);
+ 
     setIsLoading(false);
   };
 
@@ -119,6 +126,19 @@ function SingleCourse() {
     //   setIsUserEnrolled(true);
     // }
   };
+
+  const loadInstructorDetails = async(course)=>{
+    const Instructors = Moralis.Object.extend("instructorSubmissions");
+    const query = new Moralis.Query(Instructors);
+    query.equalTo("user",course.attributes.instructor);
+    const result = await query.find();
+    console.log(course)
+    if(result[0]){
+      setInstructorUsername(result[0].attributes.name);
+      setInstructorDescription(result[0].attributes.question1);
+    }
+
+  }
 
   const unlockMessage = () => {
     toast("Purchase Course To Unlock", {
@@ -193,7 +213,7 @@ function SingleCourse() {
                 {course[0].attributes.name}
               </div>
               <div className=" text-md text-transparent bg-clip-text bg-gradient-to-br  from-teal-500 to-emerald-500 mt-2   font-semibold ">
-                By {course[0].attributes.instructor.attributes.username}
+                By {instructorUsername}
               </div>
 
               <div class="badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none px-4 py-4 mt-4     truncate   ">
@@ -238,11 +258,11 @@ function SingleCourse() {
                 </div>
                 <div className="flex mt-2 flex-col  flex-wrap px-5  w-full  ">
                   <div className="text-xl flex-wrap font-extrabold">
-                    Hi I'm {course[0].attributes.instructor.attributes.username}
+                    Hi I'm {instructorUsername}
                     !
                   </div>
                   <div className="mt-2 flex-wrap">
-                    {course[0].attributes.instructor.attributes.description}
+                    {instructorDescription}
                   </div>
                 </div>
               </div>

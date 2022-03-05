@@ -6,7 +6,7 @@ import Router, { useRouter } from "next/router";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
-import defaultImage from "../../public/images/defaultImage.png"
+import defaultImage from "../../public/images/defaultImage.png";
 import InstructorNavbar from "../../components/instructor/InstructorNavBar";
 
 function Profile() {
@@ -21,14 +21,13 @@ function Profile() {
     if (isAuthenticated && user) {
       console.log(user);
       if (user.attributes.profilePicture) {
-      setPreview(user.attributes.profilePicture._url);
-      console.log('yes')
-      }else{
-          setPreview('../../public/images/default.png')
+        setPreview(user.attributes.profilePicture._url);
+      } else {
+        setPreview(defaultImage);
       }
       setUsername(user.attributes.username);
     }
-  }, [ isAuthenticated, user]);
+  }, [isAuthenticated, user]);
 
   const handleImage = async (e) => {
     if (e.target.files[0]) {
@@ -36,16 +35,26 @@ function Profile() {
     }
     const profileImage = new Moralis.File("profileImage", e.target.files[0]);
     setImageFile(profileImage);
-    
-    
   };
 
   const saveDetails = async (e) => {
-    user.set("username",username)
-    user.set("profilePicture", imageFile);
-    await user.save();
-    toast.success("Saved Successfully")
+    //need to update the name in the leaderboard for this particular address
 
+    user.set("username", username);
+    user.set("profilePicture", imageFile);
+   
+
+    const Leaderboard = Moralis.Object.extend("Leaderboard");
+    const query = new Moralis.Query(Leaderboard);
+    query.equalTo("user", user);
+    const result = await query.first();
+    result.set("username", username);
+    result.set("profilePicture", imageFile);
+    result.set("user",user);
+    await user.save();
+    await result.save(); 
+
+    toast.success("Saved Successfully");
   };
 
   return (
@@ -71,9 +80,14 @@ function Profile() {
           <div class=" avatar">
             <div class="w-48 h-48 rounded-full ">
               <label className="cursor-pointer ">
-                  {preview && 
-                <Image src={preview} className="hover:opacity-50 w-2 h-2" height={250} width={250} />
-                  }
+                {preview && (
+                  <Image
+                    src={preview}
+                    className="hover:opacity-50 w-2 h-2"
+                    height={250}
+                    width={250}
+                  />
+                )}
                 <input
                   type="file"
                   name="image"
@@ -87,22 +101,24 @@ function Profile() {
           <div className="    mt-5  font-semibold">
             <label className="text-md">Username</label>
             <input
-              onChange={v => setUsername(v.target.value)}
+              onChange={(v) => setUsername(v.target.value)}
               type="text"
-              
               value={username}
               class="input hid input-ghost w-full mt-1 max-w-xs truncate"
             />
           </div>
           <div className=" my-10 text-md font-extrabold">
-            <button onClick={saveDetails} class=" rounded-2xl font-semibold leading-none text-emerald-500 py-6 px-10  border-2 border-emerald-500 hover:text-white  hover:bg-gradient-to-b from-teal-500 to-emerald-500 focus:ring-2 focus:ring-offset-2  focus:outline-none">
+            <button
+              onClick={saveDetails}
+              class=" rounded-2xl font-semibold leading-none text-emerald-500 py-6 px-10  border-2 border-emerald-500 hover:text-white  hover:bg-gradient-to-b from-teal-500 to-emerald-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
+            >
               Save
             </button>
           </div>
           <div></div>
         </div>
       </div>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }

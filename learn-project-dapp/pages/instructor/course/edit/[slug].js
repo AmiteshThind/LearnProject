@@ -17,6 +17,7 @@ function CourseEdit() {
     const router = useRouter();
     const { slug } = router.query;
     const [isLoading,setIsLoading] = useState(true);
+    
     const [values, setValues] = useState({
         name: '',
         description: '',
