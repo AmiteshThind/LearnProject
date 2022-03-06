@@ -59,6 +59,8 @@ function Profile() {
     instructorToUpdate.set("name", username);
     instructorToUpdate.set("profilePicture", imageFile);
     instructorToUpdate.set("question1", description);
+    user.set("profilePicture", imageFile);
+    user.set("description",description)
     await instructorToUpdate.save();
     toast.success("Saved Successfully");
   };
