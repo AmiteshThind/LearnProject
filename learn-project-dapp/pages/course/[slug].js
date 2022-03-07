@@ -33,6 +33,7 @@ function SingleCourse() {
   const [isUserEnrolled, setIsUserEnrolled] = useState(false);
   const [instructorUsername,setInstructorUsername] = useState("")
   const [instructorDescription,setInstructorDescription] = useState("")
+  const [instructorProfilePicture,setInstructorProfilePicture] = useState("")
 
   //using the slug find the correct course so you can read that data and display it on this page
   // will also need lessons
@@ -136,6 +137,11 @@ function SingleCourse() {
     if(result[0]){
       setInstructorUsername(result[0].attributes.name);
       setInstructorDescription(result[0].attributes.question1);
+      if(result[0].attributes.profilePicture!=undefined){
+      setInstructorProfilePicture(result[0].attributes.profilePicture._url)
+      }else{
+        setInstructorProfilePicture(defaultImage)
+      }
     }
 
   }
@@ -181,6 +187,15 @@ function SingleCourse() {
       console.log("done");
 
       setIsUserEnrolled(true);
+
+      const Courses = Moralis.Object.extend("Course");
+      const query = new Moralis.Query(Courses);
+      query.equalTo("slug",slug);
+      let objectToUpdate = await query.first();
+      objectToUpdate.set("amountEarned",course[0].attributes.amountEarned+course[0].attributes.price)
+      objectToUpdate.set("studentsEnrolled", course[0].attributes.studentsEnrolled+1);
+      await objectToUpdate.save();
+
     } catch (error) {
       console.log(error);
       // must be conencted tot ry to enroll in course
@@ -244,9 +259,9 @@ function SingleCourse() {
                   <div class=" avatar">
                     <div class="w-24 h-24 md:w-48 md:h-48 rounded-full  ">
                       <label>
-                        {defaultImage && (
+                        {instructorProfilePicture && (
                           <Image
-                            src={defaultImage}
+                            src={instructorProfilePicture}
                             className="w-2 h-2"
                             height={250}
                             width={250}

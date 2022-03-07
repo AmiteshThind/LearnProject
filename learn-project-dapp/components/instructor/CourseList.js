@@ -106,7 +106,7 @@ export default function CourseList({ courses }) {
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap text-white text-lg">
-                      {course.attributes.usersEnrolled.length}
+                      {course.attributes.studentsEnrolled}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {course.attributes.published && (

@@ -16,6 +16,9 @@ function Dashboard() {
   useEffect(() => {
     if (isAuthenticated && user) {
       loadUserEnrolledCourses();
+      if(user.attributes.role == "instructor"){
+        router.push("/instructor/dashboard")
+      }
     }
   }, [isLoading, isAuthenticated, user]);
 
@@ -38,11 +41,9 @@ function Dashboard() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
     <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
-          <InstructorNavbar />
-        ) : (
+        
           <UserNavbar />
-        )}
+    
       </div>
 
       {userEnrolledCourses.length != 0 && isAuthenticated && (

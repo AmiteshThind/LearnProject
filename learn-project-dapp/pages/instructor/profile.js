@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import defaultImage from "../../public/images/defaultImage.png";
 import InstructorNavbar from "../../components/instructor/InstructorNavBar";
+import useStore from "../../store/store";
 
 function Profile() {
   //list of courses that the user is enrolled in
@@ -17,10 +18,17 @@ function Profile() {
   const [imageFile, setImageFile] = useState();
   const [username, setUsername] = useState();
   const [description, setDescription] = useState();
+  let profilePicDetails = useStore((state)=> state.profilePicDetails)
+
 
   useEffect(() => {
+    
     if (isAuthenticated && user) {
       console.log(user);
+      if(user.attributes.role == "student"){
+        router.push("/user/profile")
+      }
+      
 
       loadInstructorDetails();
     }
@@ -61,18 +69,17 @@ function Profile() {
     instructorToUpdate.set("question1", description);
     user.set("profilePicture", imageFile);
     user.set("description",description)
-    await instructorToUpdate.save();
+    let obj = await instructorToUpdate.save();
     toast.success("Saved Successfully");
+    useStore.setState({ profilePicDetails: obj.attributes.profilePicture });
   };
 
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
+        
           <InstructorNavbar />
-        ) : (
-          <UserNavbar />
-        )}
+         
       </div>
 
       <div className="flex justify-center ">

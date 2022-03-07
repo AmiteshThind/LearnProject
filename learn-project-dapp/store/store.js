@@ -2,7 +2,8 @@ import create from 'zustand'
 
 const useStore = create((set) => ({
 
-    jwtRecieved:false
+    jwtRecieved:false,
+    profilePicDetails:""
 
 
     //   increasePopulation: () => set(state => ({ bears: state.bears + 1 })),

@@ -9,6 +9,7 @@ import useStore from "../../store/store";
 import Link from "next/link";
 import defaultImage from "../../public/images/defaultImage.png";
 import Image from "next/image";
+import { isLocalURL } from "next/dist/shared/lib/router/router";
 
 function InstructorNavbar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
@@ -16,24 +17,30 @@ function InstructorNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
   const [profilePic, setProfilePic] = useState("");
+  let profilePicDetails = useStore((state)=> state.profilePicDetails)
+  const [isLoading,setIsLoading] = useState(true);
+
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
       console.log(accounts);
       //window.location.reload(false);
-      logout();
+      logOutUser();
 
       // your code to run when "accountsChanged" happens
     });
     async function verify() {
       //console.log(jwtRecieved);
       if (isAuthenticated) {
-        if (user.attributes.profilePicture) {
-          setProfilePic(user.attributes.profilePicture._url);
-        } else {
-          setProfilePic(defaultImage);
+         console.log(profilePicDetails+"w")
+        if (profilePicDetails != "") {
+          setProfilePic(profilePicDetails._url);
+          console.log(profilePicDetails);
+        }  else{
+          loadUserProfilePicture();
         }
         if (!jwtRecieved) {
+           
           const { data } = await axios.post(
             "http://localhost:8000/authenticate",
             {
@@ -43,16 +50,37 @@ function InstructorNavbar() {
           );
           if (data) {
             useStore.setState({ jwtRecieved: true });
+            
           }
         }
       }
     }
     verify();
-  }, [isAuthenticated]);
+  }, [isAuthenticated,isLoading]);
+
+  const loadUserProfilePicture = async () => {
+    const Instructors = Moralis.Object.extend("instructorSubmissions");
+    const query = new Moralis.Query(Instructors);
+    query.equalTo("user", user);
+    const result = await query.find();
+    if (result[0] && result[0].attributes.profilePicture!=undefined) {
+      console.log("reached")
+      setProfilePic(result[0].attributes.profilePicture._url);
+      useStore.setState({
+        profilePicDetails: result[0].attributes.profilePicture,
+      });
+      setIsLoading(false);
+    } else {
+      setProfilePic(defaultImage);
+    }
+  };
 
   const logOutUser = () => {
     useStore.setState({ jwtRecieved: false });
-	setProfilePic("")
+    useStore.setState({
+      profilePicDetails: "",
+    });
+    setProfilePic("");
     logout();
   };
 
@@ -187,12 +215,12 @@ function InstructorNavbar() {
                   >
                     <div
                       className={
-                        router.pathname == "/user/staking"
+                        router.pathname == "/instructor/revenue"
                           ? " text-emerald-300  font-extrabold : scale-110"
                           : ""
                       }
                     >
-                      <Link href="/user/staking">Revenue</Link>
+                      <Link href="/instructor/revenue">Revenue</Link>
                     </div>
                   </button>
 
@@ -257,7 +285,7 @@ function InstructorNavbar() {
                     onClick={!isAuthenticated ? authenticate : logOutUser}
                     offset={50}
                     duration={500}
-                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
+                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
                   >
                     {isAuthenticated
                       ? user.attributes.ethAddress
@@ -329,7 +357,7 @@ function InstructorNavbar() {
                 <button
                   href="/services"
                   activeClass="services"
-				  onClick={() => Router.push("/instructor/dashboard")}
+                  onClick={() => Router.push("/instructor/dashboard")}
                   to="services"
                   smooth={true}
                   offset={50}

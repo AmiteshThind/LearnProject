@@ -12,31 +12,36 @@ import defaultImage from "../../public/images/defaultImage.png"
 
 function UserNavbar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
+  let profilePicDetails = useStore((state)=> state.profilePicDetails)
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
   const [profilePic, setProfilePic] = useState("");
+  const [isLoading,setIsLoading]= useState(true);
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
       console.log(accounts);
       //window.location.reload(false);
-      setProfilePic("");
-      logout();
+       
+      logOutUser();
 
       // your code to run when "accountsChanged" happens
     });
     async function verify() {
       //console.log(jwtRecieved);
       if (isAuthenticated) {
-        if (user.attributes.profilePicture) {
-          setProfilePic(user.attributes.profilePicture._url);
-        }
-        else{
-          setProfilePic(defaultImage)
-        }
+        console.log(profilePicDetails+"W")
+         if(profilePicDetails!=""){
+          setProfilePic(profilePicDetails._url)
+          console.log(profilePicDetails)
+         } else{
+          loadUserProfilePicture();
+         }
         
         if (!jwtRecieved) {
+          console.log("WO")
+           
           const { data } = await axios.post(
             "http://localhost:8000/authenticate",
             {
@@ -46,6 +51,7 @@ function UserNavbar() {
           );
           if (data) {
             useStore.setState({ jwtRecieved: true });
+             
           }
         }
       }
@@ -53,8 +59,27 @@ function UserNavbar() {
     verify();
   }, [isAuthenticated]);
 
+  const loadUserProfilePicture = async()=>{
+    const Leaderboard = Moralis.Object.extend("Leaderboard");
+      const query = new Moralis.Query(Leaderboard);
+      query.equalTo("user", user);
+      const result = await query.find();
+      if(result[0] && result[0].attributes.profilePicture!=undefined){
+       
+        setProfilePic(result[0].attributes.profilePicture._url)
+        useStore.setState({ profilePicDetails: result[0].attributes.profilePicture });
+         
+ 
+      }else{
+        setProfilePic(defaultImage);
+      }
+  }
+
   const logOutUser = () => {
     useStore.setState({ jwtRecieved: false });
+    useStore.setState({
+      profilePicDetails: "",
+    });
     setProfilePic("");
     logout();
   };
@@ -240,15 +265,18 @@ function UserNavbar() {
                 </div>
               </div>
               <div className="flex">
-                {profilePic && (
+              {profilePic && (
                 <div class="avatar mr-3 border-2 border-emerald-500 rounded-full">
                   <div  class=" cursor-pointer w-16 h-16 rounded-full">
+                   
                   <Link href="/user/profile">
                   <Image src={profilePic} height={100} width={100} /> 
                   </Link>
+                  
                   </div>
                 </div>
-                )}
+                  )}
+                
                 <div className="">
                   <button
                     activeClass="contact"
@@ -257,7 +285,7 @@ function UserNavbar() {
                     onClick={!isAuthenticated ? authenticate : logOutUser}
                     offset={50}
                     duration={500}
-                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
+                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
                   >
                     {isAuthenticated
                       ? user.attributes.ethAddress
