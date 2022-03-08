@@ -9,17 +9,15 @@ import useStore from "../../store/store";
 import Link from "next/link";
 import defaultImage from "../../public/images/defaultImage.png";
 import Image from "next/image";
-import { isLocalURL } from "next/dist/shared/lib/router/router";
 
-function InstructorNavbar() {
+function AdminNavBar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
   const [profilePic, setProfilePic] = useState("");
-  let profilePicDetails = useStore((state)=> state.profilePicDetails)
-  const [isLoading,setIsLoading] = useState(true);
-
+  let profilePicDetails = useStore((state) => state.profilePicDetails);
+  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
@@ -32,15 +30,14 @@ function InstructorNavbar() {
     async function verify() {
       //console.log(jwtRecieved);
       if (isAuthenticated) {
-         console.log(profilePicDetails+"w")
+        console.log(profilePicDetails + "w");
         if (profilePicDetails != "") {
           setProfilePic(profilePicDetails._url);
           console.log(profilePicDetails);
-        }  else{
+        } else {
           loadUserProfilePicture();
         }
         if (!jwtRecieved) {
-           
           const { data } = await axios.post(
             "http://localhost:8000/authenticate",
             {
@@ -50,22 +47,20 @@ function InstructorNavbar() {
           );
           if (data) {
             useStore.setState({ jwtRecieved: true });
-            
           }
         }
       }
     }
     verify();
-  }, [isAuthenticated,isLoading]);
+  }, [isAuthenticated, isLoading]);
 
   const loadUserProfilePicture = async () => {
     const Instructors = Moralis.Object.extend("instructorSubmissions");
     const query = new Moralis.Query(Instructors);
     query.equalTo("user", user);
-    query.equalTo("approvalStatus","approved")
     const result = await query.find();
-    if (result[0] && result[0].attributes.profilePicture!=undefined) {
-      console.log("reached")
+    if (result[0] && result[0].attributes.profilePicture != undefined) {
+      console.log("reached");
       setProfilePic(result[0].attributes.profilePicture._url);
       useStore.setState({
         profilePicDetails: result[0].attributes.profilePicture,
@@ -258,13 +253,71 @@ function InstructorNavbar() {
                       className={
                         router.pathname == "/instructor/course/create"
                           ? " text-emerald-300  font-extrabold : scale-110"
-                          : ""
+                          : "text-white"
                       }
                     >
                       <Link href="/instructor/course/create">
                         Create Course
                       </Link>
                     </div>
+                  </button>
+
+                  <button class="dropdown">
+                    <label
+                      tabindex="0"
+                      class=" font-medium text-lg cursor-pointer text-white mr-2  "
+                    >
+                      Admin
+                    </label>
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content  p-2 text-white bg-zinc-800     rounded-box w-52"
+                    >
+                      <li>
+                        <button
+                          activeClass="work"
+                          to="work"
+                          smooth={true}
+                          offset={50}
+                          duration={500}
+                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                        >
+                          <div
+                            className={
+                              router.pathname == "/admin/instructorsubmissions"
+                                ? " text-emerald-300  font-extrabold : scale-110"
+                                : "text-white"
+                            }
+                          >
+                            <Link href="/admin/instructorsubmissions">
+                              Instructor Submissions
+                            </Link>
+                          </div>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          activeClass="work"
+                          to="work"
+                          smooth={true}
+                          offset={50}
+                          duration={500}
+                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg font-medium"
+                        >
+                          <div
+                            className={
+                              router.pathname == "/admin/coursesubmissions"
+                                ? " text-emerald-300  font-extrabold : scale-110"
+                                : "text-white"
+                            }
+                          >
+                            <Link href="/admin/coursesubmissions">
+                              Course Submissions
+                            </Link>
+                          </div>
+                        </button>
+                      </li>
+                    </ul>
                   </button>
                 </div>
               </div>
@@ -387,4 +440,4 @@ function InstructorNavbar() {
   );
 }
 
-export default InstructorNavbar;
+export default AdminNavBar;

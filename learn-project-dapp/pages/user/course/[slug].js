@@ -16,6 +16,9 @@ import QuizAccordion from "../../../components/QuizAccordion";
 import Accordion from "../../../components/Accordion";
 import { PlayIcon, LockClosedIcon, LockOpenIcon } from "@heroicons/react/solid";
 import UserQuiz from "../../../components/UserQuiz";
+import AdminNavBar from "../../../components/admin/AdminNavBar";
+import toast, { Toaster } from "react-hot-toast";
+import { allowedStatusCodes } from "next/dist/lib/load-custom-routes";
 
 function CourseMainpage() {
   const { user, isAuthenticated } = useMoralis();
@@ -37,8 +40,6 @@ function CourseMainpage() {
 
   useEffect(() => {
     //check if user accessing this course is enrolled in this course
-
-    
 
     console.log("wow");
     loadCourseLessonsQuizData();
@@ -68,6 +69,8 @@ function CourseMainpage() {
     if (result[0]) {
       console.log(result);
       setCourse(result);
+      console.log(user.attributes.role);
+      setUnlockedQuizzes(result[0].attributes.sections);
     }
     //check completed courses
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
@@ -76,15 +79,30 @@ function CourseMainpage() {
     query3.equalTo("course", result[0]);
     const result3 = await query3.find();
     if (result3[0]) {
-      //user is enrolled
+      //user is
+      if (
+        !result3[0].attributes.published &&
+        user &&
+        user.attributes.role != "admin"
+      ) {
+        router.push("/marketplace");
+      }
       setUserIsEnrolled(true);
       setCompletedLessons(result3[0].attributes.completedLessons);
       console.log(result3[0].attributes.completedLessons);
-      setUnlockedQuizzes(result3[0].attributes.unlockedQuizzes);
+
+      if (user.attributes.role != "admin") {
+        setUnlockedQuizzes(result3.attributes.unlockedQuizzes);
+      }
+
       setRewardsEarned(result3[0].attributes.rewardsEarned);
       setRewardsClaimed(result3[0].attributes.rewardsClaimed);
     } else {
       setUserIsEnrolled(false);
+    }
+
+    if (user && user.attributes.role == "admin") {
+      setUserIsEnrolled(true);
     }
 
     const Lesson = Moralis.Object.extend("Lesson");
@@ -140,25 +158,29 @@ function CourseMainpage() {
   const lessonCompleted = async (lessonCompletedId, section) => {
     console.log(section);
 
-    if (!completedLessons.includes(lessonCompletedId)) {
-      setCompletedLessons((oldArray) => [...oldArray, lessonCompletedId]);
+    if (user.attributes.role != "admin") {
+      if (!completedLessons.includes(lessonCompletedId)) {
+        setCompletedLessons((oldArray) => [...oldArray, lessonCompletedId]);
 
-      //need to update Moralis as well
+        //need to update Moralis as well
 
-      const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
-      const query = new Moralis.Query(EnrolledUserCourses);
-      query.equalTo("user", user);
-      query.equalTo("course", course[0]);
-      const objectToUpdate = await query.first();
-      console.log(objectToUpdate);
-      let arr = completedLessons;
-      arr.push(lessonCompletedId);
-      objectToUpdate.set("completedLessons", arr);
-      await objectToUpdate.save();
+        const EnrolledUserCourses = Moralis.Object.extend(
+          "EnrolledUsersCourses"
+        );
+        const query = new Moralis.Query(EnrolledUserCourses);
+        query.equalTo("user", user);
+        query.equalTo("course", course[0]);
+        const objectToUpdate = await query.first();
+        console.log(objectToUpdate);
+        let arr = completedLessons;
+        arr.push(lessonCompletedId);
+        objectToUpdate.set("completedLessons", arr);
+        await objectToUpdate.save();
 
-      //need to check if all the lessons have been watched for the section. If they have then quiz should be unlocked.
+        //need to check if all the lessons have been watched for the section. If they have then quiz should be unlocked.
 
-      unlockQuiz(section);
+        unlockQuiz(section);
+      }
     }
   };
 
@@ -193,14 +215,18 @@ function CourseMainpage() {
   };
 
   const claimLearn = async () => {
-    const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
-    const query = new Moralis.Query(EnrolledUserCourses);
-    query.equalTo("user", user);
-    query.equalTo("course", course[0]);
-    const objectToUpdate = await query.first();
-    objectToUpdate.set("rewardsClaimed", rewardsEarned);
-    setRewardsClaimed(rewardsEarned);
-    await objectToUpdate.save();
+    if (user.attributes.role != "admin") {
+      const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+      const query = new Moralis.Query(EnrolledUserCourses);
+      query.equalTo("user", user);
+      query.equalTo("course", course[0]);
+      const objectToUpdate = await query.first();
+      objectToUpdate.set("rewardsClaimed", rewardsEarned);
+      setRewardsClaimed(rewardsEarned);
+      await objectToUpdate.save();
+    } else if (user.attributes.role == "admin") {
+      toast.error("Must Be valid user");
+    }
   };
 
   const openQuiz = (section) => {
@@ -215,6 +241,8 @@ function CourseMainpage() {
       <div>
         {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
+        ) : isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar />
         ) : (
           <UserNavbar />
         )}
@@ -418,6 +446,7 @@ function CourseMainpage() {
                 </ul>
               ))}
             </div>
+            <Toaster />
           </div>
         </div>
       )}

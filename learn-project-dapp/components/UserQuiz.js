@@ -110,7 +110,7 @@ function UserQuiz({
     leaderboardQuery.equalTo("address", user.attributes.ethAddress);
     const leaderboardObject = await leaderboardQuery.first();
 
-    const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+    
     const queryEnrolledUserCourses = new Moralis.Query(EnrolledUserCourses);
     queryEnrolledUserCourses.equalTo("user", user);
     const enrolledUserCourses = await queryEnrolledUserCourses.find();

@@ -109,16 +109,20 @@ export default function CourseList({ courses }) {
                       {course.attributes.studentsEnrolled}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {course.attributes.published && (
-                        <span className="px-4 inline-flex text-md leading-5 font-semibold rounded-full shadow-md shadow-green-500/50 bg-emerald-500 text-white py-2 ">
+                      {course.attributes.state == "published" ? (
+                        <span className="px-4 inline-flex text-md leading-5 font-semibold rounded-full shadow-md   bg-emerald-500 text-white py-2 ">
                           Published
                         </span>
-                      )}
-                      {!course.attributes.published && (
-                        <span className="px-4 inline-flex text-md leading-5 font-semibold rounded-full shadow-md shadow-yellow-500/50 bg-amber-100 text-green-800 py-2">
+                      )
+                      : course.attributes.state == "draft" ? (
+                        <span className="px-4 inline-flex text-md leading-5 font-semibold rounded-full shadow-md   bg-teal-500 text-white py-2">
                           Draft
                         </span>
-                      )}
+                      ):
+                      <span className="px-4 inline-flex text-md leading-5 font-semibold rounded-full shadow-md  bg-yellow-500 text-white py-2">
+                          Pending Approval
+                        </span>
+                      }
                     </td>
                   </tr>
                 ))}

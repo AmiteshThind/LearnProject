@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import { FilterIcon, SearchIcon } from "@heroicons/react/outline";
 import Moralis from 'moralis'
+import AdminNavBar from "../components/admin/AdminNavBar";
 
 
 function marketplace() {
@@ -26,7 +27,7 @@ function marketplace() {
   const loadCourses = async () => {
     const Course = Moralis.Object.extend("Course");
     const query = new Moralis.Query(Course);
-    query.equalTo("published",true);
+    query.equalTo("state","published");
     const result = await query.find();
     setCourses(result);
     console.log(result)
@@ -37,9 +38,10 @@ function marketplace() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
       <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
+      {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
-        ) : (
+        ) : isAuthenticated && user.attributes.role =="admin" ? <AdminNavBar/> :
+         (
           <UserNavbar />
         )}
         {/* <Banner title={"Marketplace"}/> */}

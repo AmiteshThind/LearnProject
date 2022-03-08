@@ -84,6 +84,7 @@ function CourseCreate() {
         newCourse.set('slug',slugify(values.name.toLowerCase()));
         newCourse.set('sections',values.sections);
         newCourse.set('instructorName',user.attributes.username)
+        newCourse.set('state',"draft");
 
         uploadFile(newCourse);
 

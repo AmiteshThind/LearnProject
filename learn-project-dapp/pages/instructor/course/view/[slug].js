@@ -23,7 +23,11 @@ import toast, { Toaster } from "react-hot-toast";
 import Router from "next/router";
 import axios from "axios";
 import Accordion from "../../../../components/Accordion";
-import { DocumentTextIcon, PlusCircleIcon } from "@heroicons/react/outline";
+import {
+  DocumentTextIcon,
+  ExclamationIcon,
+  PlusCircleIcon,
+} from "@heroicons/react/outline";
 import QuizModal from "../../../../components/QuizModal";
 import QuizAccordion from "../../../../components/QuizAccordion";
 import { route } from "next/dist/server/router";
@@ -51,8 +55,6 @@ function CourseView() {
   //for lessons
 
   const [isValidInstructor, setIsValidInstructor] = useState(false);
-
-  
 
   const [values, setValues] = useState({
     title: "",
@@ -94,13 +96,19 @@ function CourseView() {
     query.equalTo("slug", slug);
 
     const result = await query.find();
-    console.log(user.id);
+    //console.log(user.id);
 
     //check to see if instructor is the one who should access the course
     let isValidInstructor;
+
     if (result[0] != undefined) {
-      if (result[0].attributes.instructor.id != user.id) {
+      if (
+        result[0].attributes.instructor.id != user.id &&
+        (user.attributes.role != "admin" ||
+          user.attributes.role != "instructor")
+      ) {
         router.push("/marketplace");
+
         isValidInstructor = false;
       } else {
         isValidInstructor = true;
@@ -271,14 +279,14 @@ function CourseView() {
       });
       setVisible(false);
       setUploadBtnText("Upload Video");
-        setValues({
-          ...values,
-          title: "",
-          content: "",
-          section: "",
-          video: {},
-          free_preview: false
-        });
+      setValues({
+        ...values,
+        title: "",
+        content: "",
+        section: "",
+        video: {},
+        free_preview: false,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -524,9 +532,10 @@ function CourseView() {
       } else {
         //code here for updating the database with the published status for this course
         course[0].set("published", true);
+        course[0].set("state","pendingApproval")
         await course[0].save();
         setShowPublishModal(false);
-        toast.success("Published Course", { duration: 2000 });
+        toast.success("Course Submitted.Pending Approval", { duration: 2000 });
       }
     } catch (error) {
       console.log(error);
@@ -535,6 +544,7 @@ function CourseView() {
 
   const unPublishCourse = async () => {
     course[0].set("published", false);
+    course[0].set("state","draft")
     await course[0].save();
     setShowPublishModal(false);
     toast.success("UnPublished Course", { duration: 2000 });
@@ -558,7 +568,14 @@ function CourseView() {
           {course.length == 1 && (
             <div className="flex  flex-wrap justify-center">
               <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
+             {course[0].attributes.feedback && (
+              <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
+                    <span className="font-extrabold">Note:</span>
+                    {course[0].attributes.feedback}
+                </div>
+             )}
                 <div className="flex flex-wrap  w-full justify-between ">
+                   
                   <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
                     <h1>{course[0].attributes.name} </h1>
                   </div>
@@ -575,22 +592,26 @@ function CourseView() {
                     </div>
                     <div
                       data-tip={
-                        !course[0].attributes.published
+                        course[0].attributes.state == "draft"
                           ? "publish"
-                          : "unpublish"
+                          : course[0].attributes.state == "published"
+                          ? "unpublish"
+                          : "Pending Approval"
                       }
                       class="tooltip"
                     >
-                      {!course[0].attributes.published ? (
+                      {course[0].attributes.state == "draft" ? (
                         <CheckIcon
                           onClick={() => setShowPublishModal(true)}
                           className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
                         />
-                      ) : (
+                      ) : course[0].attributes.state == "published" ? (
                         <XCircleIcon
                           onClick={() => setShowPublishModal(true)}
                           className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
                         />
+                      ) : (
+                        <ExclamationIcon className="h-9 w-9 cursor-pointer  text-yellow-400  hover:text-yellow-500" />
                       )}
                     </div>
 
@@ -598,33 +619,42 @@ function CourseView() {
                       class={showPublishModal ? "modal modal-open" : "modal"}
                     >
                       <div class="modal-box">
-                        {!course[0].attributes.published ? (
+                        {course[0].attributes.state == "draft" ? (
                           <p>
                             Once published users will be able to enroll in this
                             course. Are you sure you want to publish this
                             course?
                           </p>
-                        ) : (
+                        ) : course[0].attributes.state == "published" ? (
                           <p>
                             By unpublishing this courses users will no longer be
                             able to enroll in this course. Are you sure you want
                             to unpublish this course?
                           </p>
+                        ) : (
+                          <p>
+                            Course is waiting for approval. Please check back in
+                            few hours.
+                          </p>
                         )}
                         <div class="modal-action">
                           <label
                             onClick={
-                              !course[0].attributes.published
+                              course[0].attributes.state == "draft"
                                 ? publishCourse
-                                : unPublishCourse
+                                : course[0].attributes.state == "published"
+                                ? unPublishCourse
+                                : ()=>toast("Waiting for approval")
                             }
                             for="my-modal-2"
                             class="btn border-0 bg-emerald-500 hover:bg-emerald-600"
                           >
-                            {!course[0].attributes.published ? (
+                            {course[0].attributes.state == "draft" ? (
                               <>Publish</>
-                            ) : (
+                            ) : course[0].attributes.state == "published" ? (
                               <>UnPublish</>
+                            ) : (
+                              "Waiting For Approval"
                             )}
                           </label>
                           <label
@@ -658,7 +688,9 @@ function CourseView() {
                   />
                 </div>
                 <div className="mt-3 w-full relative flex flex-col flex-wrap">
-                  <div className="mb-3  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">Description</div>
+                  <div className="mb-3  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
+                    Description
+                  </div>
                   <div className="prose flex    ">
                     <ReactMarkdown
                       className="w-12/12 flex-grow text-white "
@@ -943,4 +975,4 @@ function CourseView() {
   );
 }
 
-export default CourseView;
+export default CourseView; 

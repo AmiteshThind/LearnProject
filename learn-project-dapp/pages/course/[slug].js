@@ -20,6 +20,7 @@ import {
 } from "@heroicons/react/solid";
 import QuizAccordion from "../../components/QuizAccordion";
 import toast, { Toaster } from "react-hot-toast";
+import AdminNavBar from "../../components/admin/AdminNavBar";
 
 function SingleCourse() {
   const [course, setCourse] = useState([]);
@@ -113,7 +114,7 @@ function SingleCourse() {
     query.equalTo("user", user);
     const result = await query.find();
     console.log(result + "w");
-    if (result.length != 0 && isAuthenticated) {
+    if (result[0]!=undefined && isAuthenticated) {
       console.log("r");
       setIsUserEnrolled(true);
     } else {
@@ -216,7 +217,8 @@ function SingleCourse() {
       <div>
         {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
-        ) : (
+        ) : isAuthenticated && user.attributes.role =="admin" ? <AdminNavBar/> :
+         (
           <UserNavbar />
         )}
       </div>

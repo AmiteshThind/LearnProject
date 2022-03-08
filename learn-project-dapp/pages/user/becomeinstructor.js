@@ -12,6 +12,8 @@ function becomeinstructor() {
     const [email,setEmail] = useState('');
     const [website,setWebsite] = useState('');
     const [linkedin,setLinkedin] = useState('');
+    const [telegramId,setTelegramId] = useState('');
+    const [twitter,setTwitter] = useState('');
     const [q1,setQ1] = useState('');
     const [q2,setQ2] = useState('');
 
@@ -32,6 +34,8 @@ function becomeinstructor() {
         formSubmission.set('question1',q1);
         formSubmission.set('question2',q2);
         formSubmission.set('user',user)
+        formSubmission.set('instructorAddress',user.attributes.ethAddress)
+        formSubmission.set('approvalStatus','pending')
         user.set("description",q1);
         await formSubmission.save();
         } else{
@@ -59,35 +63,48 @@ function becomeinstructor() {
                            <div className="flex justify-center mb-10 text-4xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">Instructor Application</div>
                             <div class="md:flex items-center  ">
                                 <div class="w-full md:w-1/2 flex flex-col">
-                                    <label class="font-semibold leading-none text-white">Name</label>
+                                    <label class="font-semibold leading-none text-white">Name*</label>
                                     <input onChange={(e) => setName(e.target.value)} required placeholder="eg. Satoshi Nakamoto" type="text" class="input input-ghost mt-2" />
                                 </div>
                                 <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                    <label class="font-semibold leading-none text-white">Email</label>
+                                    <label class="font-semibold leading-none text-white">Email*</label>
                                     <input onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" type="email" class="input input-ghost mt-2" />
                                 </div>
                             </div>
                             <div class="md:flex items-center mt-8">
                             <div placeholder="www.satoshi.com" class="w-full md:w-1/2 flex flex-col">
-                                    <label class="font-semibold leading-none text-white">Website</label>
-                                    <input onChange={(e) => setWebsite(e.target.value)}   placeholder="www.satoshi.com" type="text" class="input input-ghost mt-2" />
+                                    <label class="font-semibold leading-none text-white">Telegram Id</label>
+                                    <input onChange={(e) => setTelegramId(e.target.value)}   placeholder="www.satoshi.com" type="text" class="input input-ghost mt-2" />
                                 </div>
                                 <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                                     <label class="font-semibold leading-none text-white">LinkedIn</label>
                                     <input onChange={(e) => setLinkedin(e.target.value)}   placeholder="linkedin.com/in/satoshinakamoto" type="text" class="input input-ghost mt-2" />
                                 </div>
+                                
+
+                            </div>
+                            <div class="md:flex items-center mt-8">
+                            <div placeholder="www.satoshi.com" class="w-full md:w-1/2 flex flex-col">
+                                    <label class="font-semibold leading-none text-white">Twitter</label>
+                                    <input onChange={(e) => setTwitter(e.target.value)}   placeholder="www.satoshi.com" type="text" class="input input-ghost mt-2" />
+                                </div>
+                                <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
+                                    <label class="font-semibold leading-none text-white">Portfolio</label>
+                                    <input onChange={(e) => setWebsite(e.target.value)}   placeholder="eg. www.satoshi.com" type="text" class="input input-ghost mt-2" />
+                                </div>
+                                
 
                             </div>
                             <div>
                                 <div class="w-full flex flex-col mt-8">
-                                    <label class="font-semibold leading-none text-white">Expereince</label>
+                                    <label class="font-semibold leading-none text-white">Expereince*</label>
                                     <textarea onChange={(e) => setQ1(e.target.value)} required placeholder="Tell us about your background and previous experience in teaching and creating courses :)" type="text" class="h-40 input input-ghost mt-2"></textarea>
                                 </div>
                             </div>
                             <div>
                                 <div class="w-full flex flex-col mt-8">
-                                    <label class="font-semibold leading-none text-white">What do you hope to accomplish by using the LEARN Platform?</label>
-                                    <textarea onChange={(e) => setQ2(e.target.value)} required placeholder="We would love to hear from you how we can help support you and provide the best user expereince" type="text" class="h-40 input input-ghost mt-2"></textarea>
+                                    <label class="font-semibold leading-none text-white">What do you hope to accomplish by using the LEARN Platform?*</label>
+                                    <textarea onChange={(e) => setQ2(e.target.value)} required placeholder="We would love to hear from you how we can help support you and provide the best user expereince. If you have no expereince in the crypto or need some help navigating the space don't worry we got your back." type="text" class="h-40 input input-ghost mt-2"></textarea>
                                 </div>
                             </div>
                             <div class="flex items-center justify-center w-full">
