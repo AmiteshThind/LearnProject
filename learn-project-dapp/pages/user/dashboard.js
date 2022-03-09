@@ -46,7 +46,7 @@ function Dashboard() {
     
       </div>
 
-      {userEnrolledCourses.length != 0 && isAuthenticated && (
+    
         <div className="flex justify-center ">
           {/* {JSON.stringify(
             userEnrolledCourses[0].attributes.course.attributes,
@@ -57,6 +57,7 @@ function Dashboard() {
             <div className="text-4xl font-extrabold pt-8 pb-4 px-8 justify-center ">
               My Courses
             </div>
+            {userEnrolledCourses.length != 0 && isAuthenticated && (
             <div className="mx-5 flex flex-wrap  justify-center my-8 ">
               {userEnrolledCourses.map((course) => (
                 <div className="w-full mx-5 my-3  ">
@@ -93,10 +94,10 @@ function Dashboard() {
                 </div>
               ))}
             </div>
-            
+              )}
           </div>
         </div>
-      )}
+     
     </div>
   );
 }

@@ -38,7 +38,7 @@ function staking() {
           <div className="text-5xl text-center my-5 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">
             Stake LEARN to Earn Passive Income.
           </div>
-          <div className="text-lg w-4/5 md:w-4/5  text-center">
+          <div className="text-lg w-4/5 md:w-3/5  text-center">
             The LEARN IFO (Initial Farm Offering) uses an allocated 5% of the
             total max supply of LEARN. This supply will be distributed to LEARN
             stakers over the course of 12 weeks. After that the rewards for

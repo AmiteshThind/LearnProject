@@ -81,7 +81,7 @@ function CourseMainpage() {
     if (result3[0]) {
       //user is
       if (
-        !result3[0].attributes.published &&
+        result[0].attributes.state !="published" &&
         user &&
         user.attributes.role != "admin"
       ) {
@@ -92,7 +92,7 @@ function CourseMainpage() {
       console.log(result3[0].attributes.completedLessons);
 
       if (user.attributes.role != "admin") {
-        setUnlockedQuizzes(result3.attributes.unlockedQuizzes);
+        setUnlockedQuizzes(result3[0].attributes.unlockedQuizzes);
       }
 
       setRewardsEarned(result3[0].attributes.rewardsEarned);
