@@ -26,6 +26,7 @@ function Leaderboard() {
     const Leaderboard = Moralis.Object.extend("Leaderboard");
     const query = new Moralis.Query(Leaderboard); 
     query.equalTo("displayOnLeaderboard",true);
+    query.greaterThan("totalRewards",0)
     query.descending("totalRewards")
     const result = await query.find();
     console.log(result)

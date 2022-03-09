@@ -81,7 +81,7 @@ function CourseMainpage() {
     if (result3[0]) {
       //user is
       if (
-        result[0].attributes.state !="published" &&
+        result[0].attributes.state != "published" &&
         user &&
         user.attributes.role != "admin"
       ) {

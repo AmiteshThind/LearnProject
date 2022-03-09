@@ -7,7 +7,7 @@ import CourseCard from "../components/CourseCard";
 import { FilterIcon, SearchIcon } from "@heroicons/react/outline";
 import Moralis from 'moralis'
 import AdminNavBar from "../components/admin/AdminNavBar";
-
+ 
 
 function marketplace() {
   // apart from nav the list of courses avaible and screens will be same for isntructors

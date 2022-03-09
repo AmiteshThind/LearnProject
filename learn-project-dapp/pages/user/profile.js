@@ -72,7 +72,10 @@ function Profile() {
     const Leaderboard = Moralis.Object.extend("Leaderboard");
     const query = new Moralis.Query(Leaderboard);
     query.equalTo("user", user);
-    const result = await query.first();
+    let result = await query.first();
+    if(result == undefined){
+      result = new Leaderboard();
+    }
     result.set("username", username);
     result.set("profilePicture", imageFile);
     result.set("user", user);
