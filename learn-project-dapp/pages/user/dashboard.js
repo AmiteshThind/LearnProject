@@ -4,6 +4,7 @@ import { Moralis } from "moralis";
 import UserNavbar from "../../components/user/UserNavBar";
 import Router, { useRouter } from "next/router";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
+import AuthErrorMsg from "../../components/AuthErrorMsg";
 
 function Dashboard() {
   const [userEnrolledCourses, setUserEnrolledCourses] = useState([]);
@@ -45,7 +46,7 @@ function Dashboard() {
           <UserNavbar />
     
       </div>
-
+     
     
         <div className="flex justify-center ">
           {/* {JSON.stringify(
@@ -54,10 +55,10 @@ function Dashboard() {
             null
           )} */}
           <div className="w-3/4 bg-zinc-800 rounded-3xl  flex-col mt-10">
-            <div className="text-4xl font-extrabold pt-8 pb-4 px-8 justify-center ">
+            <div className="text-4xl font-extrabold pt-8 pb-4 px-8 mb-2 justify-center text-center ">
               My Courses
             </div>
-            {userEnrolledCourses.length != 0 && isAuthenticated && (
+            {userEnrolledCourses.length != 0 && isAuthenticated ? (
             <div className="mx-5 flex flex-wrap  justify-center my-8 ">
               {userEnrolledCourses.map((course) => (
                 <div className="w-full mx-5 my-3  ">
@@ -94,7 +95,11 @@ function Dashboard() {
                 </div>
               ))}
             </div>
-              )}
+              ):
+                 <div className="mb-10">
+                <AuthErrorMsg authErrorMsg="Connect Wallet to see your Courses"/>
+              </div>
+              }
           </div>
         </div>
      

@@ -71,20 +71,22 @@ function staking() {
                 <button
                   onClick={() => setStakeTabActive(true)}
                   className={`
-                  ${stakeTabActive
-                    ? `text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 e`
-                    : `text-gray-500 `} rounded-2xl w-2/5 mx-2 font-semibold leading-none py-4 px-4 mb-2    focus:outline-none `
-                }
+                  ${
+                    stakeTabActive
+                      ? `text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 e`
+                      : `text-gray-500 `
+                  } rounded-2xl w-2/5 mx-2 font-semibold leading-none py-4 px-4 mb-2    focus:outline-none `}
                 >
                   Stake
                 </button>
                 <button
                   onClick={() => setStakeTabActive(false)}
                   className={`
-                    ${!stakeTabActive
-                      ? `text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 e`
-                      : `text-gray-500 `} rounded-2xl w-2/5 mx-2 font-semibold leading-none py-4 px-4 mb-2    focus:outline-none `
-                  }
+                    ${
+                      !stakeTabActive
+                        ? `text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 e`
+                        : `text-gray-500 `
+                    } rounded-2xl w-2/5 mx-2 font-semibold leading-none py-4 px-4 mb-2    focus:outline-none `}
                 >
                   UnStake
                 </button>
@@ -100,20 +102,30 @@ function staking() {
                   {stakeTabActive ? (
                     <button
                       onClick={stake}
+                      disabled={!isAuthenticated}
                       className={
-                        "rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
+                        `rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${!isAuthenticated ? "brightness-75": "brightness-100"}`
                       }
                     >
-                      Stake
+                      {isAuthenticated ? (
+                        <div>Stake</div>
+                      ) : (
+                        <div>Connect Wallet</div>
+                      )}
                     </button>
                   ) : (
                     <button
                       onClick={unstake}
+                      disabled={!isAuthenticated}
                       className={
-                        "rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none"
+                        `rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${!isAuthenticated ? "brightness-75": "brightness-100"}`
                       }
                     >
-                      UnStake
+                      {isAuthenticated ? (
+                        <div>UnStake</div>
+                      ) : (
+                        <div>Connect Wallet</div>
+                      )}
                     </button>
                   )}
                 </div>
@@ -127,9 +139,9 @@ function staking() {
                   </div>
                   <div className="flex items-center ">
                     <div className="mr-5">23.3</div>
-                    <div className="btn w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl">
+                    <button disabled={!isAuthenticated} className={`btn w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${!isAuthenticated ? "brightness-75": "brightness-100"}`  }>
                       Claim
-                    </div>
+                    </button>
                   </div>
                 </div>
 

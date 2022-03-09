@@ -259,7 +259,7 @@ function UserNavbar() {
                           : ""
                       }
                     >
-                      <Link href="/user/leaderboard">Become Instructor</Link>
+                      <Link href="/user/becomeinstructor">Become Instructor</Link>
                     </div>
                   </button>
                 </div>

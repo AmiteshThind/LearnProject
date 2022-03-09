@@ -198,7 +198,8 @@ function SingleCourse() {
       await objectToUpdate.save();
 
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      toast.error(error.message);
       // must be conencted tot ry to enroll in course
     }
   };
