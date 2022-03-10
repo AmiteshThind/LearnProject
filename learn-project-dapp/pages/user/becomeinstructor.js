@@ -57,6 +57,7 @@ function becomeinstructor() {
       formSubmission.set("user", user);
       formSubmission.set("instructorAddress", user.attributes.ethAddress);
       formSubmission.set("approvalStatus", "pending");
+      formSubmission.set("profilePicture",user.attributes.profilePicture)
       user.set("description", q1);
       await formSubmission.save();
       setApplicationSubmitted(true);

@@ -23,11 +23,11 @@ function Dashboard() {
     }
   }, [isLoading, isAuthenticated, user]);
 
-  const loadUserEnrolledCourses = async () => {
+   const loadUserEnrolledCourses = async () => {
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
     const query = new Moralis.Query(EnrolledUserCourses);
-
-    query.equalTo("user", Moralis.User.current());
+//can store in useStore and then on leaving of route reset value so it loads new value on load and stores 
+    query.equalTo("user", user);
     const result = await query.find();
 
     if (result[0] != undefined) {
@@ -58,7 +58,7 @@ function Dashboard() {
             <div className="text-4xl font-extrabold pt-8 pb-4 px-8 mb-2 justify-center text-center ">
               My Courses
             </div>
-            {userEnrolledCourses.length != 0 && isAuthenticated ? (
+            {isAuthenticated ? (
             <div className="mx-5 flex flex-wrap  justify-center my-8 ">
               {userEnrolledCourses.map((course) => (
                 <div className="w-full mx-5 my-3  ">
@@ -71,6 +71,7 @@ function Dashboard() {
                         }
                         alt=""
                       />
+                      
                     </div>
                     <div className="text-xl font-semibold my-3 w-2/4 truncate  ">
                       {course.attributes.course.attributes.name}

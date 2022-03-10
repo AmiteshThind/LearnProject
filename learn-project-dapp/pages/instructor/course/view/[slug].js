@@ -102,6 +102,8 @@ function CourseView() {
     let isValidInstructor;
 
     if (result[0] != undefined) {
+      console.log(user.id);
+      console.log(result[0].attributes.instructor.id);
       if (
         result[0].attributes.instructor.id != user.id &&
         (user.attributes.role != "admin" ||
@@ -259,34 +261,39 @@ function CourseView() {
     try {
       //   console.log("CALLED");
       //   console.log(values);
-      const Lesson = Moralis.Object.extend("Lesson");
-      const query = new Moralis.Query(Lesson);
-      query.equalTo("course", course[0]);
-      query.equalTo("title", orginalLessonValues.title);
-      const lessonToUpdate = await query.first();
-      //   console.log(lessonToUpdate);
-      lessonToUpdate.set("title", values.title);
-      lessonToUpdate.set("content", values.content);
-      lessonToUpdate.set("video", values.video);
-      lessonToUpdate.set("section", values.section);
-      lessonToUpdate.set("free_preview", values.free_preview);
-      await lessonToUpdate.save();
-      toast.success("Lesson Updated", {
-        duration: 2000,
-        iconTheme: {
-          primary: "#10b981",
-        },
-      });
-      setVisible(false);
-      setUploadBtnText("Upload Video");
-      setValues({
-        ...values,
-        title: "",
-        content: "",
-        section: "",
-        video: {},
-        free_preview: false,
-      });
+      console.log(JSON.stringify(values.video));
+      if (values.video.Location == undefined) {
+        toast.error("video cannot be blank.Please upload a video.");
+      } else {
+        const Lesson = Moralis.Object.extend("Lesson");
+        const query = new Moralis.Query(Lesson);
+        query.equalTo("course", course[0]);
+        query.equalTo("title", orginalLessonValues.title);
+        const lessonToUpdate = await query.first();
+        //   console.log(lessonToUpdate);
+        lessonToUpdate.set("title", values.title);
+        lessonToUpdate.set("content", values.content);
+        lessonToUpdate.set("video", values.video);
+        lessonToUpdate.set("section", values.section);
+        lessonToUpdate.set("free_preview", values.free_preview);
+        await lessonToUpdate.save();
+        toast.success("Lesson Updated", {
+          duration: 2000,
+          iconTheme: {
+            primary: "#10b981",
+          },
+        });
+        setVisible(false);
+        setUploadBtnText("Upload Video");
+        setValues({
+          ...values,
+          title: "",
+          content: "",
+          section: "",
+          video: {},
+          free_preview: false,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -318,52 +325,76 @@ function CourseView() {
   };
 
   const handleDeleteLesson = async (lessonRemove) => {
-    setLessons(lessons.filter((lesson) => lesson.id != lessonRemove.id));
-    const Lesson = Moralis.Object.extend("Lesson");
-    const query = new Moralis.Query(Lesson);
+    //check if users are enrolled in course. if so cant delete only update
+    const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+    const query = new Moralis.Query(EnrolledUserCourses);
+    console.log(course[0]);
     query.equalTo("course", course[0]);
-    const lessonsList = await query.find();
+    const result = await query.find();
 
-    // add this lesson object to the lessons array under the course to which it belongs
-    if (lessonsList.length > 0) {
-      course[0].set("lessonCount", lessonsList.length - 1);
-      const courseUpdated = await course[0].save();
-      query.equalTo("objectId", lessonRemove.id);
-      const lessonToDelete = await query.first();
-      await lessonToDelete.destroy();
-      //   console.log(course[0]);
-      //   console.log(courseUpdated);
-      setCourse([courseUpdated]);
-      setShowCancelLessonModal(false);
-      toast.success("Lesson Deleted", {
-        duration: 2000,
-        iconTheme: {
-          primary: "#10b981",
-        },
-      });
+    if (result.length > 0) {
+      toast.error(
+        "Cannot delete. Users are enrolled in this course. You can only update."
+      );
+    } else {
+      setLessons(lessons.filter((lesson) => lesson.id != lessonRemove.id));
+      const Lesson = Moralis.Object.extend("Lesson");
+      const query = new Moralis.Query(Lesson);
+      query.equalTo("course", course[0]);
+      const lessonsList = await query.find();
+
+      // add this lesson object to the lessons array under the course to which it belongs
+      if (lessonsList.length > 0) {
+        course[0].set("lessonCount", lessonsList.length - 1);
+        const courseUpdated = await course[0].save();
+        query.equalTo("objectId", lessonRemove.id);
+        const lessonToDelete = await query.first();
+        await lessonToDelete.destroy();
+        //   console.log(course[0]);
+        //   console.log(courseUpdated);
+        setCourse([courseUpdated]);
+        setShowCancelLessonModal(false);
+        toast.success("Lesson Deleted", {
+          duration: 2000,
+          iconTheme: {
+            primary: "#10b981",
+          },
+        });
+      }
     }
   };
 
   const handleDeleteQuizQuestion = async (quizQuestionToRemove) => {
     try {
-      const QuizQuestion = Moralis.Object.extend("QuizQuestion");
-      const query = new Moralis.Query(QuizQuestion);
-      console.log(quizQuestionToRemove);
-      query.equalTo("objectId", quizQuestionToRemove.id);
-      const questionToDelete = await query.first();
-      await questionToDelete.destroy();
-      setQuizQuestions(
-        quizQuestions.filter(
-          (question) => question.id != quizQuestionToRemove.id
-        )
-      );
-      setShowDeleteQuizQuestionModal(false);
-      toast.success("Question Deleted", {
-        duration: 2000,
-        iconTheme: {
-          primary: "#10b981",
-        },
-      });
+      const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+      const query = new Moralis.Query(EnrolledUserCourses);
+      console.log(course[0]);
+      query.equalTo("course", course[0]);
+      const result = await query.find();
+      if (result.length > 0) {
+        toast.error(
+          "Cannot delete. Users are enrolled in this course. You can only update."
+        );
+      } else {
+        const QuizQuestion = Moralis.Object.extend("QuizQuestion");
+        const query = new Moralis.Query(QuizQuestion);
+        console.log(quizQuestionToRemove);
+        query.equalTo("objectId", quizQuestionToRemove.id);
+        const questionToDelete = await query.first();
+        await questionToDelete.destroy();
+        setQuizQuestions(
+          quizQuestions.filter(
+            (question) => question.id != quizQuestionToRemove.id
+          )
+        );
+        setShowDeleteQuizQuestionModal(false);
+        toast.success("Question Deleted", {
+          duration: 2000,
+          iconTheme: {
+            primary: "#10b981",
+          },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -532,7 +563,7 @@ function CourseView() {
       } else {
         //code here for updating the database with the published status for this course
         course[0].set("published", true);
-        course[0].set("state","pendingApproval")
+        course[0].set("state", "pendingApproval");
         await course[0].save();
         setShowPublishModal(false);
         toast.success("Course Submitted.Pending Approval", { duration: 2000 });
@@ -543,11 +574,26 @@ function CourseView() {
   };
 
   const unPublishCourse = async () => {
-    course[0].set("published", false);
-    course[0].set("state","draft")
-    await course[0].save();
-    setShowPublishModal(false);
-    toast.success("UnPublished Course", { duration: 2000 });
+    //need to check if any users are enrolled in this course. If users are enrolled then cannot unpublish as they wont be able to access, you can only update
+    const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
+    const query = new Moralis.Query(EnrolledUserCourses);
+    console.log(course[0]);
+    query.equalTo("course", course[0]);
+    const result = await query.find();
+    console.log(result);
+    console.log(result.length);
+    if (result.length > 0) {
+      toast.error(
+        "Can't Unpublish. Users are enrolled in this course. You can only update.",
+        { duration: 2000 }
+      );
+    } else {
+      course[0].set("published", false);
+      course[0].set("state", "draft");
+      await course[0].save();
+      setShowPublishModal(false);
+      toast.success("UnPublished Course", { duration: 2000 });
+    }
   };
 
   return (
@@ -568,14 +614,13 @@ function CourseView() {
           {course.length == 1 && (
             <div className="flex  flex-wrap justify-center">
               <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
-             {course[0].attributes.feedback && (
-              <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
+                {course[0].attributes.feedback && (
+                  <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
                     <span className="font-extrabold">Note:</span>
                     {course[0].attributes.feedback}
-                </div>
-             )}
+                  </div>
+                )}
                 <div className="flex flex-wrap  w-full justify-between ">
-                   
                   <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
                     <h1>{course[0].attributes.name} </h1>
                   </div>
@@ -644,7 +689,7 @@ function CourseView() {
                                 ? publishCourse
                                 : course[0].attributes.state == "published"
                                 ? unPublishCourse
-                                : ()=>toast("Waiting for approval")
+                                : () => toast("Waiting for approval")
                             }
                             for="my-modal-2"
                             class="btn border-0 bg-emerald-500 hover:bg-emerald-600"
@@ -975,4 +1020,4 @@ function CourseView() {
   );
 }
 
-export default CourseView; 
+export default CourseView;

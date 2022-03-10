@@ -77,7 +77,7 @@ function Revenue() {
         <InstructorNavbar />
       </div>
 
-      {courses.length != 0 && isAuthenticated && (
+      { isAuthenticated && (
         <div className="flex justify-center ">
           {/* {JSON.stringify(
             userEnrolledCourses[0].attributes.course.attributes,

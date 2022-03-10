@@ -168,6 +168,24 @@ function InstructorNavbar() {
                     </div>
                   </button>
                   <button
+                    activeClass="work"
+                    to="work"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                  >
+                    <div
+                      className={
+                        router.pathname == "/instructor/revenue"
+                          ? " text-emerald-300  font-extrabold : scale-110"
+                          : ""
+                      }
+                    >
+                      <Link href="/instructor/revenue">Dashboard</Link>
+                    </div>
+                  </button>
+                  <button
                     onClick={() => Router.push("/instructor/dashboard")}
                     activeClass="text-green"
                     to="about"
@@ -183,7 +201,7 @@ function InstructorNavbar() {
                           : ""
                       }
                     >
-                      <Link href="/instructor/dashboard">Dashboard</Link>
+                      <Link href="/instructor/dashboard">My Courses</Link>
                     </div>
                   </button>
 
@@ -206,44 +224,7 @@ function InstructorNavbar() {
                     </div>
                   </button>
 
-                  <button
-                    activeClass="work"
-                    to="work"
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
-                  >
-                    <div
-                      className={
-                        router.pathname == "/instructor/revenue"
-                          ? " text-emerald-300  font-extrabold : scale-110"
-                          : ""
-                      }
-                    >
-                      <Link href="/instructor/revenue">Revenue</Link>
-                    </div>
-                  </button>
 
-                  {/* <button
-                    activeClass="Services"
-                    to="work"
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-					 
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
-                  >
-                    <div
-                      className={
-                        router.pathname == "/instructor/profile"
-                          ? " text-emerald-300  font-extrabold : scale-110"
-                          : ""
-                      }
-                    >
-                      <Link href="/instructor/profile">Profile</Link>
-                    </div>
-                  </button> */}
 
                   <button
                     onClick={() => Router.push("/instructor/course/create")}
@@ -265,6 +246,42 @@ function InstructorNavbar() {
                         Create Course
                       </Link>
                     </div>
+                  </button>
+                  <button class="dropdown">
+                    <label
+                      tabindex="0"
+                      class=" font-medium text-lg cursor-pointer text-white mr-2  "
+                    >
+                      More
+                    </label>
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content  p-2 text-white bg-zinc-800     rounded-box w-52"
+                    >
+                      <li>
+
+                      <button
+                    activeClass="Services"
+                    to="work"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+					 
+                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                  >
+                    <div
+                      className={
+                        router.pathname == "/user/leaderboard"
+                          ? " text-emerald-300  font-extrabold : scale-110"
+                          : ""
+                      }
+                    >
+                      <Link href="/user/leaderboard">Leaderboard</Link>
+                    </div>
+                  </button> 
+                      </li>
+ 
+                    </ul>
                   </button>
                 </div>
               </div>

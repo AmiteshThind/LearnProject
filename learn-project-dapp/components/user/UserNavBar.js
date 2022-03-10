@@ -30,10 +30,10 @@ function UserNavbar() {
     });
     async function verify() {
       //console.log(jwtRecieved);
-      if (isAuthenticated) {
+      if (isAuthenticated && user) {
         console.log(profilePicDetails+"W")
          if(profilePicDetails!=""){
-          setProfilePic(profilePicDetails._url)
+          setProfilePic(profilePicDetails)
           console.log(profilePicDetails)
          } else{
           loadUserProfilePicture();
@@ -60,18 +60,20 @@ function UserNavbar() {
   }, [isAuthenticated]);
 
   const loadUserProfilePicture = async()=>{
-    const Leaderboard = Moralis.Object.extend("Leaderboard");
-      const query = new Moralis.Query(Leaderboard);
-      query.equalTo("user", user);
-      const result = await query.find();
-      if(result[0] && result[0].attributes.profilePicture!=undefined){
+    // const Leaderboard = Moralis.Object.extend("Leaderboard");
+    //   const query = new Moralis.Query(Leaderboard);
+    //   query.equalTo("user", user);
+      // const result = await query.find();
+      console.log(user)
+      if(user.attributes.profilePicture!=undefined){
        
-        setProfilePic(result[0].attributes.profilePicture._url)
-        useStore.setState({ profilePicDetails: result[0].attributes.profilePicture });
+        setProfilePic(user.attributes.profilePicture._url)
+        useStore.setState({ profilePicDetails: user.attributes.profilePicture._url });
          
  
       }else{
         setProfilePic(defaultImage);
+        useStore.setState({ profilePicDetails: defaultImage });
       }
   }
 

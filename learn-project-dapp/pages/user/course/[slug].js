@@ -70,7 +70,7 @@ function CourseMainpage() {
       console.log(result);
       setCourse(result);
       console.log(user.attributes.role);
-      setUnlockedQuizzes(result[0].attributes.sections);
+       
     }
     //check completed courses
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
@@ -133,6 +133,10 @@ function CourseMainpage() {
     }
 
     setAvailableQuizSections(arr);
+
+    if(user.attributes.role == 'admin'){
+      setUnlockedQuizzes(arr);
+    }
 
     setIsLoading(false);
   };
@@ -215,7 +219,7 @@ function CourseMainpage() {
   };
 
   const claimLearn = async () => {
-    if (user.attributes.role != "admin") {
+    if (user.attributes.role != "admin" && user.id!=course[0].attributes.instructor.id) {
       const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
       const query = new Moralis.Query(EnrolledUserCourses);
       query.equalTo("user", user);
@@ -224,7 +228,7 @@ function CourseMainpage() {
       objectToUpdate.set("rewardsClaimed", rewardsEarned);
       setRewardsClaimed(rewardsEarned);
       await objectToUpdate.save();
-    } else if (user.attributes.role == "admin") {
+    } else {
       toast.error("Must Be valid user");
     }
   };

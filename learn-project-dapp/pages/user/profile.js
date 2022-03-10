@@ -85,7 +85,7 @@ function Profile() {
     console.log(obj)
     //need to update profile pic ddetail
     if(obj.attributes.profilePicture){
-    useStore.setState({ profilePicDetails: obj.attributes.profilePicture });
+    useStore.setState({ profilePicDetails: obj.attributes.profilePicture._url });
     }
 
     toast.success("Saved Successfully");

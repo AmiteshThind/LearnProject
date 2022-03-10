@@ -7,6 +7,8 @@ import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import defaultImage from "../../public/images/defaultImage.png";
 import AuthErrorMsg from "../../components/AuthErrorMsg";
+import InstructorNavbar from "../../components/instructor/InstructorNavBar";
+import AdminNavBar from "../../components/admin/AdminNavBar";
 
 function Leaderboard() {
   //list of courses that the user is enrolled in
@@ -38,7 +40,12 @@ function Leaderboard() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
-        <UserNavbar />
+      {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : isAuthenticated && user.attributes.role =="admin" ? <AdminNavBar/> :
+         (
+          <UserNavbar />
+        )}
       </div>
 
       <div className="flex mx-4 sm:mx-0 justify-center ">

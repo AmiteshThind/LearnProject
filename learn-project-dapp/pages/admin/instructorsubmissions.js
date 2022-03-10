@@ -40,7 +40,7 @@ function instructorsubmissions() {
       (submission) => submission.attributes.id != instructor.attributes.id
     );
 
-    setInstructorSubmissions(updatedInstructorSubmissions);
+     
 
     //this logic will be replaced with ACL's
     const Users = Moralis.Object.extend("_User");
@@ -48,10 +48,19 @@ function instructorsubmissions() {
     queryUsers.equalTo("objectId", instructor.attributes.user.id);
     console.log(instructor.attributes.user.id);
     const userToUpdate = await queryUsers.first();
-
     userToUpdate.set("role", "instructor");
-
     await userToUpdate.save();
+
+    const Leaderboard = Moralis.Object.extend("Leaderboard");
+    const leaderboardQuery = new Moralis.Query(Leaderboard);
+    console.log(instructor.attributes.instructorAddress);
+    leaderboardQuery.equalTo("address", instructor.attributes.instructorAddress);
+    const instructorInLeaderboard = await leaderboardQuery.first();
+    instructorInLeaderboard.set("displayOnLeaderboard",false); 
+    await instructorInLeaderboard.save();
+    setInstructorSubmissions(updatedInstructorSubmissions);
+
+        
   };
 
   const rejectInstructor = async (instructor) => {
