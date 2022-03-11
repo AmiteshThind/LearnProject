@@ -10,7 +10,68 @@ export default function CourseList({ courses }) {
       <div className="">
         <div className="py-2  falign-middle table-auto  min-w-full sm:px-6 lg:px-8">
           <div className="shadow-2xl mb-10 m-12   overflow-auto   bg-zinc-800 rounded-xl">
-            <table className=" min-w-full divide-y-2 divide-gray-200        ">
+          <div className="mx-5 flex flex-wrap  justify-center my-8 text-white ">
+          <div className="text-5xl font-extrabold pt-4 pb-4  mb-4 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
+              My Courses
+            </div>
+              {courses.map((course) => (
+                 <Link
+                        href={`/instructor/course/view/${course.attributes.slug}`}
+                      >
+                <div className="w-full mx-5 my-3 border border-zinc-600 rounded-2xl p-3 cursor-pointer hover:border-emerald-500 ">
+                  <div className="flex flex-wrap  md:flex-none    text-center w-full items-center">
+                    <div className="flex-shrink-0 justify-center flex w-full lg:w-1/6">
+                      <img
+                        className="h-20 w-20 rounded-full"
+                        src={course.attributes.image_preview._url}
+                        alt=""
+                      />
+                    </div>
+                    <div className="text-xl font-semibold my-3  w-full lg:w-1/6  text-center flex-wrap  ">
+                      {course.attributes.name}
+                    </div>
+
+                    <div className="text-xl font-semibold justify-center flex  w-full lg:w-1/6  text-center flex-wrap ">
+                      <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                        {course.attributes.lessonCount} Lessons
+                      </span>
+                    </div>
+
+                    <div className="text-xl font-semibold justify-center flex w-full  lg:w-1/6  flex-wrap    text-center">
+                      <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                        {course.attributes.studentsEnrolled} Students
+                      </span>
+                    </div>
+                    
+                    <div className="text-xl font-semibold w-full flex justify-center flex-wrap   lg:w-1/6  ">
+                      <span className="text-transparent  bg-clip-text text-center bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                        {course.attributes.paid?
+                        course.attributes.price +"BUSD"
+                            : "Free" }
+                      </span>
+                    </div>
+                    <div className="px-6 py-4 whitespace-nowrap w-full flex-wrap  lg:w-1/6  ">
+                      {course.attributes.state == "published" ? (
+                        <span className="px-4 inline-flex flex-wrap  text-md leading-5 font-semibold rounded-full shadow-md   bg-emerald-500 text-white py-2 ">
+                          Published
+                        </span>
+                      )
+                      : course.attributes.state == "draft" ? (
+                        <span className="px-4 inline-flex flex-wrap  text-md leading-5 font-semibold rounded-full shadow-md   bg-teal-500 text-white py-2">
+                          Draft
+                        </span>
+                      ):
+                      <span className="px-4 inline-flex flex-wrap  text-md leading-5 font-semibold rounded-full shadow-md  bg-yellow-500 text-white py-2">
+                          Pending Approval
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+                </Link>
+              ))}
+            </div>
+            {/* <table className=" min-w-full divide-y-2 divide-gray-200        ">
               <thead className="   ">
                 <tr className="transition duration-300 ease-in-out">
                   <th
@@ -127,7 +188,7 @@ export default function CourseList({ courses }) {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
           </div>
         </div>
       </div>

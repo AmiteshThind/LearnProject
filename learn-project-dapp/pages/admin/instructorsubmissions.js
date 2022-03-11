@@ -200,7 +200,7 @@ function instructorsubmissions() {
                                   disabled
                                   value={instructor.attributes.website}
                                   type="text"
-                                  class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 mt-2"
+                                  class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2"
                                 />
                               </div>
                             </div>
