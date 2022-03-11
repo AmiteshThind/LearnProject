@@ -13,7 +13,7 @@ function CourseEdit() {
 
     //state
 
-    const {user} = useMoralis();
+    const {user,isAuthenticated} = useMoralis();
     const router = useRouter();
     const { slug } = router.query;
     const [isLoading,setIsLoading] = useState(true);
@@ -34,8 +34,11 @@ function CourseEdit() {
     const [imageFile,setImageFile] = useState();
     
     useEffect(()=>{
+        if(isAuthenticated && user){
+            router.push('/marketplace')
+        }
         loadCourse();
-    },[isLoading])
+    },[isLoading,isAuthenticated,user])
 
     const loadCourse = async()=>{
         const Course = Moralis.Object.extend("Course");

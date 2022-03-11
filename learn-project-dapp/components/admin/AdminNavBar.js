@@ -163,6 +163,26 @@ function AdminNavBar() {
                     </div>
                   </button>
                   <button
+                    onClick={() => Router.push("/instructor/revenue")}
+                    activeClass="text-green"
+                    to="about"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
+                  >
+                    <div
+                      className={
+                        router.pathname == "/instructor/revenue"
+                          ? "text-emerald-300  font-extrabold : scale-110"
+                          : ""
+                      }
+                    >
+                      <Link href="/instructor/revenue">Dashboard</Link>
+                    </div>
+                  </button>
+
+                  <button
                     onClick={() => Router.push("/instructor/dashboard")}
                     activeClass="text-green"
                     to="about"
@@ -178,7 +198,7 @@ function AdminNavBar() {
                           : ""
                       }
                     >
-                      <Link href="/instructor/dashboard">Dashboard</Link>
+                      <Link href="/instructor/dashboard">My Courses</Link>
                     </div>
                   </button>
 
@@ -201,24 +221,7 @@ function AdminNavBar() {
                     </div>
                   </button>
 
-                  <button
-                    activeClass="work"
-                    to="work"
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
-                  >
-                    <div
-                      className={
-                        router.pathname == "/instructor/revenue"
-                          ? " text-emerald-300  font-extrabold : scale-110"
-                          : ""
-                      }
-                    >
-                      <Link href="/instructor/revenue">Revenue</Link>
-                    </div>
-                  </button>
+
 
                   {/* <button
                     activeClass="Services"

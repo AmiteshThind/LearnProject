@@ -25,7 +25,7 @@ function Profile() {
   useEffect(() => {
     if (isAuthenticated && user) {
       console.log(user);
-      if(user.attributes.role == "instructor"){
+      if(user.attributes.role != "student"){
         router.push("/instructor/profile")
       }
       loadLeaderboardDetails();

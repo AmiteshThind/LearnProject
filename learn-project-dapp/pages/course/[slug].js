@@ -176,6 +176,7 @@ function SingleCourse() {
       // const result = await query.find();
       newEnrolledUserCourse.set("course", course[0]);
       newEnrolledUserCourse.set("user", user);
+      newEnrolledUserCourse.set("courseName",course[0].attributes.name);
 
       let quizScore = {};
       for (let section of course[0].attributes.sections) {

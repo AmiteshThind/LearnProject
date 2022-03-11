@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import UserNavbar from "../components/user/UserNavBar";
 import InstructorNavbar from "../components/instructor/InstructorNavBar";
+import AdminNavBar from "../components/admin/AdminNavBar";
 
 function staking() {
   const { user, isAuthenticated } = useMoralis();
@@ -27,11 +28,13 @@ function staking() {
     <div>
       <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
         <div>
-          {isAuthenticated && user.attributes.role == "instructor" ? (
-            <InstructorNavbar />
-          ) : (
-            <UserNavbar />
-          )}
+        {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar />
+        ) : (
+          <UserNavbar />
+        )}
         </div>
 
         <div className="flex flex-col mt-10 items-center">

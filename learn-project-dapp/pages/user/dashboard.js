@@ -17,16 +17,16 @@ function Dashboard() {
   useEffect(() => {
     if (isAuthenticated && user) {
       loadUserEnrolledCourses();
-      if(user.attributes.role == "instructor"){
+      if(user.attributes.role != "student" ){
         router.push("/instructor/dashboard")
-      }
+      } 
     }
   }, [isLoading, isAuthenticated, user]);
 
-   const loadUserEnrolledCourses = async () => {
+  const loadUserEnrolledCourses = async () => {
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
     const query = new Moralis.Query(EnrolledUserCourses);
-//can store in useStore and then on leaving of route reset value so it loads new value on load and stores 
+//can store in useStore and then on leaving of route reset value so it loads new value on load
     query.equalTo("user", user);
     const result = await query.find();
 
@@ -70,8 +70,8 @@ function Dashboard() {
                           course.attributes.course.attributes.image_preview._url
                         }
                         alt=""
-                      />
-                      
+                      />  
+                     
                     </div>
                     <div className="text-xl font-semibold my-3 w-2/4 truncate  ">
                       {course.attributes.course.attributes.name}

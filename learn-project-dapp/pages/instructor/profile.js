@@ -9,6 +9,7 @@ import Image from "next/image";
 import defaultImage from "../../public/images/defaultImage.png";
 import InstructorNavbar from "../../components/instructor/InstructorNavBar";
 import useStore from "../../store/store";
+import AdminNavBar from "../../components/admin/AdminNavBar";
 
 function Profile() {
   //list of courses that the user is enrolled in
@@ -78,7 +79,10 @@ function Profile() {
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
         
+      {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
+        ) : <AdminNavBar />
+        }
          
       </div>
 

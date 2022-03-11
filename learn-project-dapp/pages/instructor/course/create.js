@@ -7,6 +7,7 @@ import  { Moralis } from 'moralis'
 import { useMoralis } from "react-moralis"
 import slugify from 'slugify'
 import Router, { useRouter } from "next/router"
+import AdminNavBar from "../../../components/admin/AdminNavBar"
 
 function CourseCreate() {
 
@@ -31,8 +32,13 @@ function CourseCreate() {
     const [imageFile,setImageFile] = useState();
     
     useEffect(()=>{
+        if(isAuthenticated && user){
+            if(user.attributes.role == 'student'){
+                router.push('/marketplace')
+            }
+        }
 
-    },[isAuthenticated])
+    },[isAuthenticated,user])
 
     const handleChange = (e) => {
         console.log(e)
@@ -103,7 +109,10 @@ function CourseCreate() {
 
     return (
         <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
-            <InstructorNavbar />
+        {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : <AdminNavBar />
+        }
             {isAuthenticated &&
             <div className="flex justify-center">
                 <div class="w-3/4 justify-center    min-h-screen ">

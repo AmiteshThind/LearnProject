@@ -42,9 +42,11 @@ function CourseMainpage() {
     //check if user accessing this course is enrolled in this course
 
     console.log("wow");
+    if(isAuthenticated && user){
     loadCourseLessonsQuizData();
+    }
     //loadQuizQuestions();
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading,user]);
 
   // const checkIfUserIsEnrolled = async () => {
   //   const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
@@ -72,7 +74,7 @@ function CourseMainpage() {
       console.log(user.attributes.role);
        
     }
-    //check completed courses
+    //check if user is enrolled in course
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
     const query3 = new Moralis.Query(EnrolledUserCourses);
     query3.equalTo("user", user);
@@ -98,12 +100,15 @@ function CourseMainpage() {
       setRewardsEarned(result3[0].attributes.rewardsEarned);
       setRewardsClaimed(result3[0].attributes.rewardsClaimed);
     } else {
+      if (user && user.attributes.role == "admin") {
+        setUserIsEnrolled(true);
+      }else{
+        router.push('/marketplace')
       setUserIsEnrolled(false);
+      }
     }
 
-    if (user && user.attributes.role == "admin") {
-      setUserIsEnrolled(true);
-    }
+     
 
     const Lesson = Moralis.Object.extend("Lesson");
     const query2 = new Moralis.Query(Lesson);

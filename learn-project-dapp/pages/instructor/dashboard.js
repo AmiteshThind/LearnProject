@@ -5,15 +5,21 @@ import { useState } from "react";
 import { useMoralis } from "react-moralis";
 import { Moralis } from "moralis";
 import CourseList from "../../components/instructor/CourseList";
+import AdminNavBar from "../../components/admin/AdminNavBar";
+import Router, { useRouter } from "next/router";
 
 function dashboard() {
   //use zustand to store auth state and course data for isnturcotrs and users alieks
   const { user, isAuthenticated } = useMoralis();
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
+      if(user.attributes.role == 'student'){
+        router.push('/marketplace')
+    }
       loadCourses();
     }
   }, [isLoading, isAuthenticated]);
@@ -30,7 +36,10 @@ function dashboard() {
 
   return (
     <div className="bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
-      <InstructorNavbar />
+      {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : <AdminNavBar />
+        }
       {/* <Banner title={"Instructor Dashboard"} /> */}
       <div className="">
         {isAuthenticated && <CourseList courses={courses} />}

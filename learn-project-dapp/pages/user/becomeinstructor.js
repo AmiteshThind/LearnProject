@@ -4,9 +4,13 @@ import { Moralis } from "moralis";
 import { useEffect, useState } from "react";
 import Banner from "../../components/Banner";
 import AuthErrorMsg from "../../components/AuthErrorMsg";
+import { route } from "next/dist/server/router";
+import Router, { useRouter } from "next/router";
+
 
 function becomeinstructor() {
   const { user, isAuthenticated } = useMoralis();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
@@ -23,7 +27,10 @@ function becomeinstructor() {
   //     await user.save();
   // }
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
+        if(user.attributes.role != 'student'){
+            router.push('/marketplace')
+        }
       checkApplicationSubmitted();
     }
   }, [isAuthenticated]);

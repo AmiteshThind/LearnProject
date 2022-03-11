@@ -82,13 +82,16 @@ function CourseView() {
   useEffect(() => {
     //load course from moralis based on slug
     //console.log(course)
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
+      if(user.attributes.role == 'student'){
+        router.push('/marketplace')
+      }
       loadCourseandLessons();
       loadQuizQuestions();
     }
 
     //console.log(course)
-  }, [isLoading, isAuthenticated]);
+  }, [isLoading, isAuthenticated, user]);
 
   const loadCourseandLessons = async () => {
     const Course = Moralis.Object.extend("Course");

@@ -5,6 +5,7 @@ import UserNavbar from "../../components/user/UserNavBar";
 import Router, { useRouter } from "next/router";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/outline";
 import InstructorNavbar from "../../components/instructor/InstructorNavBar";
+import AdminNavBar from "../../components/admin/AdminNavBar";
 
 function Revenue() {
   const [courses, setCourses] = useState([]);
@@ -17,7 +18,10 @@ function Revenue() {
   const [totalClaimed, setTotalClaimed] = useState(0);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && user) {
+        if(user.attributes.role == 'student'){
+            router.push('/marketplace')
+        }
       loadCourses();
       loadRevenueClaimedData();
     }
@@ -74,7 +78,10 @@ function Revenue() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
-        <InstructorNavbar />
+      {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : <AdminNavBar />
+        }
       </div>
 
       { isAuthenticated && (

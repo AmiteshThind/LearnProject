@@ -62,7 +62,9 @@ function UserQuiz({
         setCurrentQuestion(nextQuestion);
       } else {
         setShowScore(true);
+        if(user.attributes.role!='admin'){
         completedQuiz(newScore);
+        }
       }
 
       setOptionSelected("");
