@@ -42,11 +42,11 @@ function CourseMainpage() {
     //check if user accessing this course is enrolled in this course
 
     console.log("wow");
-    if(isAuthenticated && user){
-    loadCourseLessonsQuizData();
+    if (isAuthenticated && user) {
+      loadCourseLessonsQuizData();
     }
     //loadQuizQuestions();
-  }, [isAuthenticated, isLoading,user]);
+  }, [isAuthenticated, isLoading, user]);
 
   // const checkIfUserIsEnrolled = async () => {
   //   const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
@@ -72,7 +72,6 @@ function CourseMainpage() {
       console.log(result);
       setCourse(result);
       console.log(user.attributes.role);
-       
     }
     //check if user is enrolled in course
     const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
@@ -87,7 +86,7 @@ function CourseMainpage() {
         user &&
         user.attributes.role != "admin"
       ) {
-        router.push("/marketplace");
+        router.push("/error/access");
       }
       setUserIsEnrolled(true);
       setCompletedLessons(result3[0].attributes.completedLessons);
@@ -102,13 +101,11 @@ function CourseMainpage() {
     } else {
       if (user && user.attributes.role == "admin") {
         setUserIsEnrolled(true);
-      }else{
-        router.push('/marketplace')
-      setUserIsEnrolled(false);
+      } else {
+        router.push("/error/access");
+        setUserIsEnrolled(false);
       }
     }
-
-     
 
     const Lesson = Moralis.Object.extend("Lesson");
     const query2 = new Moralis.Query(Lesson);
@@ -139,7 +136,7 @@ function CourseMainpage() {
 
     setAvailableQuizSections(arr);
 
-    if(user.attributes.role == 'admin'){
+    if (user.attributes.role == "admin") {
       setUnlockedQuizzes(arr);
     }
 
@@ -224,7 +221,10 @@ function CourseMainpage() {
   };
 
   const claimLearn = async () => {
-    if (user.attributes.role != "admin" && user.id!=course[0].attributes.instructor.id) {
+    if (
+      user.attributes.role != "admin" &&
+      user.id != course[0].attributes.instructor.id
+    ) {
       const EnrolledUserCourses = Moralis.Object.extend("EnrolledUsersCourses");
       const query = new Moralis.Query(EnrolledUserCourses);
       query.equalTo("user", user);
@@ -246,217 +246,229 @@ function CourseMainpage() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
-      <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
-          <InstructorNavbar />
-        ) : isAuthenticated && user.attributes.role == "admin" ? (
-          <AdminNavBar />
-        ) : (
-          <UserNavbar />
-        )}
-      </div>
-      {isAuthenticated && course[0] && lessons[0] && (
-        <div className="flex justify-evenly mt-10 flex-wrap  rounded-3xl ">
-          <div className="flex       w-full  sm:ml-5 sm:mr-2.5    mb-10 mt-5 h-full sm:w-full   shadow-teal-800 rounded-3xl lg:w-6/12 xl:w-7/12    items-start flex-col     flex-stretch  ">
-            <div className="flex  w-full flex-col">
-              <div className="w-full flex rounded-3xl   mb-5 justify-between">
-                <div class="shadow stats w-full">
-                  <div class="stat bg-zinc-800  ">
-                    <div class="stat-figure text-yellow-500">
-                      <CheckCircleIcon className="w-10 h-10" />
+    <div>
+      {!isLoading && (
+        <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+          <div>
+            {isAuthenticated && user.attributes.role == "instructor" ? (
+              <InstructorNavbar />
+            ) : isAuthenticated && user.attributes.role == "admin" ? (
+              <AdminNavBar />
+            ) : (
+              <UserNavbar />
+            )}
+          </div>
+          {isAuthenticated && course[0] && lessons[0] && (
+            <div className="flex justify-evenly mt-10 flex-wrap  rounded-3xl ">
+              <div className="flex       w-full  sm:ml-5 sm:mr-2.5    mb-10 mt-5 h-full sm:w-full   shadow-teal-800 rounded-3xl lg:w-6/12 xl:w-7/12    items-start flex-col     flex-stretch  ">
+                <div className="flex  w-full flex-col">
+                  <div className="w-full flex rounded-3xl   mb-5 justify-between">
+                    <div class="shadow stats w-full">
+                      <div class="stat bg-zinc-800  ">
+                        <div class="stat-figure text-yellow-500">
+                          <CheckCircleIcon className="w-10 h-10" />
+                        </div>
+                        <div class="stat-title text-white">Progress</div>
+                        <div class="stat-value text-white">
+                          {Math.round(
+                            (completedLessons.length / lessons.length) * 100
+                          )}
+                          %
+                        </div>
+                      </div>
+                      <div class="stat bg-zinc-800  ">
+                        <div class="stat-figure text-emerald-500">
+                          <LockOpenIcon className="w-10 h-10" />
+                        </div>
+                        <div class="stat-title text-white">
+                          Unlocked Quizzes
+                        </div>
+                        <div class="stat-value text-white">
+                          {unlockedQuizzes.length}/
+                          {availableQuizSections.length}
+                        </div>
+                      </div>
+
+                      <div class="stat bg-zinc-800 ">
+                        <div class="stat-figure text-emerald-500">
+                          <CurrencyDollarIcon className="w-10 h-10" />
+                        </div>
+                        <div class="stat-title text-white">$LEARN Rewarded</div>
+                        <div class="stat-value text-white ">
+                          {rewardsEarned}
+                        </div>
+                        <div class="stat-desc text-white">
+                          Pending Claim: {rewardsEarned - rewardsClaimed} LEARN
+                        </div>
+                      </div>
+
+                      <div class="stat bg-zinc-800  flex items-center p-3 justify-center">
+                        <div
+                          onClick={claimLearn}
+                          class=" w-3/4 h-3/4   btn bg-gradient-to-br   from-teal-500 to-emerald-500      border-none text-xl"
+                        >
+                          {" "}
+                          Claim LEARN
+                        </div>
+                      </div>
                     </div>
-                    <div class="stat-title text-white">Progress</div>
-                    <div class="stat-value text-white">
-                      {Math.round(
-                        (completedLessons.length / lessons.length) * 100
+                  </div>
+                  {!showQuiz ? (
+                    <div className="w-full  rounded-3xl">
+                      {lessons[0].attributes.video &&
+                      lessons[0].attributes.video.Location ? (
+                        <div className="flex flex-wrap justify-start        player-wrapper  ">
+                          <ReactPlayer
+                            id="reactPlayer"
+                            url={
+                              preview == "imagePreview"
+                                ? lessons[0].attributes.video.Location
+                                : preview.attributes.video.Location
+                            }
+                            width={"100%"}
+                            height={"100%"}
+                            controls
+                            onEnded={() =>
+                              lessonCompleted(
+                                preview.id,
+                                preview.attributes.section
+                              )
+                            }
+                            className="react-player rounded-3xl "
+                            light={
+                              preview == "imagePreview"
+                                ? course[0].attributes.image_preview._url
+                                : null
+                            }
+                            playIcon={
+                              <button
+                                type="button"
+                                class="text-white bg-emerald-500 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                              >
+                                <PlayIcon className="h-10 w-10 text-emerald-50" />
+                              </button>
+                            }
+                            config={{
+                              file: {
+                                attributes: {
+                                  controlsList: "nodownload",
+                                },
+                              },
+                            }}
+                            onContextMenu={(e) => e.preventDefault()}
+                          />
+                        </div>
+                      ) : (
+                        <div>
+                          <Image
+                            src={course[0].attributes.image_preview._url}
+                            className="rounded-lg"
+                            width="400rem"
+                            height="200rem"
+                          />
+                        </div>
                       )}
-                      %
-                    </div>
-                  </div>
-                  <div class="stat bg-zinc-800  ">
-                    <div class="stat-figure text-emerald-500">
-                      <LockOpenIcon className="w-10 h-10" />
-                    </div>
-                    <div class="stat-title text-white">Unlocked Quizzes</div>
-                    <div class="stat-value text-white">
-                      {unlockedQuizzes.length}/{availableQuizSections.length}
-                    </div>
-                  </div>
-
-                  <div class="stat bg-zinc-800 ">
-                    <div class="stat-figure text-emerald-500">
-                      <CurrencyDollarIcon className="w-10 h-10" />
-                    </div>
-                    <div class="stat-title text-white">$LEARN Rewarded</div>
-                    <div class="stat-value text-white ">{rewardsEarned}</div>
-                    <div class="stat-desc text-white">
-                      Pending Claim: {rewardsEarned - rewardsClaimed} LEARN
-                    </div>
-                  </div>
-
-                  <div class="stat bg-zinc-800  flex items-center p-3 justify-center">
-                    <div
-                      onClick={claimLearn}
-                      class=" w-3/4 h-3/4   btn bg-gradient-to-br   from-teal-500 to-emerald-500      border-none text-xl"
-                    >
-                      {" "}
-                      Claim LEARN
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {!showQuiz ? (
-                <div className="w-full  rounded-3xl">
-                  {lessons[0].attributes.video &&
-                  lessons[0].attributes.video.Location ? (
-                    <div className="flex flex-wrap justify-start        player-wrapper  ">
-                      <ReactPlayer
-                        id="reactPlayer"
-                        url={
-                          preview == "imagePreview"
-                            ? lessons[0].attributes.video.Location
-                            : preview.attributes.video.Location
-                        }
-                        width={"100%"}
-                        height={"100%"}
-                        controls
-                        onEnded={() =>
-                          lessonCompleted(
-                            preview.id,
-                            preview.attributes.section
-                          )
-                        }
-                        className="react-player rounded-3xl "
-                        light={
-                          preview == "imagePreview"
-                            ? course[0].attributes.image_preview._url
-                            : null
-                        }
-                        playIcon={
-                          <button
-                            type="button"
-                            class="text-white bg-emerald-500 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-                          >
-                            <PlayIcon className="h-10 w-10 text-emerald-50" />
-                          </button>
-                        }
-                        config={{
-                          file: {
-                            attributes: {
-                              controlsList: "nodownload",
-                            },
-                          },
-                        }}
-                        onContextMenu={(e) => e.preventDefault()}
-                      />
                     </div>
                   ) : (
-                    <div>
-                      <Image
-                        src={course[0].attributes.image_preview._url}
-                        className="rounded-lg"
-                        width="400rem"
-                        height="200rem"
+                    <div className="flex justify-center ">
+                      <UserQuiz
+                        availableQuizSections={availableQuizSections}
+                        claimLearn={claimLearn}
+                        setRewardsClaimed={setRewardsClaimed}
+                        rewardsEarned={rewardsEarned}
+                        setRewardsEarned={setRewardsEarned}
+                        user={user}
+                        course={course}
+                        section={currentQuizSection}
+                        quizQuestions={quizQuestions.filter(
+                          (question) =>
+                            question.attributes.section == currentQuizSection
+                        )}
                       />
                     </div>
                   )}
+                  <div className=""></div>
                 </div>
-              ) : (
-                <div className="flex justify-center ">
-                  <UserQuiz
-                    availableQuizSections={availableQuizSections}
-                    claimLearn={claimLearn}
-                    setRewardsClaimed={setRewardsClaimed}
-                    rewardsEarned={rewardsEarned}
-                    setRewardsEarned={setRewardsEarned}
-                    user={user}
-                    course={course}
-                    section={currentQuizSection}
-                    quizQuestions={quizQuestions.filter(
-                      (question) =>
-                        question.attributes.section == currentQuizSection
-                    )}
-                  />
+              </div>
+              <div className="flex h-full bg-zinc-800 rounded-3xl sm:mr-5 sm:ml-2.5    shadow-teal-800   border-none pt-5 pb-10 w-full sm:w-full lg:w-4/12 md:w-full  flex-col  mb-10 sm:mb-10   mt-5">
+                <div className="justify-center flex  w-full items-start font-extrabold text-3xl my-2">
+                  Course Content
                 </div>
-              )}
-              <div className=""></div>
-            </div>
-          </div>
-          <div className="flex h-full bg-zinc-800 rounded-3xl sm:mr-5 sm:ml-2.5    shadow-teal-800   border-none pt-5 pb-10 w-full sm:w-full lg:w-4/12 md:w-full  flex-col  mb-10 sm:mb-10   mt-5">
-            <div className="justify-center flex  w-full items-start font-extrabold text-3xl my-2">
-              Course Content
-            </div>
-            <div className="flex flex-col w-full overflow-auto h-[42rem] scroll-smooth scrollbar-thin  scrollbar-track-rounded-3xl scrollbar-thumb-white   scrollbar-track-zinc-800">
-              {course[0].attributes.sections.map((section, sectionIndex) => (
-                <ul className="">
-                  <li key={sectionIndex}>
-                    <Accordion
-                      title={section}
-                      key={sectionIndex}
-                      number={sectionIndex + 1}
-                    >
-                      <ul class=" rounded-xl  mx-10 text-white text-sm  font-medium">
-                        {lessons
-                          .filter(
-                            (lesson) => lesson.attributes.section == section
-                          )
-                          .map((lesson, lessonIndex) => (
-                            <li
-                              key={
-                                course[0].attributes.sections.length +
-                                lessonIndex
-                              }
-                              class="px-4 py-5  w-full justify-between flex cursor-pointer group "
-                              onClick={() => {
-                                setPreview(lesson);
-                                setShowQuiz(false);
-                              }}
-                            >
-                              <div className="flex">
-                                <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
-                                  {lessonIndex + 1}
-                                </span>
-                                <span className=" px-3 py-1">
-                                  {lesson.attributes.title}
-                                </span>
-                              </div>
+                <div className="flex flex-col w-full overflow-auto h-[42rem] scroll-smooth scrollbar-thin  scrollbar-track-rounded-3xl scrollbar-thumb-white   scrollbar-track-zinc-800">
+                  {course[0].attributes.sections.map(
+                    (section, sectionIndex) => (
+                      <ul className="">
+                        <li key={sectionIndex}>
+                          <Accordion
+                            title={section}
+                            key={sectionIndex}
+                            number={sectionIndex + 1}
+                          >
+                            <ul class=" rounded-xl  mx-10 text-white text-sm  font-medium">
+                              {lessons
+                                .filter(
+                                  (lesson) =>
+                                    lesson.attributes.section == section
+                                )
+                                .map((lesson, lessonIndex) => (
+                                  <li
+                                    key={
+                                      course[0].attributes.sections.length +
+                                      lessonIndex
+                                    }
+                                    class="px-4 py-5  w-full justify-between flex cursor-pointer group "
+                                    onClick={() => {
+                                      setPreview(lesson);
+                                      setShowQuiz(false);
+                                    }}
+                                  >
+                                    <div className="flex">
+                                      <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
+                                        {lessonIndex + 1}
+                                      </span>
+                                      <span className=" px-3 py-1">
+                                        {lesson.attributes.title}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      {completedLessons.includes(lesson.id) ? (
+                                        <CheckCircleIcon className="w-6 h-6 text-emerald-500 cursor-pointer " />
+                                      ) : (
+                                        <PlayIcon className="w-6 h-6 text-zinc-500 group-hover:text-teal-500 group-hover:scale-110 cursor-pointer " />
+                                      )}
+                                    </div>
+                                  </li>
+                                ))}
                               <div>
-                                {completedLessons.includes(lesson.id) ? (
-                                  <CheckCircleIcon className="w-6 h-6 text-emerald-500 cursor-pointer " />
-                                ) : (
-                                  <PlayIcon className="w-6 h-6 text-zinc-500 group-hover:text-teal-500 group-hover:scale-110 cursor-pointer " />
+                                {availableQuizSections.includes(section) && (
+                                  <div
+                                    onClick={() => {
+                                      openQuiz(section);
+                                    }}
+                                    className="flex cursor-pointer transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl"
+                                  >
+                                    <div className="ml-5 text-md">
+                                      <span>{section + " " + "Quiz"}</span>
+                                    </div>
+                                    {unlockedQuizzes.includes(section) ? (
+                                      <LockOpenIcon className="h-6 text-emerald-500 w-6 mr-5 hover:text-emerald-700 cursor-pointer" />
+                                    ) : (
+                                      <LockClosedIcon className="h-6 text-emerald-500 w-6 mr-5 hover:text-emerald-700 cursor-pointer" />
+                                    )}
+                                  </div>
                                 )}
                               </div>
-                            </li>
-                          ))}
-                        <div>
-                          {availableQuizSections.includes(section) && (
-                            <div
-                              onClick={() => {
-                                openQuiz(section);
-                              }}
-                              className="flex cursor-pointer transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl"
-                            >
-                              <div className="ml-5 text-md">
-                                <span>{section + " " + "Quiz"}</span>
-                              </div>
-                              {unlockedQuizzes.includes(section) ? (
-                                <LockOpenIcon className="h-6 text-emerald-500 w-6 mr-5 hover:text-emerald-700 cursor-pointer" />
-                              ) : (
-                                <LockClosedIcon className="h-6 text-emerald-500 w-6 mr-5 hover:text-emerald-700 cursor-pointer" />
-                              )}
-                            </div>
-                          )}
-                        </div>
+                            </ul>
+                          </Accordion>
+                        </li>
                       </ul>
-                    </Accordion>
-                  </li>
-                </ul>
-              ))}
+                    )
+                  )}
+                </div>
+                <Toaster />
+              </div>
             </div>
-            <Toaster />
-          </div>
+          )}
         </div>
       )}
     </div>

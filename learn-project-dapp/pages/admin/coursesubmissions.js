@@ -4,18 +4,25 @@ import AdminNavBar from "../../components/admin/AdminNavBar";
 import defaultImage from "../../public/images/defaultImage.png";
 import Moralis from "moralis";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function coursesubmissions() {
   const [coursesToApprove, setCoursesToApprove] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useMoralis();
   const [courseFeedback,setCourseFeedback] = useState("")
+  const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
+      
+    if (isAuthenticated && user) {
+        if(user.attributes.role !='admin'){
+            router.push('/error/access')
+        }else{
       loadCoursesToApprove();
     }
-  }, [isLoading, isAuthenticated]);
+}
+  }, [isLoading, isAuthenticated, user]);
 
   const loadCoursesToApprove = async () => {
     const Courses = Moralis.Object.extend("Course");
@@ -65,11 +72,13 @@ function coursesubmissions() {
   };
 
   return (
+      <div>
+    {!isLoading && 
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
         <AdminNavBar />
       </div>
-
+ 
       <div>
         <div className="flex justify-center ">
           {/* {JSON.stringify(
@@ -156,9 +165,11 @@ function coursesubmissions() {
             </div>
           </div>
         </div>
+        
       </div>
+      
     </div>
-  );
+}</div>);
 }
 
 export default coursesubmissions;
