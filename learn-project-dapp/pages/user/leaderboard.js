@@ -48,7 +48,7 @@ function Leaderboard() {
           <UserNavbar />
         )}
       </div>
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           <div className="flex mx-4 sm:mx-0 justify-center ">
             {/* {JSON.stringify(
@@ -105,6 +105,10 @@ function Leaderboard() {
               )}
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to see Leaderboard"} /> */}
         </div>
       )}
     </div>

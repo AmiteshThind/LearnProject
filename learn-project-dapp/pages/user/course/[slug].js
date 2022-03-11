@@ -19,6 +19,7 @@ import UserQuiz from "../../../components/UserQuiz";
 import AdminNavBar from "../../../components/admin/AdminNavBar";
 import toast, { Toaster } from "react-hot-toast";
 import { allowedStatusCodes } from "next/dist/lib/load-custom-routes";
+import AuthErrorMsg from "../../../components/AuthErrorMsg";
 
 function CourseMainpage() {
   const { user, isAuthenticated } = useMoralis();
@@ -256,7 +257,7 @@ function CourseMainpage() {
           <UserNavbar />
         )}
       </div>
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           {isAuthenticated && course[0] && lessons[0] && (
             <div className="flex justify-evenly mt-10 flex-wrap  rounded-3xl ">
@@ -469,6 +470,10 @@ function CourseMainpage() {
               </div>
             </div>
           )}
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"You must be enrolled to view this course. Connect Wallet to view."} /> */}
         </div>
       )}
     </div>

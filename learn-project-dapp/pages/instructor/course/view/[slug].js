@@ -602,7 +602,7 @@ function CourseView() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <InstructorNavbar />
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           {isAuthenticated && isValidInstructor ? (
             <div>
@@ -1027,6 +1027,10 @@ function CourseView() {
           ) : (
             <></>
           )}
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to edit Course"} /> */}
         </div>
       )}
     </div>

@@ -77,13 +77,13 @@ function Profile() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
-          <InstructorNavbar />
+      {isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar/>
         ) : (
-          <AdminNavBar />
+          <InstructorNavbar/>
         )}
       </div>
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           <div className="flex justify-center ">
             {/* {JSON.stringify(
@@ -152,7 +152,11 @@ function Profile() {
           </div>
           <Toaster />
         </div>
-      )}
+      ):
+      <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to see your Profile"} /> */}
+      </div>
+      }
     </div>
   );
 }

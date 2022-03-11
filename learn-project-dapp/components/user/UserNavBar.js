@@ -287,7 +287,7 @@ function UserNavbar() {
                     onClick={!isAuthenticated ? authenticate : logOutUser}
                     offset={50}
                     duration={500}
-                    className="sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium "
+                    className={`${!isAuthenticated ? 'animate-pulse bg-gradient-to-br from-teal-500 to-emerald-500 text-white' : ''} sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium `}
                   >
                     {isAuthenticated
                       ? user.attributes.ethAddress

@@ -122,7 +122,7 @@ function CourseEdit() {
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
       <InstructorNavbar />
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           <div className="flex justify-center">
             <div class="w-3/4 justify-center    min-h-screen ">
@@ -145,6 +145,10 @@ function CourseEdit() {
               </div>
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to edit Course"} /> */}
         </div>
       )}
     </div>

@@ -103,12 +103,12 @@ function CourseCreate() {
 
   return (
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
-      {isAuthenticated && user.attributes.role == "instructor" ? (
-        <InstructorNavbar />
-      ) : (
-        <AdminNavBar />
-      )}
-      {!isLoading && (
+     {isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar/>
+        ) : (
+          <InstructorNavbar/>
+        )}
+      {!isLoading ? (
         <div>
           {isAuthenticated && (
             <div className="flex justify-center">
@@ -133,6 +133,10 @@ function CourseCreate() {
               </div>
             </div>
           )}
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to view Create Course Form"} /> */}
         </div>
       )}
     </div>

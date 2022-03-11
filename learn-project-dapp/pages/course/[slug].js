@@ -32,9 +32,9 @@ function SingleCourse() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [preview, setPreview] = useState("imagePreview");
   const [isUserEnrolled, setIsUserEnrolled] = useState(false);
-  const [instructorUsername,setInstructorUsername] = useState("")
-  const [instructorDescription,setInstructorDescription] = useState("")
-  const [instructorProfilePicture,setInstructorProfilePicture] = useState("")
+  const [instructorUsername, setInstructorUsername] = useState("");
+  const [instructorDescription, setInstructorDescription] = useState("");
+  const [instructorProfilePicture, setInstructorProfilePicture] = useState("");
 
   //using the slug find the correct course so you can read that data and display it on this page
   // will also need lessons
@@ -45,14 +45,11 @@ function SingleCourse() {
 
     loadCourseandLessons();
     loadQuizQuestions();
-    
 
     // checkIfUserIsEnrolled();
 
     //console.log(course)
   }, [isLoading, isAuthenticated, user]);
-
- 
 
   const loadCourseandLessons = async () => {
     const Course = Moralis.Object.extend("Course");
@@ -83,7 +80,7 @@ function SingleCourse() {
     if (result2[0]) {
       //setPreview(result2[0].attributes.video.Location);
     }
- 
+
     setIsLoading(false);
   };
 
@@ -114,7 +111,7 @@ function SingleCourse() {
     query.equalTo("user", user);
     const result = await query.find();
     console.log(result + "w");
-    if (result[0]!=undefined && isAuthenticated) {
+    if (result[0] != undefined && isAuthenticated) {
       console.log("r");
       setIsUserEnrolled(true);
     } else {
@@ -129,23 +126,22 @@ function SingleCourse() {
     // }
   };
 
-  const loadInstructorDetails = async(course)=>{
+  const loadInstructorDetails = async (course) => {
     const Instructors = Moralis.Object.extend("instructorSubmissions");
     const query = new Moralis.Query(Instructors);
-    query.equalTo("user",course.attributes.instructor);
+    query.equalTo("user", course.attributes.instructor);
     const result = await query.find();
-    console.log(course)
-    if(result[0]){
+    console.log(course);
+    if (result[0]) {
       setInstructorUsername(result[0].attributes.name);
       setInstructorDescription(result[0].attributes.question1);
-      if(result[0].attributes.profilePicture!=undefined){
-      setInstructorProfilePicture(result[0].attributes.profilePicture._url)
-      }else{
-        setInstructorProfilePicture(defaultImage)
+      if (result[0].attributes.profilePicture != undefined) {
+        setInstructorProfilePicture(result[0].attributes.profilePicture._url);
+      } else {
+        setInstructorProfilePicture(defaultImage);
       }
     }
-
-  }
+  };
 
   const unlockMessage = () => {
     toast("Purchase Course To Unlock", {
@@ -176,7 +172,7 @@ function SingleCourse() {
       // const result = await query.find();
       newEnrolledUserCourse.set("course", course[0]);
       newEnrolledUserCourse.set("user", user);
-      newEnrolledUserCourse.set("courseName",course[0].attributes.name);
+      newEnrolledUserCourse.set("courseName", course[0].attributes.name);
 
       let quizScore = {};
       for (let section of course[0].attributes.sections) {
@@ -192,12 +188,17 @@ function SingleCourse() {
 
       const Courses = Moralis.Object.extend("Course");
       const query = new Moralis.Query(Courses);
-      query.equalTo("slug",slug);
+      query.equalTo("slug", slug);
       let objectToUpdate = await query.first();
-      objectToUpdate.set("amountEarned",course[0].attributes.amountEarned+course[0].attributes.price)
-      objectToUpdate.set("studentsEnrolled", course[0].attributes.studentsEnrolled+1);
+      objectToUpdate.set(
+        "amountEarned",
+        course[0].attributes.amountEarned + course[0].attributes.price
+      );
+      objectToUpdate.set(
+        "studentsEnrolled",
+        course[0].attributes.studentsEnrolled + 1
+      );
       await objectToUpdate.save();
-
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
@@ -219,8 +220,9 @@ function SingleCourse() {
       <div>
         {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
-        ) : isAuthenticated && user.attributes.role =="admin" ? <AdminNavBar/> :
-         (
+        ) : isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar />
+        ) : (
           <UserNavbar />
         )}
       </div>
@@ -277,12 +279,9 @@ function SingleCourse() {
                 </div>
                 <div className="flex mt-2 flex-col  flex-wrap px-5  w-full  ">
                   <div className="text-xl flex-wrap font-extrabold">
-                    Hi I'm {instructorUsername}
-                    !
+                    Hi I'm {instructorUsername}!
                   </div>
-                  <div className="mt-2 flex-wrap">
-                    {instructorDescription}
-                  </div>
+                  <div className="mt-2 flex-wrap">{instructorDescription}</div>
                 </div>
               </div>
             </div>
@@ -335,14 +334,17 @@ function SingleCourse() {
                 </div>
               )}
               <button
+                disabled={!isAuthenticated}
                 onClick={() => {
                   isUserEnrolled
                     ? router.push(`/user/course/${slug}`)
                     : enrollUser();
                 }}
-                className="py-3 bg-gradient-to-bl from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl"
+                className={`py-3 bg-gradient-to-bl from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl ${
+                  !isAuthenticated ? "brightness-75" : "brightness-100"
+                }`}
               >
-                {isUserEnrolled ? "Go To Course" : "Enroll"}
+                {!isAuthenticated?"Connect Wallet to Enroll" : isUserEnrolled ? "Go To Course" : "Enroll"}
               </button>
               <div className="mt-8  justify-center flex  w-4/5 items-start font-extrabold text-3xl">
                 Course Content

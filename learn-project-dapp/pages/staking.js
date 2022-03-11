@@ -28,13 +28,13 @@ function staking() {
     <div>
       <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
         <div>
-        {isAuthenticated && user.attributes.role == "instructor" ? (
-          <InstructorNavbar />
-        ) : isAuthenticated && user.attributes.role == "admin" ? (
-          <AdminNavBar />
-        ) : (
-          <UserNavbar />
-        )}
+          {isAuthenticated && user.attributes.role == "instructor" ? (
+            <InstructorNavbar />
+          ) : isAuthenticated && user.attributes.role == "admin" ? (
+            <AdminNavBar />
+          ) : (
+            <UserNavbar />
+          )}
         </div>
 
         <div className="flex flex-col mt-10 items-center">
@@ -106,9 +106,9 @@ function staking() {
                     <button
                       onClick={stake}
                       disabled={!isAuthenticated}
-                      className={
-                        `rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${!isAuthenticated ? "brightness-75": "brightness-100"}`
-                      }
+                      className={`rounded-2xl w-full py-4  text-xl leading-none hover:scale-95  text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
+                        !isAuthenticated ? "brightness-75" : "brightness-100"
+                      }`}
                     >
                       {isAuthenticated ? (
                         <div>Stake</div>
@@ -120,9 +120,9 @@ function staking() {
                     <button
                       onClick={unstake}
                       disabled={!isAuthenticated}
-                      className={
-                        `rounded-2xl w-full  btn text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${!isAuthenticated ? "brightness-75": "brightness-100"}`
-                      }
+                      className={`rounded-2xl w-full hover:scale-95    py-4 text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
+                        !isAuthenticated ? "brightness-75" : "brightness-100"
+                      }`}
                     >
                       {isAuthenticated ? (
                         <div>UnStake</div>
@@ -142,7 +142,12 @@ function staking() {
                   </div>
                   <div className="flex items-center ">
                     <div className="mr-5">23.3</div>
-                    <button disabled={!isAuthenticated} className={`btn w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${!isAuthenticated ? "brightness-75": "brightness-100"}`  }>
+                    <button
+                      disabled={!isAuthenticated}
+                      className={`hover:scale-95 duration-150 py-2 w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${
+                        !isAuthenticated ? "brightness-75" : "brightness-100"
+                      }`}
+                    >
                       Claim
                     </button>
                   </div>

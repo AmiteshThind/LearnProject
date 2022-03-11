@@ -44,7 +44,7 @@ function Dashboard() {
       <div>
         <UserNavbar />
       </div>
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           <div className="flex justify-center ">
             {/* {JSON.stringify(
@@ -102,7 +102,9 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      )}
+      ):<div className="mb-10">
+      {/* <AuthErrorMsg authErrorMsg="Connect Wallet to see your Courses" /> */}
+    </div>}
     </div>
   );
 }

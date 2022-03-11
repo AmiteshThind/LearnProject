@@ -81,7 +81,7 @@ function becomeinstructor() {
       <div>
         <Navbar />
       </div>
-      {!isLoading && (
+      {!isLoading ? (
         <div>
           {isAuthenticated && !applicationSubmitted ? (
             <div className="  min-h-screen ">
@@ -230,6 +230,10 @@ function becomeinstructor() {
               />
             </div>
           )}
+        </div>
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg="Connect Wallet to Access Instructor Application" /> */}
         </div>
       )}
     </div>
