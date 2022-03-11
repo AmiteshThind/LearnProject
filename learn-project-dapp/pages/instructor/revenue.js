@@ -75,17 +75,16 @@ function Revenue() {
   };
 
   return (
-    <div>
+    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+      <div>
+        {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : (
+          <AdminNavBar />
+        )}
+      </div>
       {!isLoading && (
-        <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
-          <div>
-            {isAuthenticated && user.attributes.role == "instructor" ? (
-              <InstructorNavbar />
-            ) : (
-              <AdminNavBar />
-            )}
-          </div>
-
+        <div>
           {isAuthenticated && (
             <div className="flex justify-center ">
               {/* {JSON.stringify(
@@ -169,7 +168,7 @@ function Revenue() {
             </div>
           )}
         </div>
-      )}{" "}
+      )}
     </div>
   );
 }

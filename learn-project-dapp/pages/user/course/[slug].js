@@ -246,18 +246,18 @@ function CourseMainpage() {
   };
 
   return (
-    <div>
+    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+      <div>
+        {isAuthenticated && user.attributes.role == "instructor" ? (
+          <InstructorNavbar />
+        ) : isAuthenticated && user.attributes.role == "admin" ? (
+          <AdminNavBar />
+        ) : (
+          <UserNavbar />
+        )}
+      </div>
       {!isLoading && (
-        <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
-          <div>
-            {isAuthenticated && user.attributes.role == "instructor" ? (
-              <InstructorNavbar />
-            ) : isAuthenticated && user.attributes.role == "admin" ? (
-              <AdminNavBar />
-            ) : (
-              <UserNavbar />
-            )}
-          </div>
+        <div>
           {isAuthenticated && course[0] && lessons[0] && (
             <div className="flex justify-evenly mt-10 flex-wrap  rounded-3xl ">
               <div className="flex       w-full  sm:ml-5 sm:mr-2.5    mb-10 mt-5 h-full sm:w-full   shadow-teal-800 rounded-3xl lg:w-6/12 xl:w-7/12    items-start flex-col     flex-stretch  ">

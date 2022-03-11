@@ -77,12 +77,12 @@ function becomeinstructor() {
   };
 
   return (
-    <div>
+    <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
+      <div>
+        <Navbar />
+      </div>
       {!isLoading && (
-        <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
-          <div>
-            <Navbar />
-          </div>
+        <div>
           {isAuthenticated && !applicationSubmitted ? (
             <div className="  min-h-screen ">
               <div class="w-full">

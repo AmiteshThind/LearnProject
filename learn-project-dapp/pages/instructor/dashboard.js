@@ -19,8 +19,8 @@ function dashboard() {
     if (isAuthenticated && user) {
       if (user.attributes.role == "student") {
         router.push("/error/access");
-      }else{
-      loadCourses();
+      } else {
+        loadCourses();
       }
     }
   }, [isLoading, isAuthenticated]);
@@ -36,15 +36,15 @@ function dashboard() {
   };
 
   return (
-    <div>
+    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+      {isAuthenticated && user.attributes.role == "instructor" ? (
+        <InstructorNavbar />
+      ) : (
+        <AdminNavBar />
+      )}
+      {/* <Banner title={"Instructor Dashboard"} /> */}
       {!isLoading && (
-        <div className="bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
-          {isAuthenticated && user.attributes.role == "instructor" ? (
-            <InstructorNavbar />
-          ) : (
-            <AdminNavBar />
-          )}
-          {/* <Banner title={"Instructor Dashboard"} /> */}
+        <div>
           <div className="">
             {isAuthenticated && <CourseList courses={courses} />}
             {/* <pre>{JSON.stringify(courses,null,3)}</pre> */}

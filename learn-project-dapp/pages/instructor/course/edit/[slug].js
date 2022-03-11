@@ -120,10 +120,10 @@ function CourseEdit() {
   };
 
   return (
-    <div>
+    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
+      <InstructorNavbar />
       {!isLoading && (
-        <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
-          <InstructorNavbar />
+        <div>
           <div className="flex justify-center">
             <div class="w-3/4 justify-center    min-h-screen ">
               <div class="w-fullmx-auto px-6  flex justify-center items-center  ">

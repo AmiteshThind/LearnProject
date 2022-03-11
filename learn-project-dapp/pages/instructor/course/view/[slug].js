@@ -83,8 +83,8 @@ function CourseView() {
     //load course from moralis based on slug
     //console.log(course)
     if (isAuthenticated && user) {
-      if(user.attributes.role == 'student'){
-        router.push('/marketplace')
+      if (user.attributes.role == "student") {
+        router.push("/marketplace");
       }
       loadCourseandLessons();
       loadQuizQuestions();
@@ -600,219 +600,220 @@ function CourseView() {
   };
 
   return (
-    <div>
-      {!isLoading &&
-    
-    <div className="bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
+    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <InstructorNavbar />
-
-      {isAuthenticated && isValidInstructor ? (
+      {!isLoading && (
         <div>
-          <div className="flex flex-wrap  ">
-            <Link href={"/instructor/dashboard"}>
-              <a>
-                <div data-tip="Dashboard" class="tooltip ml-6 ">
-                  <ArrowCircleLeftIcon className="h-10 w-10      text-emerald-500" />
-                </div>
-              </a>
-            </Link>
-          </div>
-          {course.length == 1 && (
-            <div className="flex  flex-wrap justify-center">
-              <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
-                {course[0].attributes.feedback && (
-                  <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
-                    <span className="font-extrabold">Note:</span>
-                    {course[0].attributes.feedback}
-                  </div>
-                )}
-                <div className="flex flex-wrap  w-full justify-between ">
-                  <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
-                    <h1>{course[0].attributes.name} </h1>
-                  </div>
-                  <div className="flex      mr-10">
-                    <div data-tip="edit" class="tooltip ">
-                      <PencilIcon
-                        onClick={() =>
-                          router.push(
-                            `/instructor/course/edit/${course[0].attributes.slug}`
-                          )
-                        }
-                        className="h-8 w-8 mx-3 cursor-pointer  text-amber-200 hover:text-amber-300"
-                      />
+          {isAuthenticated && isValidInstructor ? (
+            <div>
+              <div className="flex flex-wrap  ">
+                <Link href={"/instructor/dashboard"}>
+                  <a>
+                    <div data-tip="Dashboard" class="tooltip ml-6 ">
+                      <ArrowCircleLeftIcon className="h-10 w-10      text-emerald-500" />
                     </div>
-                    <div
-                      data-tip={
-                        course[0].attributes.state == "draft"
-                          ? "publish"
-                          : course[0].attributes.state == "published"
-                          ? "unpublish"
-                          : "Pending Approval"
-                      }
-                      class="tooltip"
-                    >
-                      {course[0].attributes.state == "draft" ? (
-                        <CheckIcon
-                          onClick={() => setShowPublishModal(true)}
-                          className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
-                        />
-                      ) : course[0].attributes.state == "published" ? (
-                        <XCircleIcon
-                          onClick={() => setShowPublishModal(true)}
-                          className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
-                        />
-                      ) : (
-                        <ExclamationIcon className="h-9 w-9 cursor-pointer  text-yellow-400  hover:text-yellow-500" />
-                      )}
-                    </div>
-
-                    <div
-                      class={showPublishModal ? "modal modal-open" : "modal"}
-                    >
-                      <div class="modal-box">
-                        {course[0].attributes.state == "draft" ? (
-                          <p>
-                            Once published users will be able to enroll in this
-                            course. Are you sure you want to publish this
-                            course?
-                          </p>
-                        ) : course[0].attributes.state == "published" ? (
-                          <p>
-                            By unpublishing this courses users will no longer be
-                            able to enroll in this course. Are you sure you want
-                            to unpublish this course?
-                          </p>
-                        ) : (
-                          <p>
-                            Course is waiting for approval. Please check back in
-                            few hours.
-                          </p>
-                        )}
-                        <div class="modal-action">
-                          <label
-                            onClick={
-                              course[0].attributes.state == "draft"
-                                ? publishCourse
-                                : course[0].attributes.state == "published"
-                                ? unPublishCourse
-                                : () => toast("Waiting for approval")
+                  </a>
+                </Link>
+              </div>
+              {course.length == 1 && (
+                <div className="flex  flex-wrap justify-center">
+                  <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
+                    {course[0].attributes.feedback && (
+                      <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
+                        <span className="font-extrabold">Note:</span>
+                        {course[0].attributes.feedback}
+                      </div>
+                    )}
+                    <div className="flex flex-wrap  w-full justify-between ">
+                      <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
+                        <h1>{course[0].attributes.name} </h1>
+                      </div>
+                      <div className="flex      mr-10">
+                        <div data-tip="edit" class="tooltip ">
+                          <PencilIcon
+                            onClick={() =>
+                              router.push(
+                                `/instructor/course/edit/${course[0].attributes.slug}`
+                              )
                             }
-                            for="my-modal-2"
-                            class="btn border-0 bg-emerald-500 hover:bg-emerald-600"
-                          >
+                            className="h-8 w-8 mx-3 cursor-pointer  text-amber-200 hover:text-amber-300"
+                          />
+                        </div>
+                        <div
+                          data-tip={
+                            course[0].attributes.state == "draft"
+                              ? "publish"
+                              : course[0].attributes.state == "published"
+                              ? "unpublish"
+                              : "Pending Approval"
+                          }
+                          class="tooltip"
+                        >
+                          {course[0].attributes.state == "draft" ? (
+                            <CheckIcon
+                              onClick={() => setShowPublishModal(true)}
+                              className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
+                            />
+                          ) : course[0].attributes.state == "published" ? (
+                            <XCircleIcon
+                              onClick={() => setShowPublishModal(true)}
+                              className="h-9 w-9 cursor-pointer  text-emerald-400  hover:text-emerald-500"
+                            />
+                          ) : (
+                            <ExclamationIcon className="h-9 w-9 cursor-pointer  text-yellow-400  hover:text-yellow-500" />
+                          )}
+                        </div>
+
+                        <div
+                          class={
+                            showPublishModal ? "modal modal-open" : "modal"
+                          }
+                        >
+                          <div class="modal-box">
                             {course[0].attributes.state == "draft" ? (
-                              <>Publish</>
+                              <p>
+                                Once published users will be able to enroll in
+                                this course. Are you sure you want to publish
+                                this course?
+                              </p>
                             ) : course[0].attributes.state == "published" ? (
-                              <>UnPublish</>
+                              <p>
+                                By unpublishing this courses users will no
+                                longer be able to enroll in this course. Are you
+                                sure you want to unpublish this course?
+                              </p>
                             ) : (
-                              "Waiting For Approval"
+                              <p>
+                                Course is waiting for approval. Please check
+                                back in few hours.
+                              </p>
                             )}
-                          </label>
-                          <label
-                            onClick={() => setShowPublishModal(false)}
-                            for="my-modal-2"
-                            class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
-                          >
-                            Cancel
-                          </label>
+                            <div class="modal-action">
+                              <label
+                                onClick={
+                                  course[0].attributes.state == "draft"
+                                    ? publishCourse
+                                    : course[0].attributes.state == "published"
+                                    ? unPublishCourse
+                                    : () => toast("Waiting for approval")
+                                }
+                                for="my-modal-2"
+                                class="btn border-0 bg-emerald-500 hover:bg-emerald-600"
+                              >
+                                {course[0].attributes.state == "draft" ? (
+                                  <>Publish</>
+                                ) : course[0].attributes.state ==
+                                  "published" ? (
+                                  <>UnPublish</>
+                                ) : (
+                                  "Waiting For Approval"
+                                )}
+                              </label>
+                              <label
+                                onClick={() => setShowPublishModal(false)}
+                                for="my-modal-2"
+                                class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                              >
+                                Cancel
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="text-md mt-1 px-1 text-white ">
-                  {course[0].attributes.lessonCount} Lessons
-                </div>
-                <div className="text-sm  mt-2 text-white">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border-2 badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none py-3">
-                    {course[0].attributes.category}
-                  </span>
-                </div>
+                    <div className="text-md mt-1 px-1 text-white ">
+                      {course[0].attributes.lessonCount} Lessons
+                    </div>
+                    <div className="text-sm  mt-2 text-white">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border-2 badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none py-3">
+                        {course[0].attributes.category}
+                      </span>
+                    </div>
 
-                <div className="flex-shrink-0 mr-5  ">
-                  <div className="mb-3 font-semibold">Image Preview</div>
-                  <Image
-                    src={course[0].attributes.image_preview._url}
-                    className="rounded-lg"
-                    width="400rem"
-                    height="200rem"
-                  />
-                </div>
-                <div className="mt-3 w-full relative flex flex-col flex-wrap">
-                  <div className="mb-3  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
-                    Description
+                    <div className="flex-shrink-0 mr-5  ">
+                      <div className="mb-3 font-semibold">Image Preview</div>
+                      <Image
+                        src={course[0].attributes.image_preview._url}
+                        className="rounded-lg"
+                        width="400rem"
+                        height="200rem"
+                      />
+                    </div>
+                    <div className="mt-3 w-full relative flex flex-col flex-wrap">
+                      <div className="mb-3  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
+                        Description
+                      </div>
+                      <div className="prose flex    ">
+                        <ReactMarkdown
+                          className="w-12/12 flex-grow text-white "
+                          remarkPlugins={[remarkGfm]}
+                          children={course[0].attributes.description}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="prose flex    ">
-                    <ReactMarkdown
-                      className="w-12/12 flex-grow text-white "
-                      remarkPlugins={[remarkGfm]}
-                      children={course[0].attributes.description}
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <div className="flex h-full bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
-                <Toaster />
-                <div className="   flex flex-wrap text-4xl justify-center  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
-                  <h1>Manage Lessons </h1>
-                </div>
-                <div className="flex items-center justify-center mt-10">
-                  <button
-                    onClick={() => {
-                      setVisible(true);
-                    }}
-                    class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
-                  >
-                    <PlusCircleIcon className="h-6 w-6 mx-1 " /> Add Lesson
-                  </button>
-                  <button
-                    onClick={() => {
-                      setQuizVisible(true);
-                    }}
-                    class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
-                  >
-                    <DocumentTextIcon className="h-6 w-6 mx-1  " /> Add Quiz
-                  </button>
-                  <QuizModal
-                    course={course}
-                    quizVisible={quizVisible}
-                    setQuizVisible={setQuizVisible}
-                    setValues={setValues}
-                    setQuizEditing={setQuizEditing}
-                    values={values}
-                    uploading={uploading}
-                    sections={sections}
-                    quizEditing={quizEditing}
-                    setAvailableQuizSections={setAvailableQuizSections}
-                    availableQuizSections={availableQuizSections}
-                    questionDetails={questionDetails}
-                    setQuestionDetails={setQuestionDetails}
-                    handleUpdateQuizQuestion={handleUpdateQuizQuestion}
-                    quizQuestions={quizQuestions}
-                    setQuizQuestions={setQuizQuestions}
-                  ></QuizModal>
+                  <div className="flex h-full bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
+                    <Toaster />
+                    <div className="   flex flex-wrap text-4xl justify-center  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
+                      <h1>Manage Lessons </h1>
+                    </div>
+                    <div className="flex items-center justify-center mt-10">
+                      <button
+                        onClick={() => {
+                          setVisible(true);
+                        }}
+                        class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
+                      >
+                        <PlusCircleIcon className="h-6 w-6 mx-1 " /> Add Lesson
+                      </button>
+                      <button
+                        onClick={() => {
+                          setQuizVisible(true);
+                        }}
+                        class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
+                      >
+                        <DocumentTextIcon className="h-6 w-6 mx-1  " /> Add Quiz
+                      </button>
+                      <QuizModal
+                        course={course}
+                        quizVisible={quizVisible}
+                        setQuizVisible={setQuizVisible}
+                        setValues={setValues}
+                        setQuizEditing={setQuizEditing}
+                        values={values}
+                        uploading={uploading}
+                        sections={sections}
+                        quizEditing={quizEditing}
+                        setAvailableQuizSections={setAvailableQuizSections}
+                        availableQuizSections={availableQuizSections}
+                        questionDetails={questionDetails}
+                        setQuestionDetails={setQuestionDetails}
+                        handleUpdateQuizQuestion={handleUpdateQuizQuestion}
+                        quizQuestions={quizQuestions}
+                        setQuizQuestions={setQuizQuestions}
+                      ></QuizModal>
 
-                  <Modal
-                    editing={editing}
-                    setEditing={setEditing}
-                    uploadBtnText={uploadBtnText}
-                    setUploadBtnText={setUploadBtnText}
-                    values={values}
-                    setValues={setValues}
-                    handleAddLesson={handleAddLesson}
-                    handleUpdateLesson={handleUpdateLesson}
-                    visible={visible}
-                    setVisible={setVisible}
-                    uploading={uploading}
-                    handleVideo={handleVideo}
-                    progress={progress}
-                    handleVideoRemove={handleVideoRemove}
-                    sections={sections}
-                  ></Modal>
-                </div>
-                {/* // list of lessons will be rendered here  */}
-                {/* <ul class="bg-white rounded-lg border border-gray-200 m-10 text-gray-900 text-sm  font-medium">
+                      <Modal
+                        editing={editing}
+                        setEditing={setEditing}
+                        uploadBtnText={uploadBtnText}
+                        setUploadBtnText={setUploadBtnText}
+                        values={values}
+                        setValues={setValues}
+                        handleAddLesson={handleAddLesson}
+                        handleUpdateLesson={handleUpdateLesson}
+                        visible={visible}
+                        setVisible={setVisible}
+                        uploading={uploading}
+                        handleVideo={handleVideo}
+                        progress={progress}
+                        handleVideoRemove={handleVideoRemove}
+                        sections={sections}
+                      ></Modal>
+                    </div>
+                    {/* // list of lessons will be rendered here  */}
+                    {/* <ul class="bg-white rounded-lg border border-gray-200 m-10 text-gray-900 text-sm  font-medium">
                             {lessons.map((lesson, index) => (
                                 <li class="px-4 py-5 border-b border-gray-200 w-full justify-between flex rounded-t-lg">
                                     <div>
@@ -827,204 +828,208 @@ function CourseView() {
                             ))}
 
                         </ul> */}
-                {sections.map((section, sectionIndex) => (
-                  <ul onDragOver={(e) => e.preventDefault()}>
-                    <li
-                      draggable
-                      onDragStart={(e) =>
-                        handleSectionDrag(e, sectionIndex, "section")
-                      }
-                      onDrop={(e) =>
-                        handleSectionDrop(e, sectionIndex, "section")
-                      }
-                      key={sectionIndex}
-                    >
-                      <Accordion
-                        title={section}
-                        key={sectionIndex}
-                        number={sectionIndex + 1}
-                      >
-                        <ul
-                          onDragOver={(e) => e.preventDefault()}
-                          class=" rounded-xl  mx-10 text-white text-sm  font-medium"
+                    {sections.map((section, sectionIndex) => (
+                      <ul onDragOver={(e) => e.preventDefault()}>
+                        <li
+                          draggable
+                          onDragStart={(e) =>
+                            handleSectionDrag(e, sectionIndex, "section")
+                          }
+                          onDrop={(e) =>
+                            handleSectionDrop(e, sectionIndex, "section")
+                          }
+                          key={sectionIndex}
                         >
-                          {lessons
-                            .filter(
-                              (lesson) => lesson.attributes.section == section
-                            )
-                            .map((lesson, lessonIndex) => (
-                              <li
-                                key={sections.length + lessonIndex}
-                                class="px-4 py-5  w-full justify-between flex "
-                                draggable
-                                onDragStart={(e) =>
-                                  handleLessonDrag(
-                                    e,
-                                    lessonIndex,
-                                    lesson.attributes.section
-                                  )
-                                }
-                                onDrop={(e) =>
-                                  handleLessonDrop(
-                                    e,
-                                    lessonIndex,
-                                    lesson.attributes.section
-                                  )
-                                }
-                              >
-                                <div className="flex">
-                                  <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500 px-2.5 to-teal-400">
-                                    {lessonIndex + 1}
-                                  </span>
-                                  <span className=" px-3 py-1">
-                                    {lesson.attributes.title}
-                                  </span>
-                                </div>
-                                <span className=" px-3 py-1 flex">
-                                  <PencilIcon
-                                    onClick={() => handleEditLesson(lesson)}
-                                    className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
-                                  />
-                                  <TrashIcon
-                                    onClick={() =>
-                                      setShowCancelLessonModal(true)
+                          <Accordion
+                            title={section}
+                            key={sectionIndex}
+                            number={sectionIndex + 1}
+                          >
+                            <ul
+                              onDragOver={(e) => e.preventDefault()}
+                              class=" rounded-xl  mx-10 text-white text-sm  font-medium"
+                            >
+                              {lessons
+                                .filter(
+                                  (lesson) =>
+                                    lesson.attributes.section == section
+                                )
+                                .map((lesson, lessonIndex) => (
+                                  <li
+                                    key={sections.length + lessonIndex}
+                                    class="px-4 py-5  w-full justify-between flex "
+                                    draggable
+                                    onDragStart={(e) =>
+                                      handleLessonDrag(
+                                        e,
+                                        lessonIndex,
+                                        lesson.attributes.section
+                                      )
                                     }
-                                    className="h-5 w-5    text-red-400 cursor-pointer"
-                                  />
-                                  <div
-                                    class={
-                                      showCancelLessonModal
-                                        ? "modal modal-open"
-                                        : "modal"
+                                    onDrop={(e) =>
+                                      handleLessonDrop(
+                                        e,
+                                        lessonIndex,
+                                        lesson.attributes.section
+                                      )
                                     }
                                   >
-                                    <div class="modal-box">
-                                      <p>
-                                        Are you sure you want delete this
-                                        lesson?
-                                      </p>
-                                      <div class="modal-action">
-                                        <label
-                                          onClick={() =>
-                                            handleDeleteLesson(lesson)
-                                          }
-                                          for="my-modal-2"
-                                          class="btn border-0 bg-red-500 hover:bg-red-600"
-                                        >
-                                          <p>Yes</p>
-                                        </label>
-                                        <label
-                                          onClick={() =>
-                                            setShowCancelLessonModal(false)
-                                          }
-                                          for="my-modal-2"
-                                          class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
-                                        >
-                                          No
-                                        </label>
-                                      </div>
+                                    <div className="flex">
+                                      <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500 px-2.5 to-teal-400">
+                                        {lessonIndex + 1}
+                                      </span>
+                                      <span className=" px-3 py-1">
+                                        {lesson.attributes.title}
+                                      </span>
                                     </div>
-                                  </div>
-                                </span>
-                              </li>
-                            ))}
-                          <div>
-                            {availableQuizSections.includes(section) && (
-                              <QuizAccordion section={section}>
-                                <ul className="m-3">
-                                  {quizQuestions
-                                    .filter(
-                                      (question) =>
-                                        question.attributes.section == section
-                                    )
-                                    .map((question, questionIndex) => (
-                                      <li
-                                        key={questionIndex}
-                                        class="px-4 py-5  w-full justify-between flex "
+                                    <span className=" px-3 py-1 flex">
+                                      <PencilIcon
+                                        onClick={() => handleEditLesson(lesson)}
+                                        className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
+                                      />
+                                      <TrashIcon
+                                        onClick={() =>
+                                          setShowCancelLessonModal(true)
+                                        }
+                                        className="h-5 w-5    text-red-400 cursor-pointer"
+                                      />
+                                      <div
+                                        class={
+                                          showCancelLessonModal
+                                            ? "modal modal-open"
+                                            : "modal"
+                                        }
                                       >
-                                        <div className="flex ">
-                                          <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
-                                            {questionIndex + 1}
-                                          </span>
-                                          <span className=" px-3   ">
-                                            {question.attributes.question}
-                                          </span>
-                                        </div>
-                                        <span className=" px-3 py-1 flex">
-                                          <PencilIcon
-                                            onClick={() =>
-                                              handleEditQuizQuestion(question)
-                                            }
-                                            className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
-                                          />
-                                          <TrashIcon
-                                            onClick={() =>
-                                              setShowDeleteQuizQuestionModal(
-                                                true
-                                              )
-                                            }
-                                            className="h-5 w-5   cursor-pointer text-red-400"
-                                          />
-                                          <div
-                                            class={
-                                              showDeleteQuizQuestionModal
-                                                ? "modal modal-open"
-                                                : "modal"
-                                            }
-                                          >
-                                            <div class="modal-box">
-                                              <p>
-                                                Are you sure you want delete
-                                                this question?
-                                              </p>
-                                              <div class="modal-action">
-                                                <label
-                                                  onClick={() =>
-                                                    handleDeleteQuizQuestion(
-                                                      question
-                                                    )
-                                                  }
-                                                  for="my-modal-2"
-                                                  class="btn border-0 bg-red-500 hover:bg-red-600"
-                                                >
-                                                  <p>Yes</p>
-                                                </label>
-                                                <label
-                                                  onClick={() =>
-                                                    setShowDeleteQuizQuestionModal(
-                                                      false
-                                                    )
-                                                  }
-                                                  for="my-modal-2"
-                                                  class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
-                                                >
-                                                  No
-                                                </label>
-                                              </div>
-                                            </div>
+                                        <div class="modal-box">
+                                          <p>
+                                            Are you sure you want delete this
+                                            lesson?
+                                          </p>
+                                          <div class="modal-action">
+                                            <label
+                                              onClick={() =>
+                                                handleDeleteLesson(lesson)
+                                              }
+                                              for="my-modal-2"
+                                              class="btn border-0 bg-red-500 hover:bg-red-600"
+                                            >
+                                              <p>Yes</p>
+                                            </label>
+                                            <label
+                                              onClick={() =>
+                                                setShowCancelLessonModal(false)
+                                              }
+                                              for="my-modal-2"
+                                              class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                                            >
+                                              No
+                                            </label>
                                           </div>
-                                        </span>
-                                      </li>
-                                    ))}
-                                </ul>
-                              </QuizAccordion>
-                            )}
-                          </div>
-                        </ul>
-                      </Accordion>
-                    </li>
-                  </ul>
-                ))}
-              </div>
+                                        </div>
+                                      </div>
+                                    </span>
+                                  </li>
+                                ))}
+                              <div>
+                                {availableQuizSections.includes(section) && (
+                                  <QuizAccordion section={section}>
+                                    <ul className="m-3">
+                                      {quizQuestions
+                                        .filter(
+                                          (question) =>
+                                            question.attributes.section ==
+                                            section
+                                        )
+                                        .map((question, questionIndex) => (
+                                          <li
+                                            key={questionIndex}
+                                            class="px-4 py-5  w-full justify-between flex "
+                                          >
+                                            <div className="flex ">
+                                              <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
+                                                {questionIndex + 1}
+                                              </span>
+                                              <span className=" px-3   ">
+                                                {question.attributes.question}
+                                              </span>
+                                            </div>
+                                            <span className=" px-3 py-1 flex">
+                                              <PencilIcon
+                                                onClick={() =>
+                                                  handleEditQuizQuestion(
+                                                    question
+                                                  )
+                                                }
+                                                className="h-5 w-5  mr-2  text-yellow-200 cursor-pointer"
+                                              />
+                                              <TrashIcon
+                                                onClick={() =>
+                                                  setShowDeleteQuizQuestionModal(
+                                                    true
+                                                  )
+                                                }
+                                                className="h-5 w-5   cursor-pointer text-red-400"
+                                              />
+                                              <div
+                                                class={
+                                                  showDeleteQuizQuestionModal
+                                                    ? "modal modal-open"
+                                                    : "modal"
+                                                }
+                                              >
+                                                <div class="modal-box">
+                                                  <p>
+                                                    Are you sure you want delete
+                                                    this question?
+                                                  </p>
+                                                  <div class="modal-action">
+                                                    <label
+                                                      onClick={() =>
+                                                        handleDeleteQuizQuestion(
+                                                          question
+                                                        )
+                                                      }
+                                                      for="my-modal-2"
+                                                      class="btn border-0 bg-red-500 hover:bg-red-600"
+                                                    >
+                                                      <p>Yes</p>
+                                                    </label>
+                                                    <label
+                                                      onClick={() =>
+                                                        setShowDeleteQuizQuestionModal(
+                                                          false
+                                                        )
+                                                      }
+                                                      for="my-modal-2"
+                                                      class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                                                    >
+                                                      No
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </span>
+                                          </li>
+                                        ))}
+                                    </ul>
+                                  </QuizAccordion>
+                                )}
+                              </div>
+                            </ul>
+                          </Accordion>
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+          ) : (
+            <></>
           )}
         </div>
-      ) : (
-        <></>
       )}
-      </div>}
     </div>
- 
   );
 }
 
