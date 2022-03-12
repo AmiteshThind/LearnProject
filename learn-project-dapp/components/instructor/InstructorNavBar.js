@@ -17,9 +17,8 @@ function InstructorNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
   const [profilePic, setProfilePic] = useState("");
-  let profilePicDetails = useStore((state)=> state.profilePicDetails)
-  const [isLoading,setIsLoading] = useState(true);
-
+  let profilePicDetails = useStore((state) => state.profilePicDetails);
+  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
@@ -31,16 +30,16 @@ function InstructorNavbar() {
     });
     async function verify() {
       //console.log(jwtRecieved);
-      if (isAuthenticated) {
-         console.log(profilePicDetails+"w")
+      if (isAuthenticated && user) {
+        console.log(profilePicDetails);
         if (profilePicDetails != "") {
-          setProfilePic(profilePicDetails._url);
-          console.log(profilePicDetails);
-        }  else{
+          setProfilePic(profilePicDetails);
+          console.log(profilePicDetails._url);
+        } else {
           loadUserProfilePicture();
+          //setIsLoading(false);
         }
         if (!jwtRecieved) {
-           
           const { data } = await axios.post(
             "http://localhost:8000/authenticate",
             {
@@ -50,29 +49,38 @@ function InstructorNavbar() {
           );
           if (data) {
             useStore.setState({ jwtRecieved: true });
-            
           }
         }
       }
     }
     verify();
-  }, [isAuthenticated,isLoading]);
+  }, [isAuthenticated]);
 
   const loadUserProfilePicture = async () => {
-    const Instructors = Moralis.Object.extend("instructorSubmissions");
-    const query = new Moralis.Query(Instructors);
-    query.equalTo("user", user);
-    query.equalTo("approvalStatus","approved")
-    const result = await query.find();
-    if (result[0] && result[0].attributes.profilePicture!=undefined) {
-      console.log("reached")
-      setProfilePic(result[0].attributes.profilePicture._url);
+    // const Instructors = Moralis.Object.extend("instructorSubmissions");
+    // const query = new Moralis.Query(Instructors);
+    // query.equalTo("user", user);
+    // query.equalTo("approvalStatus","approved")
+    // const result = await query.find();
+    // if (result[0] && result[0].attributes.profilePicture!=undefined) {
+    //   console.log("reached")
+    //   setProfilePic(result[0].attributes.profilePicture._url);
+    //   useStore.setState({
+    //     profilePicDetails: result[0].attributes.profilePicture,
+    //   });
+    //   setIsLoading(false);
+    // } else {
+    //   setProfilePic(defaultImage);
+    // }
+    console.log(user)
+    if (user.attributes.profilePicture != undefined) {
+      setProfilePic(user.attributes.profilePicture._url);
       useStore.setState({
-        profilePicDetails: result[0].attributes.profilePicture,
+        profilePicDetails: user.attributes.profilePicture._url,
       });
-      setIsLoading(false);
     } else {
       setProfilePic(defaultImage);
+      useStore.setState({ profilePicDetails: defaultImage });
     }
   };
 
@@ -224,8 +232,6 @@ function InstructorNavbar() {
                     </div>
                   </button>
 
-
-
                   <button
                     onClick={() => Router.push("/instructor/course/create")}
                     activeClass="Services"
@@ -259,28 +265,25 @@ function InstructorNavbar() {
                       class="dropdown-content  p-2 text-white bg-zinc-800     rounded-box w-52"
                     >
                       <li>
-
-                      <button
-                    activeClass="Services"
-                    to="work"
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-					 
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
-                  >
-                    <div
-                      className={
-                        router.pathname == "/user/leaderboard"
-                          ? " text-emerald-300  font-extrabold : scale-110"
-                          : ""
-                      }
-                    >
-                      <Link href="/user/leaderboard">Leaderboard</Link>
-                    </div>
-                  </button> 
+                        <button
+                          activeClass="Services"
+                          to="work"
+                          smooth={true}
+                          offset={50}
+                          duration={500}
+                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                        >
+                          <div
+                            className={
+                              router.pathname == "/user/leaderboard"
+                                ? " text-emerald-300  font-extrabold : scale-110"
+                                : ""
+                            }
+                          >
+                            <Link href="/user/leaderboard">Leaderboard</Link>
+                          </div>
+                        </button>
                       </li>
- 
                     </ul>
                   </button>
                 </div>
@@ -295,7 +298,7 @@ function InstructorNavbar() {
                     </div>
                   </div>
                 )}
-                <div >
+                <div>
                   <button
                     activeClass="contact"
                     to="contact"
@@ -303,7 +306,11 @@ function InstructorNavbar() {
                     onClick={!isAuthenticated ? authenticate : logOutUser}
                     offset={50}
                     duration={500}
-                    className={`${!isAuthenticated ? 'animate-pulse bg-gradient-to-br from-teal-500 to-emerald-500 text-white ' : ''} sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white  border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium`}
+                    className={`${
+                      !isAuthenticated
+                        ? "animate-pulse bg-gradient-to-br from-teal-500 to-emerald-500 text-white "
+                        : ""
+                    } sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white  border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium`}
                   >
                     {isAuthenticated
                       ? user.attributes.ethAddress

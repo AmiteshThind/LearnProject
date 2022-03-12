@@ -20,6 +20,9 @@ function coursesubmissions() {
             router.push('/error/access')
         }else{
       loadCoursesToApprove();
+      if(user.attributes.role =='admin'){
+      setIsLoading(false);
+      }
     }
 }
   }, [isLoading, isAuthenticated, user]);

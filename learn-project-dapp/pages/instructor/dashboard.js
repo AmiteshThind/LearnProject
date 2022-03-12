@@ -24,6 +24,9 @@ function Dashboard() {
       }
       loadCourses();
       loadRevenueClaimedData();
+      if (user.attributes.role == "admin") {
+        setIsLoading(false);
+      }
     }
   }, [isLoading, isAuthenticated, user]);
 
@@ -78,11 +81,10 @@ function Dashboard() {
     <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
       <div>
         {isAuthenticated && user.attributes.role == "admin" ? (
-          <AdminNavBar/>
+          <AdminNavBar />
         ) : (
-          <InstructorNavbar/>
+          <InstructorNavbar />
         )}
-          
       </div>
       {!isLoading ? (
         <div>
@@ -169,10 +171,11 @@ function Dashboard() {
             </div>
           )}
         </div>
-      ):
-      <div className="mb-10">
+      ) : (
+        <div className="mb-10">
           {/* <AuthErrorMsg authErrorMsg={"Connect Wallet to view Instructor Revenue page."} /> */}
-        </div>}
+        </div>
+      )}
     </div>
   );
 }

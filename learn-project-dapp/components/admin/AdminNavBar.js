@@ -32,7 +32,7 @@ function AdminNavBar() {
       if (isAuthenticated) {
         console.log(profilePicDetails + "w");
         if (profilePicDetails != "") {
-          setProfilePic(profilePicDetails._url);
+          setProfilePic(profilePicDetails);
           console.log(profilePicDetails);
         } else {
           loadUserProfilePicture();
@@ -52,22 +52,32 @@ function AdminNavBar() {
       }
     }
     verify();
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated]);
 
   const loadUserProfilePicture = async () => {
-    const Instructors = Moralis.Object.extend("instructorSubmissions");
-    const query = new Moralis.Query(Instructors);
-    query.equalTo("user", user);
-    const result = await query.find();
-    if (result[0] && result[0].attributes.profilePicture != undefined) {
-      console.log("reached");
-      setProfilePic(result[0].attributes.profilePicture._url);
+    // const Instructors = Moralis.Object.extend("instructorSubmissions");
+    // const query = new Moralis.Query(Instructors);
+    // query.equalTo("user", user);
+    // const result = await query.find();
+    // if (result[0] && result[0].attributes.profilePicture != undefined) {
+    //   console.log("reached");
+    //   setProfilePic(result[0].attributes.profilePicture._url);
+    //   useStore.setState({
+    //     profilePicDetails: result[0].attributes.profilePicture,
+    //   });
+    //   setIsLoading(false);
+    // } else {
+    //   setProfilePic(defaultImage);
+    // }
+    console.log(user);
+    if (user.attributes.profilePicture != undefined) {
+      setProfilePic(user.attributes.profilePicture._url);
       useStore.setState({
-        profilePicDetails: result[0].attributes.profilePicture,
+        profilePicDetails: user.attributes.profilePicture._url,
       });
-      setIsLoading(false);
     } else {
       setProfilePic(defaultImage);
+      useStore.setState({ profilePicDetails: defaultImage });
     }
   };
 
@@ -163,26 +173,6 @@ function AdminNavBar() {
                     </div>
                   </button>
                   <button
-                    onClick={() => Router.push("/instructor/revenue")}
-                    activeClass="text-green"
-                    to="about"
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
-                  >
-                    <div
-                      className={
-                        router.pathname == "/instructor/revenue"
-                          ? "text-emerald-300  font-extrabold : scale-110"
-                          : ""
-                      }
-                    >
-                      <Link href="/instructor/revenue">Dashboard</Link>
-                    </div>
-                  </button>
-
-                  <button
                     onClick={() => Router.push("/instructor/dashboard")}
                     activeClass="text-green"
                     to="about"
@@ -198,7 +188,27 @@ function AdminNavBar() {
                           : ""
                       }
                     >
-                      <Link href="/instructor/dashboard">My Courses</Link>
+                      <Link href="/instructor/dashboard">Dashboard</Link>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => Router.push("/instructor/mycourses")}
+                    activeClass="text-green"
+                    to="about"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
+                  >
+                    <div
+                      className={
+                        router.pathname == "/instructor/mycourses"
+                          ? "text-emerald-300  font-extrabold : scale-110"
+                          : ""
+                      }
+                    >
+                      <Link href="/instructor/mycourses">My Courses</Link>
                     </div>
                   </button>
 
@@ -220,8 +230,6 @@ function AdminNavBar() {
                       <Link href="/staking">Staking</Link>
                     </div>
                   </button>
-
-
 
                   {/* <button
                     activeClass="Services"
@@ -342,7 +350,11 @@ function AdminNavBar() {
                     onClick={!isAuthenticated ? authenticate : logOutUser}
                     offset={50}
                     duration={500}
-                    className={`${!isAuthenticated ? 'animate-pulse bg-gradient-to-br from-teal-500 to-emerald-500 text-white' : ''} sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium`}
+                    className={`${
+                      !isAuthenticated
+                        ? "animate-pulse bg-gradient-to-br from-teal-500 to-emerald-500 text-white"
+                        : ""
+                    } sm:mr-2 md:mr-2 lg:mr-2 xl:mr-10 mr-10  shadow-md  hover:bg-gradient-to-br from-teal-500 to-emerald-500 hover:text-white border border-emerald-500  hover:scale-105  text-emerald-500  mt-2  transition duration-400 ease-in-out  cursor-pointer max-w-[10rem] sm:max-w-[10rem] md:max-w-[10rem] lg:max-w-[10rem] xl:max-w-[10rem]  rounded-2xl   dark:text-white px-3 truncate py-3 text-md font-medium`}
                   >
                     {isAuthenticated
                       ? user.attributes.ethAddress

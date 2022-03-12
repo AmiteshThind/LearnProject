@@ -16,6 +16,9 @@ function instructorsubmissions() {
         router.push("/error/access");
       } else {
         loadInstructorSubmissions();
+        if (user.attributes.role == "admin") {
+          setIsLoading(false);
+        }
       }
     }
   }, [isAuthenticated, isLoading, user]);

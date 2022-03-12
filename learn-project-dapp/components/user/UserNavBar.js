@@ -75,6 +75,7 @@ function UserNavbar() {
         setProfilePic(defaultImage);
         useStore.setState({ profilePicDetails: defaultImage });
       }
+
   }
 
   const logOutUser = () => {

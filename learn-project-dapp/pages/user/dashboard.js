@@ -30,9 +30,16 @@ function Dashboard() {
     query.equalTo("user", user);
     const result = await query.find();
 
-    if (result[0] != undefined) {
-      console.log(result);
+    if (result.length > 0) {
       setUserEnrolledCourses(result);
+      const Courses = Moralis.Object.extend("Course");
+      const queryCourses = new Moralis.Query(Courses);
+
+      for (let course of result) {
+        queryCourses.equalTo("objectId", course.attributes.course.id);
+        await queryCourses.find();
+      }
+
       setIsLoading(false);
     }
 
@@ -102,9 +109,11 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      ):<div className="mb-10">
-      {/* <AuthErrorMsg authErrorMsg="Connect Wallet to see your Courses" /> */}
-    </div>}
+      ) : (
+        <div className="mb-10">
+          {/* <AuthErrorMsg authErrorMsg="Connect Wallet to see your Courses" /> */}
+        </div>
+      )}
     </div>
   );
 }

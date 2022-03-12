@@ -83,7 +83,7 @@ function Profile() {
           <InstructorNavbar/>
         )}
       </div>
-      {!isLoading ? (
+      {!isLoading && isAuthenticated ? (
         <div>
           <div className="flex justify-center ">
             {/* {JSON.stringify(
