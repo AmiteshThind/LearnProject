@@ -900,7 +900,7 @@ function CourseView() {
                                             : "modal"
                                         }
                                       >
-                                        <div class="modal-box">
+                                        <div class="modal-box text-black">
                                           <p>
                                             Are you sure you want delete this
                                             lesson?
@@ -977,7 +977,7 @@ function CourseView() {
                                                     : "modal"
                                                 }
                                               >
-                                                <div class="modal-box">
+                                                <div class="modal-box text-black">
                                                   <p>
                                                     Are you sure you want delete
                                                     this question?
