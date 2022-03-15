@@ -91,6 +91,7 @@ function CourseCreate() {
     newCourse.set("state", "draft");
 
     uploadFile(newCourse);
+     
   };
 
   const uploadFile = async (newCourse) => {

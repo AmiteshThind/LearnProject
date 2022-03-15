@@ -14,6 +14,7 @@ function CourseEdit() {
   const router = useRouter();
   const { slug } = router.query;
   const [isLoading, setIsLoading] = useState(true);
+  const [course, setCourse] = useState([]);
 
   const [values, setValues] = useState({
     name: "",
@@ -48,6 +49,7 @@ function CourseEdit() {
       setValues(result[0].attributes);
       console.log(result[0].attributes);
       setPreview(result[0].attributes.image_preview._url);
+      setCourse(result);
     }
     setIsLoading(false); //once u get the value from the endpoint then u set to false as it will keep re running until the response is reached
     console.log("wow");
@@ -86,10 +88,18 @@ function CourseEdit() {
   };
 
   const updateCourse = async () => {
-    const Course = Moralis.Object.extend("Course");
+    const Course = Moralis.Object.extend("UpdatedCourse");
     const query = new Moralis.Query(Course);
-    query.equalTo("slug", slug);
-    const courseToUpdate = await query.first();
+    query.equalTo("courseToUpdate", course[0].id);
+    query.equalTo("state", "pending");
+    const result = await query.first();
+    if (result != undefined) {
+      const wow = await result.destroy();
+      console.log("we");
+      console.log(wow);
+    }
+
+    const courseToUpdate = new Course();
     courseToUpdate.set("name", values.name);
     courseToUpdate.set("description", values.description);
     if (!values.paid) {
@@ -102,17 +112,20 @@ function CourseEdit() {
     courseToUpdate.set("instructor", user);
     courseToUpdate.set("slug", slugify(values.name.toLowerCase()));
     courseToUpdate.set("sections", values.sections);
+    courseToUpdate.set("courseToUpdate", course[0].id);
+    courseToUpdate.set("state", "pending");
 
     uploadFile(courseToUpdate);
     await courseToUpdate.save();
-    router.push(
-      `/instructor/course/view/${slugify(values.name.toLowerCase())}`
-    );
+    // router.push(
+    //   `/instructor/course/view/${slugify(values.name.toLowerCase())}`
+    // );
     console.log("wow");
     console.log(values.sections);
   };
 
   const uploadFile = async (courseToUpdate) => {
+    //only if you change the image it will show up in updated row else it will remain undefined
     if (imageFile) {
       const imagePreview = new Moralis.File("image", imageFile);
       courseToUpdate.set("image_preview", imagePreview);
