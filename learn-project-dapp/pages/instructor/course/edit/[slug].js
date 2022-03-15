@@ -15,6 +15,8 @@ function CourseEdit() {
   const { slug } = router.query;
   const [isLoading, setIsLoading] = useState(true);
   const [course, setCourse] = useState([]);
+  const [updatedSubmitted, setUpdateSubmitted] = useState(false);
+  const [courseId, setCourseId] = useState("");
 
   const [values, setValues] = useState({
     name: "",
@@ -50,9 +52,23 @@ function CourseEdit() {
       console.log(result[0].attributes);
       setPreview(result[0].attributes.image_preview._url);
       setCourse(result);
+      console.log(result);
+      checkIfUpdateSubmitted(result[0].id);
     }
     setIsLoading(false); //once u get the value from the endpoint then u set to false as it will keep re running until the response is reached
-    console.log("wow");
+  };
+
+  const checkIfUpdateSubmitted = async (courseId) => {
+    const CourseUpdate = Moralis.Object.extend("UpdatedCourse");
+    const query = new Moralis.Query(CourseUpdate);
+    console.log(courseId);
+    query.equalTo("state", "pending");
+    query.equalTo("courseToUpdate", courseId);
+    const result = await query.find();
+    if (result[0] != undefined) {
+      setUpdateSubmitted(true);
+      console.log("weo");
+    }
   };
 
   const handleChange = (e) => {
@@ -117,6 +133,7 @@ function CourseEdit() {
 
     uploadFile(courseToUpdate);
     await courseToUpdate.save();
+    setUpdateSubmitted(true);
     // router.push(
     //   `/instructor/course/view/${slugify(values.name.toLowerCase())}`
     // );
@@ -153,6 +170,7 @@ function CourseEdit() {
                     setValues={setValues}
                     preview={preview}
                     editing={true}
+                    updateSubmitted={updatedSubmitted}
                   />
                 </div>
               </div>

@@ -39,6 +39,8 @@ function CourseCreate() {
     }
   }, [isAuthenticated, user, isLoading]);
 
+
+
   const handleChange = (e) => {
     console.log(e);
     console.log(e.target.name);
