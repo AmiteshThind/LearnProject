@@ -7,13 +7,14 @@ import { useMoralis } from "react-moralis";
 import AdminNavBar from "../../components/admin/AdminNavBar";
 import { Toaster } from "react-hot-toast";
 import Image from "next/image";
+import ReactPlayer from "react-player";
 
 function courseupdate() {
   const { user, isAuthenticated } = useMoralis();
   const [courseDescriptionToUpdate, setCourseDescriptionToUpdate] = useState(
     []
   );
-  const [lessonsToUpdate, setLessonsToUpdate] = useState();
+  const [lessonsToUpdate, setLessonsToUpdate] = useState([]);
   const [quizQuestionsToUpdate, setQuizQuestionsToUpdate] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -50,27 +51,82 @@ function courseupdate() {
       setCourseDescriptionToUpdate(result);
     }
 
-    // const updatedLessons = Moralis.Object.extend("UpdatedLessson");
-    // const queryLesson = new Moralis.Query(updatedLessons);
-    // queryLesson.equalTo("state", "pending");
-    // const lessonsData = await queryLesson.find();
-    // if (lessonsData[0] != undefined){
-    //   setLessonsToUpdate(lessonsData);
-    // }
+    const updatedLessons = Moralis.Object.extend("UpdatedLesson");
+    const queryLesson = new Moralis.Query(updatedLessons);
+    queryLesson.equalTo("state", "pending");
+    const lessonsData = await queryLesson.find();
+    console.log(JSON.stringify(lessonsData[1]) + "o");
+    if (lessonsData[0] != undefined) {
+      setLessonsToUpdate(lessonsData);
+      console.log("meow");
+    }
 
-    // const updatedQuiz = Moralis.Object.extend("UpdatedQuizQuestion");
-    // const queryQuiz = new Moralis.Query(updatedQuiz);
-    // queryQuiz.equalTo("state", "pending");
-    // const quizData = await queryQuiz.find();
-    // if (quizData[0] != undefined) {
-    //   setQuizQuestionsToUpdate(quizData);
-
-    // }
+    const updatedQuiz = Moralis.Object.extend("UpdatedQuizQuestion");
+    const queryQuiz = new Moralis.Query(updatedQuiz);
+    queryQuiz.equalTo("state", "pending");
+    const quizData = await queryQuiz.find();
+    if (quizData[0] != undefined) {
+      setQuizQuestionsToUpdate(quizData);
+    }
   };
 
-  const approveUpdatedContent = async (instructor) => {};
+  const approveUpdatedLesson = async (updatedLesson) => {
+    try {
+      console.log("reacehd");
+      const Lesson = Moralis.Object.extend("Lesson");
+      const query = new Moralis.Query(Lesson);
+      query.equalTo("objectId", updatedLesson.attributes.lessonToUpdate);
+      const result = await query.find();
 
-  const rejectUpdatedContent = async (updatedCourse) => {
+      if (result[0] != undefined) {
+        result[0].set("title", updatedLesson.attributes.title);
+        result[0].set("content", updatedLesson.attributes.content);
+        result[0].set("video", updatedLesson.attributes.video);
+        result[0].set("section", updatedLesson.attributes.section);
+        result[0].set("free_preview", updatedLesson.attributes.free_preview);
+        await result[0].save();
+
+        const LessonToUpdate = Moralis.Object.extend("UpdatedLesson");
+        const queryUpdatedLesson = new Moralis.Query(LessonToUpdate);
+        queryUpdatedLesson.equalTo("state", "pending");
+        queryUpdatedLesson.equalTo("objectId", updatedLesson.id);
+        const updatedLessonResult = await queryUpdatedLesson.find();
+        if (updatedLessonResult[0] != undefined) {
+          updatedLessonResult[0].set("state", "approved");
+          await updatedLessonResult[0].save();
+          let updatedLessonsArray = lessonsToUpdate.filter(
+            (submission) => submission.id != updatedLesson.id
+          );
+
+          setLessonsToUpdate(updatedLessonsArray);
+          toast.success("Lesson Update Approved");
+        }
+      }
+    } catch (error) {}
+  };
+
+  const rejectUpdatedLesson = async (updatedLesson) => {
+    try {
+      const lessonToUpdate = Moralis.Object.extend("UpdatedLesson");
+      const query = new Moralis.Query(lessonToUpdate);
+      query.equalTo("state", "pending");
+      query.equalTo("objectId", updatedLesson.id);
+      const result = await query.find();
+      await result[0].destroy();
+
+      let updatedLessonsArray = lessonsToUpdate.filter(
+        (submission) => submission.id != updatedLesson.id
+      );
+
+      setLessonsToUpdate(updatedLessonsArray);
+
+      toast.success("Lesson Update Rejected");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const rejectCourseDescriptionUpdate = async (updatedCourse) => {
     try {
       const courseToUpdate = Moralis.Object.extend("UpdatedCourse");
       const queryCourseToUpdate = new Moralis.Query(courseToUpdate);
@@ -79,7 +135,7 @@ function courseupdate() {
       const result = await queryCourseToUpdate.find();
       await result[0].destroy();
       let updatedCourseDescriptionToUpdate = courseDescriptionToUpdate.filter(
-        (submission) => submission.attributes.id != updatedCourse.attributes.id
+        (submission) => submission.id != updatedCourse.id
       );
 
       setCourseDescriptionToUpdate(updatedCourseDescriptionToUpdate);
@@ -129,12 +185,11 @@ function courseupdate() {
           //need to update courseDescriptionToUpdate array as well by removing this elemnent from the array
           let updatedCourseDescriptionToUpdate =
             courseDescriptionToUpdate.filter(
-              (submission) =>
-                submission.attributes.id != updatedCourse.attributes.id
+              (submission) => submission.id != updatedCourse.id
             );
 
           setCourseDescriptionToUpdate(updatedCourseDescriptionToUpdate);
-          toast.success("Course Update Rejected");
+          toast.success("Course Update Approved");
         }
       }
     } catch (error) {
@@ -164,21 +219,20 @@ function courseupdate() {
 
                 <div className="mx-5 flex flex-col flex-wrap my-8 ">
                   <div className="flex flex-col">
-                    <div className="text-3xl font-extrabold">
-                      Updated Descriptions
+                    <div className="text-3xl font-extrabold mb-3">
+                      Updated Course Descriptions
                     </div>
                     <div>
-                      {courseDescriptionToUpdate.map((course) => (
+                      {courseDescriptionToUpdate.map((course, index) => (
                         <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
                           <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
                             <div className="text-xl font-semibold my-3 w-full md:w-1/4    ">
-                              {course.attributes.name}
+                              {course.attributes.originalCourseName}
                             </div>
-
                             <div>
                               <button className="text-xl  bg-transparent border-2 border-teal-500 rounded-2xl p-3 hover:bg-gradient-to-r from-teal-500 to-teal-400 font-semibold  ">
                                 <label
-                                  for="my-modal2"
+                                  for={"my-modal2" + index}
                                   class=" cursor-pointer  modal-button"
                                 >
                                   View Updates
@@ -187,11 +241,11 @@ function courseupdate() {
 
                               <input
                                 type="checkbox"
-                                id="my-modal2"
+                                id={"my-modal2" + index}
                                 class="modal-toggle"
                               />
                               <div class="modal text-white">
-                                <div class="modal-box bg-zinc-800">
+                                <div class="modal-box border border-zinc-600 bg-zinc-800">
                                   <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                     Course Description Update
                                   </label>
@@ -350,7 +404,7 @@ function courseupdate() {
 
                                   <div class="modal-action">
                                     <label
-                                      for="my-modal2"
+                                      for={"my-modal2" + index}
                                       class=" cursor-pointer p-3 px-10 rounded-2xl bg-transparent border-2 border-teal-500 hover:bg-gradient-to-r from-teal-500 to-teal-400"
                                     >
                                       Done
@@ -360,11 +414,13 @@ function courseupdate() {
                               </div>
 
                               <button
-                                onClick={() => rejectUpdatedContent(course)}
+                                onClick={() =>
+                                  rejectCourseDescriptionUpdate(course)
+                                }
                                 className="text-xl cursor-pointer modal-button   bg-transparent border-2 border-red-500  rounded-2xl p-3 hover:bg-gradient-to-r from-red-500 to-rose-400 font-semibold mx-5 "
                               >
                                 <label
-                                  for="my-modal"
+                                  for={"my-modal2" + index}
                                   class=" cursor-pointer  modal-button"
                                 >
                                   Reject
@@ -377,20 +433,381 @@ function courseupdate() {
                                 }
                                 className="text-xl   bg-transparent border-2 border-emerald-500  rounded-2xl p-3 hover:bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold mr-2.5 "
                               >
-                                Approve
+                                <label
+                                  for={"my-modal2" + index}
+                                  class=" cursor-pointer  modal-button"
+                                >
+                                  Approve
+                                </label>
                               </button>
                             </div>
                           </div>
                         </div>
                       ))}
                     </div>
-                    <div className="flex flex-col">
-                      <div>Updated Lessons</div>
-                      <div></div>
+                    <div className="flex flex-col my-3">
+                      <div className="text-3xl font-extrabold">
+                        Updated Lessons
+                      </div>
+                      <div>
+                        {lessonsToUpdate.map((lesson, index) => (
+                          <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
+                            <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
+                              <div className=" font-semibold my-3 w-full md:w-1/4    ">
+                                <div className="text-xl">
+                                  {lesson.attributes.originalLessonName}
+                                </div>
+                                <div className="text-sm text-zinc-500">
+                                  Section: {lesson.attributes.originalSection}
+                                </div>
+                                <div className="text-sm text-zinc-500">
+                                  Course: {lesson.attributes.courseName}
+                                </div>
+                              </div>
+                              <div>
+                                <button className="text-xl  bg-transparent border-2 border-teal-500 rounded-2xl p-3 hover:bg-gradient-to-r from-teal-500 to-teal-400 font-semibold  ">
+                                  <label
+                                    for={"my-modal3" + index}
+                                    class=" cursor-pointer  modal-button"
+                                  >
+                                    View Updates
+                                  </label>
+                                </button>
+
+                                <input
+                                  type="checkbox"
+                                  id={"my-modal3" + index}
+                                  class="modal-toggle"
+                                />
+                                <div class="modal text-white">
+                                  <div class="modal-box border border-zinc-600 bg-zinc-800">
+                                    <label className="  flex justify-center text-3xl font-extrabold mb-5">
+                                      Lesson Update
+                                    </label>
+                                    <form>
+                                      <label className="block text-sm font-medium text-white">
+                                        Title
+                                      </label>
+
+                                      <div className="  relative rounded-md shadow-sm">
+                                        <input
+                                          type="text"
+                                          name="title"
+                                          className="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 w-full"
+                                          placeholder="eg. Setup Server"
+                                          value={lesson.attributes.title}
+                                          disabled
+                                        />
+                                      </div>
+                                      <label className="block text-sm font-medium my-3 text-white">
+                                        Section
+                                      </label>
+
+                                      <div className="flex">
+                                        <div className="flex flex-col  ">
+                                          <div class="flex justify-center  ">
+                                            <div class="  w-full">
+                                              <select
+                                                disabled
+                                                value={
+                                                  lesson.attributes.section
+                                                }
+                                                class="border border-zinc-600 bg-transparent text-center  p-3 rounded-2xl select-ghost w-full text-white truncate "
+                                              >
+                                                <option value={""}>
+                                                  {lesson.attributes.section}
+                                                </option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <label className="block text-sm my-3 font-medium text-white">
+                                        Content
+                                      </label>
+
+                                      <div>
+                                        <textarea
+                                          value={lesson.attributes.content}
+                                          disabled
+                                          name="content"
+                                          required
+                                          placeholder="eg. Setting up a server"
+                                          type="text"
+                                          className=" border border-zinc-600 bg-transparent p-3 rounded-xl  w-full h-[8rem]"
+                                        ></textarea>
+                                      </div>
+                                      <div class="flex justify-center">
+                                        <div class="w-full ">
+                                          <div class="flex   flex-col   w-full">
+                                            <div>
+                                              <div className="flex justify-between ">
+                                                <label className="block text-sm font-medium text-white mt-3">
+                                                  Preview
+                                                </label>
+                                                <div class=" card">
+                                                  <div class="form-control">
+                                                    <label class="label">
+                                                      <span class="label-text"></span>
+                                                      <input
+                                                        defaultChecked={
+                                                          lesson.attributes
+                                                            .free_preview
+                                                        }
+                                                        type="checkbox"
+                                                        disabled
+                                                        class="toggle toggle-accent "
+                                                      />
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <label className="block text-sm font-medium text-white mt-3 mb-3">
+                                                Video
+                                              </label>
+                                              {lesson.attributes.video &&
+                                                lesson.attributes.video
+                                                  .Location && (
+                                                  <div className=" flex justify-center">
+                                                    <ReactPlayer
+                                                      url={
+                                                        lesson.attributes.video
+                                                          .Location
+                                                      }
+                                                      width={"410px"}
+                                                      height={"240px"}
+                                                      controls
+                                                      config={{
+                                                        file: {
+                                                          attributes: {
+                                                            controlsList:
+                                                              "nodownload",
+                                                          },
+                                                        },
+                                                      }}
+                                                      onContextMenu={(e) =>
+                                                        e.preventDefault()
+                                                      }
+                                                    />
+                                                  </div>
+                                                )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </form>
+
+                                    <div class="modal-action">
+                                      <label
+                                        for={"my-modal3" + index}
+                                        class=" cursor-pointer p-3 px-10 rounded-2xl bg-transparent border-2 border-teal-500 hover:bg-gradient-to-r from-teal-500 to-teal-400"
+                                      >
+                                        Done
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => rejectUpdatedLesson(lesson)}
+                                  className="text-xl cursor-pointer modal-button   bg-transparent border-2 border-red-500  rounded-2xl p-3 hover:bg-gradient-to-r from-red-500 to-rose-400 font-semibold mx-5 "
+                                >
+                                  Reject
+                                </button>
+
+                                <button
+                                  onClick={() => approveUpdatedLesson(lesson)}
+                                  className="text-xl   bg-transparent border-2 border-emerald-500  rounded-2xl p-3 hover:bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold mr-2.5 "
+                                >
+                                  Approve
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <div>Updated Quiz Questions</div>
-                      <div></div>
+                    <div className="flex flex-col my-3">
+                      <div className="text-3xl font-extrabold">Updated Quiz Questions</div>
+                      <div>
+                        {quizQuestionsToUpdate.map((question, index) => (
+                          <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
+                            <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
+                              <div className=" font-semibold my-3 w-full md:w-1/4    ">
+                                <div className="text-xl">
+                                  {question.attributes.originalQuizQuestion}
+                                </div>
+                                <div className="text-sm text-zinc-500">
+                                  Section: {quiz.attributes.section}
+                                </div>
+                                <div className="text-sm text-zinc-500">
+                                  Course: {question.attributes.courseName}
+                                </div>
+                              </div>
+                              <div>
+                                <button className="text-xl  bg-transparent border-2 border-teal-500 rounded-2xl p-3 hover:bg-gradient-to-r from-teal-500 to-teal-400 font-semibold  ">
+                                  <label
+                                    for={"my-modal3" + index}
+                                    class=" cursor-pointer  modal-button"
+                                  >
+                                    View Updates
+                                  </label>
+                                </button>
+
+                                <input
+                                  type="checkbox"
+                                  id={"my-modal3" + index}
+                                  class="modal-toggle"
+                                />
+                                <div class="modal text-white">
+                                  <div class="modal-box border border-zinc-600 bg-zinc-800">
+                                    <label className="  flex justify-center text-3xl font-extrabold mb-5">
+                                      Quiz Question Update
+                                    </label>
+                                    <form>
+                                      <label className="block text-sm font-medium text-white">
+                                        Title
+                                      </label>
+
+                                      <div className="  relative rounded-md shadow-sm">
+                                        <input
+                                          type="text"
+                                          name="title"
+                                          className="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 w-full"
+                                          placeholder="eg. Setup Server"
+                                          value={lesson.attributes.title}
+                                          disabled
+                                        />
+                                      </div>
+                                      <label className="block text-sm font-medium my-3 text-white">
+                                        Section
+                                      </label>
+
+                                      <div className="flex">
+                                        <div className="flex flex-col  ">
+                                          <div class="flex justify-center  ">
+                                            <div class="  w-full">
+                                              <select
+                                                disabled
+                                                value={
+                                                  lesson.attributes.section
+                                                }
+                                                class="border border-zinc-600 bg-transparent text-center  p-3 rounded-2xl select-ghost w-full text-white truncate "
+                                              >
+                                                <option value={""}>
+                                                  {lesson.attributes.section}
+                                                </option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <label className="block text-sm my-3 font-medium text-white">
+                                        Content
+                                      </label>
+
+                                      <div>
+                                        <textarea
+                                          value={lesson.attributes.content}
+                                          disabled
+                                          name="content"
+                                          required
+                                          placeholder="eg. Setting up a server"
+                                          type="text"
+                                          className=" border border-zinc-600 bg-transparent p-3 rounded-xl  w-full h-[8rem]"
+                                        ></textarea>
+                                      </div>
+                                      <div class="flex justify-center">
+                                        <div class="w-full ">
+                                          <div class="flex   flex-col   w-full">
+                                            <div>
+                                              <div className="flex justify-between ">
+                                                <label className="block text-sm font-medium text-white mt-3">
+                                                  Preview
+                                                </label>
+                                                <div class=" card">
+                                                  <div class="form-control">
+                                                    <label class="label">
+                                                      <span class="label-text"></span>
+                                                      <input
+                                                        defaultChecked={
+                                                          lesson.attributes
+                                                            .free_preview
+                                                        }
+                                                        type="checkbox"
+                                                        disabled
+                                                        class="toggle toggle-accent "
+                                                      />
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <label className="block text-sm font-medium text-white mt-3 mb-3">
+                                                Video
+                                              </label>
+                                              {lesson.attributes.video &&
+                                                lesson.attributes.video
+                                                  .Location && (
+                                                  <div className=" flex justify-center">
+                                                    <ReactPlayer
+                                                      url={
+                                                        lesson.attributes.video
+                                                          .Location
+                                                      }
+                                                      width={"410px"}
+                                                      height={"240px"}
+                                                      controls
+                                                      config={{
+                                                        file: {
+                                                          attributes: {
+                                                            controlsList:
+                                                              "nodownload",
+                                                          },
+                                                        },
+                                                      }}
+                                                      onContextMenu={(e) =>
+                                                        e.preventDefault()
+                                                      }
+                                                    />
+                                                  </div>
+                                                )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </form>
+
+                                    <div class="modal-action">
+                                      <label
+                                        for={"my-modal3" + index}
+                                        class=" cursor-pointer p-3 px-10 rounded-2xl bg-transparent border-2 border-teal-500 hover:bg-gradient-to-r from-teal-500 to-teal-400"
+                                      >
+                                        Done
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => rejectUpdatedLesson(lesson)}
+                                  className="text-xl cursor-pointer modal-button   bg-transparent border-2 border-red-500  rounded-2xl p-3 hover:bg-gradient-to-r from-red-500 to-rose-400 font-semibold mx-5 "
+                                >
+                                  Reject
+                                </button>
+
+                                <button
+                                  onClick={() => approveUpdatedLesson(lesson)}
+                                  className="text-xl   bg-transparent border-2 border-emerald-500  rounded-2xl p-3 hover:bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold mr-2.5 "
+                                >
+                                  Approve
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

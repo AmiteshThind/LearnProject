@@ -328,6 +328,28 @@ function AdminNavBar() {
                           </div>
                         </button>
                       </li>
+                      <li>
+                        <button
+                          activeClass="work"
+                          to="work"
+                          smooth={true}
+                          offset={50}
+                          duration={500}
+                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                        >
+                          <div
+                            className={
+                              router.pathname == "/admin/courseupdate"
+                                ? " text-emerald-300  font-extrabold : scale-110"
+                                : "text-white"
+                            }
+                          >
+                            <Link href="/admin/courseupdate">
+                              Course Updates
+                            </Link>
+                          </div>
+                        </button>
+                      </li>
                     </ul>
                   </button>
                 </div>

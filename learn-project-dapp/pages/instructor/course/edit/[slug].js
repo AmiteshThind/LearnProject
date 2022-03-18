@@ -129,7 +129,9 @@ function CourseEdit() {
     courseToUpdate.set("slug", slugify(values.name.toLowerCase()));
     courseToUpdate.set("sections", values.sections);
     courseToUpdate.set("courseToUpdate", course[0].id);
+    courseToUpdate.set("originalCourseName",course[0].attributes.name);
     courseToUpdate.set("state", "pending");
+
 
     uploadFile(courseToUpdate);
     await courseToUpdate.save();

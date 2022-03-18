@@ -47,13 +47,14 @@ function CourseView() {
   const [editing, setEditing] = useState(false);
   const [quizEditing, setQuizEditing] = useState(false);
   const [availableQuizSections, setAvailableQuizSections] = useState([]);
-
+  const [selectedLesson, setSelectedLesson] = useState();
+  const [selectedQuizQuestion, setSelectedQuizQuestion] = useState();
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [showCancelLessonModal, setShowCancelLessonModal] = useState(false);
   const [showDeleteQuizQuestionModal, setShowDeleteQuizQuestionModal] =
     useState(false);
   //for lessons
-
+  const [lessonUpdatedSubmitted, setLessonUpdatedSubmitted] = useState(false);
   const [isValidInstructor, setIsValidInstructor] = useState(false);
 
   const [values, setValues] = useState({
@@ -97,7 +98,6 @@ function CourseView() {
     const Course = Moralis.Object.extend("Course");
     const query = new Moralis.Query(Course);
     query.equalTo("slug", slug);
-
     const result = await query.find();
     //console.log(user.id);
 
@@ -141,6 +141,18 @@ function CourseView() {
     }
     console.log(result2);
     setIsLoading(false);
+
+    checkIfLessonOrQuizUpdateSubmitted();
+  };
+
+  const checkIfLessonOrQuizUpdateSubmitted = async () => {
+    const UpdatedLesson = Moralis.Object.extend("UpdatedLesson");
+    const queryUpdatedLesson = new Moralis.Query(UpdatedLesson);
+    queryUpdatedLesson.equalTo("state", "pending");
+    const result = await queryUpdatedLesson.find();
+    if (result[0] != undefined) {
+      setLessonUpdatedSubmitted(true);
+    }
   };
 
   const loadQuizQuestions = async () => {
@@ -165,14 +177,17 @@ function CourseView() {
   //functions for add Lessons
 
   const handleEditLesson = async (lesson) => {
+    setSelectedLesson(lesson);
     setVisible(true);
     setEditing(true);
     setValues(lesson.attributes);
     setOrginalLessonValues(lesson.attributes);
+
     // console.log(lesson);
   };
 
   const handleEditQuizQuestion = async (question) => {
+    setSelectedQuizQuestion(question);
     setQuizVisible(true);
     setQuizEditing(true);
     setQuestionDetails(question.attributes);
@@ -262,30 +277,36 @@ function CourseView() {
 
   const handleUpdateLesson = async (e) => {
     try {
-      //   console.log("CALLED");
-      //   console.log(values);
-      console.log(JSON.stringify(values.video));
       if (values.video.Location == undefined) {
         toast.error("video cannot be blank.Please upload a video.");
       } else {
-        const Lesson = Moralis.Object.extend("Lesson");
-        const query = new Moralis.Query(Lesson);
-        query.equalTo("course", course[0]);
-        query.equalTo("title", orginalLessonValues.title);
-        const lessonToUpdate = await query.first();
-        //   console.log(lessonToUpdate);
-        lessonToUpdate.set("title", values.title);
-        lessonToUpdate.set("content", values.content);
-        lessonToUpdate.set("video", values.video);
-        lessonToUpdate.set("section", values.section);
-        lessonToUpdate.set("free_preview", values.free_preview);
-        await lessonToUpdate.save();
-        toast.success("Lesson Updated", {
+        const Lesson = Moralis.Object.extend("UpdatedLesson");
+        const updatedLesson = new Lesson();
+
+        updatedLesson.set("title", values.title);
+        updatedLesson.set("content", values.content);
+        updatedLesson.set("video", values.video);
+        updatedLesson.set("section", values.section);
+        updatedLesson.set("free_preview", values.free_preview);
+        updatedLesson.set("state", "pending");
+        updatedLesson.set("lessonToUpdate", selectedLesson.id);
+        updatedLesson.set("courseName", course[0].attributes.name);
+        updatedLesson.set(
+          "originalLessonName",
+          selectedLesson.attributes.title
+        );
+        updatedLesson.set("originalSection", selectedLesson.attributes.section);
+        await updatedLesson.save();
+
+        toast.success("Lesson Update Submitted", {
           duration: 2000,
           iconTheme: {
             primary: "#10b981",
           },
         });
+
+        setLessonUpdatedSubmitted(true);
+
         setVisible(false);
         setUploadBtnText("Upload Video");
         setValues({
@@ -296,19 +317,46 @@ function CourseView() {
           video: {},
           free_preview: false,
         });
+
+        // const Lesson = Moralis.Object.extend("Lesson");
+        // const query = new Moralis.Query(Lesson);
+        // query.equalTo("course", course[0]);
+        // query.equalTo("title", orginalLessonValues.title);
+        // const lessonToUpdate = await query.first();
+        // //   console.log(lessonToUpdate);
+        // lessonToUpdate.set("title", values.title);
+        // lessonToUpdate.set("content", values.content);
+        // lessonToUpdate.set("video", values.video);
+        // lessonToUpdate.set("section", values.section);
+        // lessonToUpdate.set("free_preview", values.free_preview);
+        // await lessonToUpdate.save();
+        // toast.success("Lesson Updated", {
+        //   duration: 2000,
+        //   iconTheme: {
+        //     primary: "#10b981",
+        //   },
+        // });
+        // setVisible(false);
+        // setUploadBtnText("Upload Video");
+        // setValues({
+        //   ...values,
+        //   title: "",
+        //   content: "",
+        //   section: "",
+        //   video: {},
+        //   free_preview: false,
+        // });
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
   const handleUpdateQuizQuestion = async (e) => {
     try {
-      const QuizQuestion = Moralis.Object.extend("QuizQuestion");
-      const query = new Moralis.Query(QuizQuestion);
-      query.equalTo("course", course[0]);
-      query.equalTo("question", originalQuizQuestionDetails.question);
-      const quizQuestionToUpdate = await query.first();
+      const QuizQuestionToUpdate = Moralis.Object.extend("UpdatedQuizQuestion");
+      const quizQuestionToUpdate = new QuizQuestionToUpdate();
       quizQuestionToUpdate.set("question", questionDetails.question.trim());
       quizQuestionToUpdate.set("answer", questionDetails.answer.trim());
       quizQuestionToUpdate.set(
@@ -316,9 +364,16 @@ function CourseView() {
         questionDetails.options.filter((option) => option != "")
       );
       quizQuestionToUpdate.set("section", questionDetails.section.trim());
+      quizQuestionToUpdate.set("quizQuestionToUpdate", selectedQuizQuestion.id);
+      quizQuestionToUpdate.set("state","pending")
+      quizQuestionToUpdate.set(
+        "originalQuizQuestion",
+        selectedQuizQuestion.attributes.question
+      );
+      quizQuestionToUpdate.set("courseName", course[0].attributes.name);
       await quizQuestionToUpdate.save();
       setOriginalQuizQuestionDetails(questionDetails);
-      toast.success("Question Updated", {
+      toast.success("Quiz Question Update Submitted", {
         duration: 2000,
         iconTheme: {
           primary: "#10b981",
@@ -755,8 +810,14 @@ function CourseView() {
 
                   <div className="flex h-full bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
                     <Toaster />
+                    {lessonUpdatedSubmitted && (
+                      <div className="border border-yellow-400 rounded-2xl py-2 text-sm px-3  mb-3 text-yellow-400 mx-5 ">
+                        Note: Updates have been submitted and are currently
+                        being review.
+                      </div>
+                    )}
                     <div className="   flex flex-wrap text-4xl justify-center  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
-                      <h1>Manage Lessons </h1>
+                      <h1>Manage Lessons</h1>
                     </div>
                     <div className="flex items-center justify-center mt-10">
                       <button
