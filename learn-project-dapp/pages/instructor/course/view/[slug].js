@@ -281,6 +281,13 @@ function CourseView() {
         toast.error("video cannot be blank.Please upload a video.");
       } else {
         const Lesson = Moralis.Object.extend("UpdatedLesson");
+        const query = new Moralis.Query(Lesson);
+        query.equalTo("lessonToUpdate",selectedLesson.id);
+        query.equalTo("state","pending");
+        const result = await query.find();
+        if(result[0]){
+          await result[0].destroy();
+        }
         const updatedLesson = new Lesson();
 
         updatedLesson.set("title", values.title);
@@ -355,7 +362,20 @@ function CourseView() {
 
   const handleUpdateQuizQuestion = async (e) => {
     try {
+       
+
       const QuizQuestionToUpdate = Moralis.Object.extend("UpdatedQuizQuestion");
+      //first check if this quiz question is already being updated, if it is then destroy it and resubmit
+
+      const query = new Moralis.Query(QuizQuestionToUpdate);
+      query.equalTo("quizQuestionToUpdate",selectedQuizQuestion.id);
+      query.equalTo("state","pending");
+      const result = await query.find();
+      if(result[0]){
+        await result[0].destroy();
+      }
+      console.log('wo')
+
       const quizQuestionToUpdate = new QuizQuestionToUpdate();
       quizQuestionToUpdate.set("question", questionDetails.question.trim());
       quizQuestionToUpdate.set("answer", questionDetails.answer.trim());

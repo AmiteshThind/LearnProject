@@ -15,7 +15,7 @@ function courseupdate() {
     []
   );
   const [lessonsToUpdate, setLessonsToUpdate] = useState([]);
-  const [quizQuestionsToUpdate, setQuizQuestionsToUpdate] = useState();
+  const [quizQuestionsToUpdate, setQuizQuestionsToUpdate] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   useEffect(() => {
@@ -69,6 +69,71 @@ function courseupdate() {
       setQuizQuestionsToUpdate(quizData);
     }
   };
+
+  const approveUpdatedQuizQuestion = async (updatedQuizQuestion) => {
+   
+    try {
+      console.log(updatedQuizQuestion)
+      const quizQuestion = Moralis.Object.extend("QuizQuestion");
+      const query = new Moralis.Query(quizQuestion);
+      query.equalTo(
+        "objectId",
+        updatedQuizQuestion.attributes.quizQuestionToUpdate
+      );
+      const result = await query.find();
+      console.log(result)
+      if (result[0] != undefined) {
+        console.log('wme')
+        result[0].set("section", updatedQuizQuestion.attributes.section);
+        result[0].set("question", updatedQuizQuestion.attributes.question);
+        result[0].set("options", updatedQuizQuestion.attributes.options);
+        result[0].set("answer", updatedQuizQuestion.attributes.answer);
+        await result[0].save();
+
+        const quizQuestionToUpdate = Moralis.Object.extend(
+          "UpdatedQuizQuestion"
+        );
+        const queryUpdatedQuizQuestion = new Moralis.Query(
+          quizQuestionToUpdate
+        );
+        queryUpdatedQuizQuestion.equalTo("state", "pending");
+        queryUpdatedQuizQuestion.equalTo("objectId", updatedQuizQuestion.id);
+        const updatedQuizQuestionResult = await queryUpdatedQuizQuestion.find();
+        if (updatedQuizQuestionResult[0] != undefined) {
+          updatedQuizQuestionResult[0].set("state", "approved");
+          await updatedQuizQuestionResult[0].save();
+          let updatedQuizArray = quizQuestionsToUpdate.filter(
+            (submission) => submission.id != updatedQuizQuestion.id
+          );
+          setQuizQuestionsToUpdate(updatedQuizArray);
+          toast.success("Quiz Question Update Approved");
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const rejectUpdatedQuizQuestion = async(updatedQuizQuestion)=>{
+    try {
+      const quizQuestionToUpdate = Moralis.Object.extend("UpdatedQuizQuestion");
+      const query = new Moralis.Query(quizQuestionToUpdate);
+      query.equalTo("state", "pending");
+      query.equalTo("objectId", updatedQuizQuestion.id);
+      const result = await query.find();
+      result[0].set("state","rejected");
+      await result[0].save();
+
+      let updatedQuizArray = quizQuestionsToUpdate.filter(
+        (submission) => submission.id != updatedQuizQuestion.id
+      );
+      setQuizQuestionsToUpdate(updatedQuizArray);
+
+      toast.success("Lesson Update Rejected");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   const approveUpdatedLesson = async (updatedLesson) => {
     try {
@@ -629,7 +694,9 @@ function courseupdate() {
                       </div>
                     </div>
                     <div className="flex flex-col my-3">
-                      <div className="text-3xl font-extrabold">Updated Quiz Questions</div>
+                      <div className="text-3xl font-extrabold">
+                        Updated Quiz Questions
+                      </div>
                       <div>
                         {quizQuestionsToUpdate.map((question, index) => (
                           <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
@@ -639,7 +706,7 @@ function courseupdate() {
                                   {question.attributes.originalQuizQuestion}
                                 </div>
                                 <div className="text-sm text-zinc-500">
-                                  Section: {quiz.attributes.section}
+                                  Section: {question.attributes.section}
                                 </div>
                                 <div className="text-sm text-zinc-500">
                                   Course: {question.attributes.courseName}
@@ -648,7 +715,7 @@ function courseupdate() {
                               <div>
                                 <button className="text-xl  bg-transparent border-2 border-teal-500 rounded-2xl p-3 hover:bg-gradient-to-r from-teal-500 to-teal-400 font-semibold  ">
                                   <label
-                                    for={"my-modal3" + index}
+                                    for={"my-modal4" + index}
                                     class=" cursor-pointer  modal-button"
                                   >
                                     View Updates
@@ -657,7 +724,7 @@ function courseupdate() {
 
                                 <input
                                   type="checkbox"
-                                  id={"my-modal3" + index}
+                                  id={"my-modal4" + index}
                                   class="modal-toggle"
                                 />
                                 <div class="modal text-white">
@@ -666,114 +733,96 @@ function courseupdate() {
                                       Quiz Question Update
                                     </label>
                                     <form>
-                                      <label className="block text-sm font-medium text-white">
-                                        Title
-                                      </label>
-
-                                      <div className="  relative rounded-md shadow-sm">
-                                        <input
-                                          type="text"
-                                          name="title"
-                                          className="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 w-full"
-                                          placeholder="eg. Setup Server"
-                                          value={lesson.attributes.title}
-                                          disabled
-                                        />
-                                      </div>
-                                      <label className="block text-sm font-medium my-3 text-white">
+                                      <label className="block text-sm font-medium mt-3 text-white">
                                         Section
                                       </label>
-
                                       <div className="flex">
                                         <div className="flex flex-col  ">
-                                          <div class="flex justify-center  ">
+                                          <div class="flex justify-center ">
                                             <div class="  w-full">
                                               <select
-                                                disabled
                                                 value={
-                                                  lesson.attributes.section
+                                                  question.attributes.section
                                                 }
-                                                class="border border-zinc-600 bg-transparent text-center  p-3 rounded-2xl select-ghost w-full text-white truncate "
+                                                class="text-center select select-ghost w-full text-white truncate "
                                               >
                                                 <option value={""}>
-                                                  {lesson.attributes.section}
+                                                  {question.attributes.section}
                                                 </option>
                                               </select>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-
-                                      <label className="block text-sm my-3 font-medium text-white">
-                                        Content
-                                      </label>
-
-                                      <div>
-                                        <textarea
-                                          value={lesson.attributes.content}
-                                          disabled
-                                          name="content"
-                                          required
-                                          placeholder="eg. Setting up a server"
-                                          type="text"
-                                          className=" border border-zinc-600 bg-transparent p-3 rounded-xl  w-full h-[8rem]"
-                                        ></textarea>
-                                      </div>
-                                      <div class="flex justify-center">
-                                        <div class="w-full ">
-                                          <div class="flex   flex-col   w-full">
+                                      {/* <label className="block text-sm font-medium mt-3 text-gray-700">
+          Number of Questions
+        </label>
+        <div className="flex">
+          <div className="flex flex-col  ">
+            <div class="flex justify-center ">
+              <div class="  w-full">
+                <select onChange={(e)=>setNumberOfQuestions(e.target.value)} 
+                  class="text-center w-full mt-2 px-2  rounded-md border border-gray-200 shadow-sm py-2 bg-white text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                  <option value={0}>Select</option>
+                  {[...Array(10).keys()].map((index) => (
+                    <option value={index+1}>{index+1}</option>
+                  ))}
+                </select>
+                 
+              </div>
+            </div>
+          </div>
+        </div> */}
+                                      {
+                                        //quiz question component that will be iteraties based on number of quiz questions
+                                      }
+                                      <div className=" rounded-2xl  ">
+                                        <label className="block text-sm font-medium text-white">
+                                          Question
+                                        </label>
+                                        <div>
+                                          <div className="mt-1 relative rounded-md     shadow-sm">
+                                            <input
+                                              type="text"
+                                              name="title"
+                                              className="input input-ghost text-white w-full"
+                                              placeholder="eg. What does P2P stand for?"
+                                              value={
+                                                question.attributes.question
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                        {question.attributes.options.map(
+                                          (option, index) => (
                                             <div>
-                                              <div className="flex justify-between ">
-                                                <label className="block text-sm font-medium text-white mt-3">
-                                                  Preview
-                                                </label>
-                                                <div class=" card">
-                                                  <div class="form-control">
-                                                    <label class="label">
-                                                      <span class="label-text"></span>
-                                                      <input
-                                                        defaultChecked={
-                                                          lesson.attributes
-                                                            .free_preview
-                                                        }
-                                                        type="checkbox"
-                                                        disabled
-                                                        class="toggle toggle-accent "
-                                                      />
-                                                    </label>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <label className="block text-sm font-medium text-white mt-3 mb-3">
-                                                Video
+                                              <label className="block text-sm font-medium mt-2 text-white">
+                                                {"Option" + " " + (index + 1)}
                                               </label>
-                                              {lesson.attributes.video &&
-                                                lesson.attributes.video
-                                                  .Location && (
-                                                  <div className=" flex justify-center">
-                                                    <ReactPlayer
-                                                      url={
-                                                        lesson.attributes.video
-                                                          .Location
-                                                      }
-                                                      width={"410px"}
-                                                      height={"240px"}
-                                                      controls
-                                                      config={{
-                                                        file: {
-                                                          attributes: {
-                                                            controlsList:
-                                                              "nodownload",
-                                                          },
-                                                        },
-                                                      }}
-                                                      onContextMenu={(e) =>
-                                                        e.preventDefault()
-                                                      }
-                                                    />
-                                                  </div>
-                                                )}
+                                              <div className="  relative rounded-md  mt-1  shadow-sm">
+                                                <input
+                                                  type="text"
+                                                  name="title"
+                                                  className="input input-ghost text-white w-full"
+                                                  placeholder="Peer to Peer"
+                                                  value={option}
+                                                />
+                                              </div>
                                             </div>
+                                          )
+                                        )}
+                                        <label className="block mt-2 text-sm font-medium text-white">
+                                          Answer
+                                        </label>
+                                        <div>
+                                          <div className="mt-1 relative rounded-md   shadow-sm">
+                                            <input
+                                              type="text"
+                                              name="title"
+                                              className="input input-ghost text-white w-full"
+                                              placeholder="Peer to Peer"
+                                              value={question.attributes.answer}
+                                            />
                                           </div>
                                         </div>
                                       </div>
@@ -781,7 +830,7 @@ function courseupdate() {
 
                                     <div class="modal-action">
                                       <label
-                                        for={"my-modal3" + index}
+                                        for={"my-modal4" + index}
                                         class=" cursor-pointer p-3 px-10 rounded-2xl bg-transparent border-2 border-teal-500 hover:bg-gradient-to-r from-teal-500 to-teal-400"
                                       >
                                         Done
@@ -791,14 +840,18 @@ function courseupdate() {
                                 </div>
 
                                 <button
-                                  onClick={() => rejectUpdatedLesson(lesson)}
+                                  onClick={() =>
+                                    rejectUpdatedQuizQuestion(question)
+                                  }
                                   className="text-xl cursor-pointer modal-button   bg-transparent border-2 border-red-500  rounded-2xl p-3 hover:bg-gradient-to-r from-red-500 to-rose-400 font-semibold mx-5 "
                                 >
                                   Reject
                                 </button>
 
                                 <button
-                                  onClick={() => approveUpdatedLesson(lesson)}
+                                  onClick={() =>
+                                    approveUpdatedQuizQuestion(question)
+                                  }
                                   className="text-xl   bg-transparent border-2 border-emerald-500  rounded-2xl p-3 hover:bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold mr-2.5 "
                                 >
                                   Approve
