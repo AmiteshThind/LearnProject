@@ -236,6 +236,10 @@ function CourseView() {
         }
 
         const newLesson = new Lesson();
+        let acl = new Moralis.ACL();
+        acl.setPublicReadAccess(true);
+        acl.setWriteAccess(Moralis.User.current().id,true);
+        newLesson.setACL(acl);
         newLesson.set("title", values.title);
         newLesson.set("content", values.content);
         newLesson.set("video", values.video);
@@ -289,7 +293,11 @@ function CourseView() {
           await result[0].destroy();
         }
         const updatedLesson = new Lesson();
-
+        let acl = new Moralis.ACL();
+        acl.setReadAccess(Moralis.User.current().id,true)
+        acl.setRoleReadAccess("admin",true)
+        acl.setWriteAccess(Moralis.User.current().id,true);
+        updatedLesson.setACL(acl);
         updatedLesson.set("title", values.title);
         updatedLesson.set("content", values.content);
         updatedLesson.set("video", values.video);
@@ -377,6 +385,11 @@ function CourseView() {
       console.log('wo')
 
       const quizQuestionToUpdate = new QuizQuestionToUpdate();
+      let acl = new Moralis.ACL();
+      acl.setReadAccess(Moralis.User.current().id,true)
+      acl.setRoleReadAccess("admin",true)
+      acl.setWriteAccess(Moralis.User.current().id,true);
+      quizQuestionToUpdate.set(acl);
       quizQuestionToUpdate.set("question", questionDetails.question.trim());
       quizQuestionToUpdate.set("answer", questionDetails.answer.trim());
       quizQuestionToUpdate.set(

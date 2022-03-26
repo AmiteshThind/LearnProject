@@ -7,8 +7,8 @@ function QuizAccordion({ children, section }) {
 
     return <div>
         <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold cursor-pointer  rounded-2xl">
-            <div className='ml-5 text-md'>
-            <span>{section +' '+ "Quiz"}</span>
+            <div className='ml-5 text-md text-zinc-700 dark:text-white'>
+            <span className='text-zinc-700 dark:text-white'>{section +' '+ "Quiz"}</span>
             </div>
             <div>
             {!isOpen && <ArrowCircleDownIcon className='h-6 text-emerald-500 w-6 mr-5 ' />
@@ -17,7 +17,7 @@ function QuizAccordion({ children, section }) {
             }
             </div>
         </div>
-        <div className={`   mt-2 rounded-3xl  ${isOpen ? 'd-block' : 'hidden'}`}>
+        <div className={` text-zinc-700 dark:text-white  mt-2 rounded-3xl  ${isOpen ? 'd-block' : 'hidden'}`}>
             {children}
         </div>
     </div>

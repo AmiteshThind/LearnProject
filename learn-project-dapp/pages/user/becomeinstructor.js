@@ -53,6 +53,7 @@ function becomeinstructor() {
     //also want to add who submitted this
     const instructorSubmission = Moralis.Object.extend("instructorSubmissions");
     const formSubmission = new instructorSubmission();
+ 
     if (name != "" && email != "" && q1 != "" && q2 != "") {
       formSubmission.set("name", name);
       formSubmission.set("email", email);
@@ -67,6 +68,11 @@ function becomeinstructor() {
       formSubmission.set("approvalStatus", "pending");
       formSubmission.set("profilePicture", user.attributes.profilePicture);
       user.set("description", q1);
+      let acl = new Moralis.ACL();
+      acl.setReadAccess(Moralis.User.current().id,true)
+      acl.setRoleReadAccess("admin",true)
+      acl.setWriteAccess(Moralis.User.current().id,true);
+      formSubmission.setACL(acl)
       await formSubmission.save();
       setApplicationSubmitted(true);
     } else {
@@ -77,7 +83,7 @@ function becomeinstructor() {
   };
 
   return (
-    <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 ">
+    <div className="bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 ">
       <div>
         <Navbar />
       </div>
@@ -88,14 +94,14 @@ function becomeinstructor() {
               <div class="w-full">
                 <div class=" "></div>
                 <div class="max-w-4xl mx-auto px-6 sm:px-6 flex justify-center items-center  ">
-                  <div class="bg-zinc-800 w-full shadow-2xl rounded-3xl p-8 sm:p-12 mt-5 mb-5 text-white ">
+                  <div class="dark:bg-zinc-800 bg-white w-full shadow-2xl rounded-3xl p-8 sm:p-12 mt-5 mb-5 text-white ">
                     <form onClick={(e) => e.preventDefault()}>
                       <div className="flex justify-center mb-10 text-4xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">
                         Instructor Application
                       </div>
                       <div class="md:flex items-center  ">
                         <div class="w-full md:w-1/2 flex flex-col">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none  dark:text-white text-zinc-700">
                             Name*
                           </label>
                           <input
@@ -103,11 +109,11 @@ function becomeinstructor() {
                             required
                             placeholder="eg. Satoshi Nakamoto"
                             type="text"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700 mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           />
                         </div>
                         <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             Email*
                           </label>
                           <input
@@ -115,7 +121,7 @@ function becomeinstructor() {
                             required
                             placeholder="you@example.com"
                             type="email"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           />
                         </div>
                       </div>
@@ -124,25 +130,25 @@ function becomeinstructor() {
                           placeholder="@SensaiEuphoria247"
                           class="w-full md:w-1/2 flex flex-col"
                         >
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             Telegram Id
                           </label>
                           <input
                             onChange={(e) => setTelegramId(e.target.value)}
                             placeholder="@satoshinakamoto"
                             type="text"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           />
                         </div>
                         <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             LinkedIn
                           </label>
                           <input
                             onChange={(e) => setLinkedin(e.target.value)}
                             placeholder="linkedin.com/in/satoshinakamoto"
                             type="text"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700  border dark:border-none border-zinc-300  dark:text-white text-zinc-700 mt-2"
                           />
                         </div>
                       </div>
@@ -151,31 +157,31 @@ function becomeinstructor() {
                           placeholder="www.satoshi.com"
                           class="w-full md:w-1/2 flex flex-col"
                         >
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             Twitter
                           </label>
                           <input
                             onChange={(e) => setTwitter(e.target.value)}
                             placeholder="www.twitter.come/satoshi"
                             type="text"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700"
                           />
                         </div>
                         <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             Portfolio
                           </label>
                           <input
                             onChange={(e) => setWebsite(e.target.value)}
                             placeholder="eg. www.satoshi.com"
                             type="text"
-                            class="input input-ghost mt-2"
+                            class="input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           />
                         </div>
                       </div>
                       <div>
                         <div class="w-full flex flex-col mt-8">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             Expereince*
                           </label>
                           <textarea
@@ -183,13 +189,13 @@ function becomeinstructor() {
                             required
                             placeholder="Tell us about your background and previous experience in teaching and creating courses :)"
                             type="text"
-                            class="h-40 input input-ghost mt-2"
+                            class="h-40 input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           ></textarea>
                         </div>
                       </div>
                       <div>
                         <div class="w-full flex flex-col mt-8">
-                          <label class="font-semibold leading-none text-white">
+                          <label class="font-semibold leading-none dark:text-white text-zinc-700">
                             What do you hope to accomplish by using the LEARN
                             Platform?*
                           </label>
@@ -198,7 +204,7 @@ function becomeinstructor() {
                             required
                             placeholder="We would love to hear from you how we can help support you and provide the best user expereince. If you have no expereince in the crypto or need some help navigating the space don't worry we got your back."
                             type="text"
-                            class="h-40 input input-ghost mt-2"
+                            class="h-40 input dark:bg-zinc-700  mt-2 border dark:border-none border-zinc-300 dark:text-white text-zinc-700 "
                           ></textarea>
                         </div>
                       </div>
@@ -231,14 +237,19 @@ function becomeinstructor() {
             </div>
           )}
         </div>
-      ) : isAuthenticated && (
+      ) : isAuthenticated ? (
         <div className="w-full justify-center items-center h-[25rem]   flex">
-<svg role="status" class="mr-2 w-30 h-36 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg role="status" class="mr-2 w-30 h-36 text-white animate-spin  fill-emerald-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
 </svg>
 </div>
-      )}
+      ):
+      <div>
+      <AuthErrorMsg
+        authErrorMsg={"Connect Wallet to Access Instructor Application"}
+      />
+    </div>}
     </div>
   );
 }

@@ -86,6 +86,10 @@ export default function QuizModal({
         console.log("mej");
         const QuizQuestion = Moralis.Object.extend("QuizQuestion");
         const newQuizQuestion = new QuizQuestion();
+        let acl = new Moralis.ACL();
+        acl.setPublicReadAccess(true);
+        acl.setWriteAccess(Moralis.User.current().id,true);
+        newQuizQuestion.setACL(acl);
         newQuizQuestion.set("course", course[0]);
         newQuizQuestion.set("question", questionDetails.question);
         newQuizQuestion.set("answer", questionDetails.answer);

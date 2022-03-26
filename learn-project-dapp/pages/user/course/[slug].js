@@ -247,7 +247,8 @@ function CourseMainpage() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+     
+    <div className="  bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white ">
       <div>
         {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
@@ -265,45 +266,45 @@ function CourseMainpage() {
                 <div className="flex  w-full flex-col">
                   <div className="w-full flex rounded-3xl   mb-5 justify-between">
                     <div class="shadow stats w-full">
-                      <div class="stat bg-zinc-800  ">
+                      <div class="stat bg-white dark:bg-zinc-800  ">
                         <div class="stat-figure text-yellow-500">
                           <CheckCircleIcon className="w-10 h-10" />
                         </div>
-                        <div class="stat-title text-white">Progress</div>
-                        <div class="stat-value text-white">
+                        <div class="stat-title text-zinc-700 dark:text-white">Progress</div>
+                        <div class="stat-value text-zinc-700 dark:text-white">
                           {Math.round(
                             (completedLessons.length / lessons.length) * 100
                           )}
                           %
                         </div>
                       </div>
-                      <div class="stat bg-zinc-800  ">
+                      <div class="stat bg-white dark:bg-zinc-800  ">
                         <div class="stat-figure text-emerald-500">
                           <LockOpenIcon className="w-10 h-10" />
                         </div>
-                        <div class="stat-title text-white">
+                        <div class="stat-title text-zinc-700 dark:text-white">
                           Unlocked Quizzes
                         </div>
-                        <div class="stat-value text-white">
+                        <div class="stat-value text-zinc-700 dark:text-white">
                           {unlockedQuizzes.length}/
                           {availableQuizSections.length}
                         </div>
                       </div>
 
-                      <div class="stat bg-zinc-800 ">
+                      <div class="stat bg-white dark:bg-zinc-800 ">
                         <div class="stat-figure text-emerald-500">
                           <CurrencyDollarIcon className="w-10 h-10" />
                         </div>
-                        <div class="stat-title text-white">$LEARN Rewarded</div>
-                        <div class="stat-value text-white ">
+                        <div class="stat-title text-zinc-700 dark:text-white">$LEARN Rewarded</div>
+                        <div class="stat-value text-zinc-700 dark:text-white">
                           {rewardsEarned}
                         </div>
-                        <div class="stat-desc text-white">
+                        <div class="stat-desc text-zinc-700 dark:text-white">
                           Pending Claim: {rewardsEarned - rewardsClaimed} LEARN
                         </div>
                       </div>
 
-                      <div class="stat bg-zinc-800  flex items-center p-3 justify-center">
+                      <div class="stat bg-white dark:bg-zinc-800  flex items-center p-3 justify-center">
                         <div
                           onClick={claimLearn}
                           class=" w-3/4 h-3/4   btn bg-gradient-to-br   from-teal-500 to-emerald-500      border-none text-xl"
@@ -391,11 +392,11 @@ function CourseMainpage() {
                   <div className=""></div>
                 </div>
               </div>
-              <div className="flex h-full bg-zinc-800 rounded-3xl sm:mr-5 sm:ml-2.5    shadow-teal-800   border-none pt-5 pb-10 w-full sm:w-full lg:w-4/12 md:w-full  flex-col  mb-10 sm:mb-10   mt-5">
-                <div className="justify-center flex  w-full items-start font-extrabold text-3xl my-2">
+              <div className="flex  h-full bg-white dark:bg-zinc-800 rounded-3xl sm:mr-5 sm:ml-2.5    shadow-teal-800   border-none pt-5 pb-10 w-full sm:w-full lg:w-4/12 md:w-full  flex-col  mb-10 sm:mb-10   mt-5">
+                <div className="text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500  justify-center flex  w-full items-start font-extrabold text-3xl my-2">
                   Course Content
                 </div>
-                <div className="flex flex-col w-full overflow-auto h-[42rem] scroll-smooth scrollbar-thin  scrollbar-track-rounded-3xl scrollbar-thumb-white   scrollbar-track-zinc-800">
+                <div className="flex flex-col w-full overflow-auto h-[42rem] scroll-smooth scrollbar-thin  scrollbar-track-rounded-3xl scrollbar-thumb-zinc-200 scrollbar-track-zinc-100 dark:scrollbar-thumb-white   dark:scrollbar-track-zinc-800">
                   {course[0].attributes.sections.map(
                     (section, sectionIndex) => (
                       <ul className="">
@@ -405,7 +406,7 @@ function CourseMainpage() {
                             key={sectionIndex}
                             number={sectionIndex + 1}
                           >
-                            <ul class=" rounded-xl  mx-10 text-white text-sm  font-medium">
+                            <ul class=" rounded-xl  mx-10 text-zinc-700 dark:text-white text-sm  font-medium">
                               {lessons
                                 .filter(
                                   (lesson) =>
@@ -475,7 +476,7 @@ function CourseMainpage() {
         <div className="w-full justify-center items-center h-[25rem]   flex">
           <svg
             role="status"
-            class="mr-2 w-30 h-36 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-500"
+            class="mr-2 w-30 h-36 text-white animate-spin  fill-emerald-500"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

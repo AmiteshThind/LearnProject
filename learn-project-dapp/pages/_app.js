@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Moralis } from "moralis";
 import { motion } from "framer-motion";
 import "../styles/styles.css";
+import { ThemeProvider } from "next-themes";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {});
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }) {
       appId={process.env.NEXT_PUBLIC_APP_ID}
       serverUrl={process.env.NEXT_PUBLIC_SERVER_URL}
     >
+      <ThemeProvider enableSystem={true} attribute="class"> 
       <Component {...pageProps} />
+      </ThemeProvider>
     </MoralisProvider>
   );
 }

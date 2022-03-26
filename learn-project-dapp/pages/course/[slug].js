@@ -170,6 +170,12 @@ function SingleCourse() {
       // query.equalTo("course",course[0])
       // query.equalTo("user",user)
       // const result = await query.find();
+      let acl = new Moralis.ACL();
+      acl.setReadAccess("admin",true);
+      acl.setReadAccess(course[0].attributes.instructor.id,true); 
+      acl.setReadAccess(Moralis.User.current().id,true)
+      acl.setWriteAccess(Moralis.User.current().id,true);
+      newEnrolledUserCourse.setACL(acl);
       newEnrolledUserCourse.set("course", course[0]);
       newEnrolledUserCourse.set("user", user);
       newEnrolledUserCourse.set("courseName", course[0].attributes.name);
@@ -216,7 +222,7 @@ function SingleCourse() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+    <div className="  bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white ">
       <div>
         {isAuthenticated && user.attributes.role == "instructor" ? (
           <InstructorNavbar />
@@ -229,7 +235,7 @@ function SingleCourse() {
       {course[0] && lessons[0] && (
         <div className="flex flex-col p-5  items-stretch sm:p-10     ">
           <div className="flex flex-wrap justify-center ">
-            <div className="w-full lg:w-6/12 h-full bg-zinc-800 p-10 rounded-3xl rounded-bl-3xl flex mx-5 flex-col">
+            <div className="w-full lg:w-6/12 h-full dark:bg-zinc-800 bg-white p-10 rounded-3xl rounded-bl-3xl flex mx-5 flex-col">
               <div className=" text-4xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500   font-extrabold ">
                 {course[0].attributes.name}
               </div>
@@ -260,7 +266,7 @@ function SingleCourse() {
               <label className="font-extrabold text-3xl mt-10 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
                 Instructor
               </label>
-              <div className="w-full flex-wrap  border p-5 flex rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-500   border-zinc-700">
+              <div className="w-full flex-wrap   p-5 flex rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-500   border-zinc-700">
                 <div className="flex-wrap justify-center w-full flex">
                   <div class=" avatar">
                     <div class="w-24 h-24 md:w-48 md:h-48 rounded-full  ">
@@ -281,11 +287,11 @@ function SingleCourse() {
                   <div className="text-xl flex-wrap font-extrabold">
                     Hi I'm {instructorUsername}!
                   </div>
-                  <div className="mt-2 flex-wrap">{instructorDescription}</div>
+                  <div className="mt-2 font-semibold text-zinc-700 flex-wrap">{instructorDescription}</div>
                 </div>
               </div>
             </div>
-            <div className="w-full h-full pb-10 mt-10 lg:mt-0 flex flex-col lg:w-4/12 bg-zinc-800 mx-5 px-5 py-5 rounded-3xl  items-center  flex-wrap ">
+            <div className="w-full h-full pb-10 mt-10 lg:mt-0 flex flex-col lg:w-4/12 dark:bg-zinc-800 bg-white mx-5 px-5 py-5 rounded-3xl  items-center  flex-wrap ">
               {lessons[0].attributes.video &&
               lessons[0].attributes.video.Location ? (
                 <div className="flex justify-start p-5 sm:p-10  w-full player-wrapper  ">
@@ -299,7 +305,7 @@ function SingleCourse() {
                     width={"100%"}
                     height={"100%"}
                     controls
-                    className="react-player border-8 border-zinc-800 rounded-3xl      "
+                    className="react-player border-8 border-white dark:border-zinc-800 rounded-3xl      "
                     light={
                       preview == "imagePreview"
                         ? course[0].attributes.image_preview._url
@@ -340,13 +346,13 @@ function SingleCourse() {
                     ? router.push(`/user/course/${slug}`)
                     : enrollUser();
                 }}
-                className={`py-3 bg-gradient-to-bl from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl ${
+                className={`py-3 bg-gradient-to-bl from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl text-white ${
                   !isAuthenticated ? "brightness-75" : "brightness-100"
                 }`}
               >
                 {!isAuthenticated?"Connect Wallet to Enroll" : isUserEnrolled ? "Go To Course" : "Enroll"}
               </button>
-              <div className="mt-8  justify-center flex  w-4/5 items-start font-extrabold text-3xl">
+              <div className="mt-8  justify-center flex  w-4/5 items-start font-extrabold text-4xl  text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500  ">
                 Course Content
               </div>
               {course[0].attributes.sections.map((section, sectionIndex) => (
@@ -357,7 +363,7 @@ function SingleCourse() {
                       key={sectionIndex}
                       number={sectionIndex + 1}
                     >
-                      <ul class=" rounded-xl  mx-10 text-white text-sm  font-medium">
+                      <ul class=" rounded-xl  mx-10 text-zinc-700 dark:text-white text-sm  font-medium">
                         {lessons
                           .filter(
                             (lesson) => lesson.attributes.section == section
@@ -386,7 +392,7 @@ function SingleCourse() {
                             </li>
                           ))}
 
-                        <div className="flex transition transform hover:-translate-y-1 justify-between   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
+                        <div className="flex transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500 cursor-pointer  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
                           <div className="ml-5 text-md">
                             <span>{section + " " + "Quiz"}</span>
                           </div>

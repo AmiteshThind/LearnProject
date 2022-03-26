@@ -9,6 +9,8 @@ import useStore from "../../store/store";
 import Link from "next/link";
 import defaultImage from "../../public/images/defaultImage.png";
 import Image from "next/image";
+import {useTheme} from 'next-themes'
+import {MoonIcon,SunIcon} from '@heroicons/react/outline'
 
 function AdminNavBar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
@@ -18,6 +20,7 @@ function AdminNavBar() {
   const [profilePic, setProfilePic] = useState("");
   let profilePicDetails = useStore((state) => state.profilePicDetails);
   const [isLoading, setIsLoading] = useState(true);
+  const {systemTheme,theme,setTheme} = useTheme();
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
@@ -53,6 +56,31 @@ function AdminNavBar() {
     }
     verify();
   }, [isAuthenticated]);
+
+  const renderThemeChanger=()=>{
+
+    const currentTheme = theme === 'system' ? systemTheme : theme;
+
+    if(currentTheme === 'dark'){
+      return (
+        <SunIcon
+        className="w-8 h-8 hover:scale-110 duration-200 text-white"
+        role = "button"
+        
+        onClick={()=> setTheme('light')}
+        />
+      )
+    }else{
+      return (
+        <MoonIcon
+        className="hover:scale-110 duration-200 w-8 h-8 text-emerald-500"
+        role = "button"
+        onClick={()=> setTheme('dark')}
+        />
+      )
+
+    }
+  }
 
   const loadUserProfilePicture = async () => {
     // const Instructors = Moralis.Object.extend("instructorSubmissions");
@@ -150,7 +178,7 @@ function AdminNavBar() {
                 </div>
               </div>
               <div className="hidden  rounded-3xl lg:block shadow-xl   ">
-                <div className=" border-2 border-emerald-500  p-3 flex-wrap rounded-3xl  justify-between flex shadow-2xl  sm:space-x-2 md:space-x-2 lg:space-x-2 ">
+                <div className=" dark:border-2 dark:border-emerald-500 bg-white dark:bg-transparent  p-3 flex-wrap rounded-3xl  justify-between flex shadow-xl  sm:space-x-2 md:space-x-2 lg:space-x-2 ">
                   <button
                     onClick={() => Router.push("/marketplace")}
                     activeClass="about"
@@ -159,13 +187,13 @@ function AdminNavBar() {
                     offset={50}
                     duration={500}
                     className={
-                      "cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                      "cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150     px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                     }
                   >
                     <div
                       className={
                         router.pathname == "/marketplace"
-                          ? " text-emerald-300  font-extrabold"
+                          ? " text-emerald-500  font-extrabold"
                           : "scale-110"
                       }
                     >
@@ -179,12 +207,12 @@ function AdminNavBar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
                   >
                     <div
                       className={
                         router.pathname == "/instructor/dashboard"
-                          ? "text-emerald-300  font-extrabold : scale-110"
+                          ? "text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
@@ -199,12 +227,12 @@ function AdminNavBar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
                   >
                     <div
                       className={
                         router.pathname == "/instructor/mycourses"
-                          ? "text-emerald-300  font-extrabold : scale-110"
+                          ? "text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
@@ -218,12 +246,12 @@ function AdminNavBar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                   >
                     <div
                       className={
                         router.pathname == "/staking"
-                          ? " text-emerald-300  font-extrabold : scale-110"
+                          ? " text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
@@ -258,13 +286,13 @@ function AdminNavBar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                   >
                     <div
                       className={
                         router.pathname == "/instructor/course/create"
-                          ? " text-emerald-300  font-extrabold : scale-110"
-                          : "text-white"
+                          ? " text-emerald-500  font-extrabold : scale-110"
+                          : ""
                       }
                     >
                       <Link href="/instructor/course/create">
@@ -273,16 +301,16 @@ function AdminNavBar() {
                     </div>
                   </button>
 
-                  <button class="dropdown">
+                  <button class="dropdown hover:scale-105 duration-150">
                     <label
                       tabindex="0"
-                      class=" font-medium text-lg cursor-pointer text-white mr-2  "
+                      class=" font-medium text-lg cursor-pointer text-zinc-700 dark:text-white mr-2    "
                     >
                       Admin
                     </label>
                     <ul
                       tabindex="0"
-                      class="dropdown-content  p-2 text-white bg-zinc-800     rounded-box w-52"
+                      class="dropdown-content  p-2 text-zinc-700 dark:text-white bg-white dark:bg-zinc-800     rounded-box w-52"
                     >
                       <li>
                         <button
@@ -291,13 +319,13 @@ function AdminNavBar() {
                           smooth={true}
                           offset={50}
                           duration={500}
-                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                          className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                         >
                           <div
                             className={
                               router.pathname == "/admin/instructorsubmissions"
-                                ? " text-emerald-300  font-extrabold : scale-110"
-                                : "text-white"
+                                ? " text-emerald-500  font-extrabold : scale-110"
+                                : ""
                             }
                           >
                             <Link href="/admin/instructorsubmissions">
@@ -313,13 +341,13 @@ function AdminNavBar() {
                           smooth={true}
                           offset={50}
                           duration={500}
-                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg font-medium"
+                          className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg font-medium"
                         >
                           <div
                             className={
                               router.pathname == "/admin/coursesubmissions"
-                                ? " text-emerald-300  font-extrabold : scale-110"
-                                : "text-white"
+                                ? " text-emerald-500  font-extrabold : scale-110"
+                                : ""
                             }
                           >
                             <Link href="/admin/coursesubmissions">
@@ -335,13 +363,13 @@ function AdminNavBar() {
                           smooth={true}
                           offset={50}
                           duration={500}
-                          className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                          className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-emerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                         >
                           <div
                             className={
                               router.pathname == "/admin/courseupdate"
-                                ? " text-emerald-300  font-extrabold : scale-110"
-                                : "text-white"
+                                ? " text-emerald-500  font-extrabold : scale-110"
+                                : ""
                             }
                           >
                             <Link href="/admin/courseupdate">
@@ -351,6 +379,11 @@ function AdminNavBar() {
                         </button>
                       </li>
                     </ul>
+                  </button>
+                  <button>
+                  <div>
+                    {renderThemeChanger()}
+                  </div>
                   </button>
                 </div>
               </div>

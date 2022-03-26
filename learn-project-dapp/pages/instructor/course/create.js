@@ -77,6 +77,10 @@ function CourseCreate() {
   const createNewCourse = async () => {
     const Course = Moralis.Object.extend("Course");
     const newCourse = new Course();
+    let acl = new Moralis.ACL();
+    acl.setPublicReadAccess(true);
+    acl.setWriteAccess(Moralis.User.current().id,true);
+    newCourse.setACL(acl);
     newCourse.set("name", values.name);
     newCourse.set("description", values.description);
     if (!values.paid) {
@@ -100,6 +104,7 @@ function CourseCreate() {
     if (imageFile) {
       const imagePreview = new Moralis.File("image", imageFile);
       newCourse.set("image_preview", imagePreview);
+      
       await newCourse.save();
     }
   };

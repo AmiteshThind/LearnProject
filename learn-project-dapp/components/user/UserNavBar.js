@@ -9,6 +9,9 @@ import Moralis from "moralis";
 import useStore from "../../store/store";
 import Link from "next/link";
 import defaultImage from "../../public/images/defaultImage.png"
+import {useTheme} from 'next-themes'
+import {MoonIcon,SunIcon} from '@heroicons/react/outline'
+
 
 function UserNavbar() {
   let jwtRecieved = useStore((state) => state.jwtRecieved);
@@ -18,6 +21,9 @@ function UserNavbar() {
   const { user, isAuthenticated, authenticate, logout } = useMoralis();
   const [profilePic, setProfilePic] = useState("");
   const [isLoading,setIsLoading]= useState(true);
+  const {systemTheme,theme,setTheme} = useTheme();
+
+
 
   useLayoutEffect(() => {
     Moralis.Web3.onAccountsChanged(function (accounts) {
@@ -58,6 +64,32 @@ function UserNavbar() {
     }
     verify();
   }, [isAuthenticated]);
+
+
+  const renderThemeChanger=()=>{
+
+    const currentTheme = theme === 'system' ? systemTheme : theme;
+
+    if(currentTheme === 'dark'){
+      return (
+        <SunIcon
+        className="w-8 h-8 hover:scale-110 duration-200 text-white"
+        role = "button"
+        
+        onClick={()=> setTheme('light')}
+        />
+      )
+    }else{
+      return (
+        <MoonIcon
+        className="hover:scale-110 duration-200 w-8 h-8 text-emerald-500"
+        role = "button"
+        onClick={()=> setTheme('dark')}
+        />
+      )
+
+    }
+  }
 
   const loadUserProfilePicture = async()=>{
     // const Leaderboard = Moralis.Object.extend("Leaderboard");
@@ -147,7 +179,7 @@ function UserNavbar() {
                 </div>
               </div>
               <div className="hidden  rounded-3xl lg:block shadow-xl   ">
-                <div className=" border-2 border-emerald-500  p-3 flex-wrap rounded-3xl  justify-between flex shadow-2xl  sm:space-x-2 md:space-x-2 lg:space-x-2 ">
+                <div className=" dark:border-2 dark:border-emerald-500 bg-white dark:bg-transparent  p-3 flex-wrap rounded-3xl  justify-between flex shadow-xl  sm:space-x-2 md:space-x-2 lg:space-x-2 ">
                   <button
                     onClick={() => Router.push("/marketplace")}
                     activeClass="about"
@@ -156,13 +188,13 @@ function UserNavbar() {
                     offset={50}
                     duration={500}
                     className={
-                      "cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                      "cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                     }
                   >
                     <div
                       className={
                         router.pathname == "/marketplace"
-                          ? " text-emerald-300  font-extrabold"
+                          ? " text-emerald-500  font-extrabold"
                           : "scale-110"
                       }
                     >
@@ -176,12 +208,12 @@ function UserNavbar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium  "
                   >
                     <div
                       className={
                         router.pathname == "/user/dashboard"
-                          ? "text-emerald-300  font-extrabold : scale-110"
+                          ? "text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
@@ -195,18 +227,19 @@ function UserNavbar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                   >
                     <div
                       className={
                         router.pathname == "/staking"
-                          ? " text-emerald-300  font-extrabold : scale-110"
+                          ? " text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
                       <Link href="/staking">Staking</Link>
                     </div>
                   </button>
+                   
 
                   {/* <button
                     activeClass="Services"
@@ -233,12 +266,12 @@ function UserNavbar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                   >
                     <div
                       className={
                         router.pathname == "/user/leaderboard"
-                          ? " text-emerald-300  font-extrabold : scale-110"
+                          ? " text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
@@ -253,17 +286,22 @@ function UserNavbar() {
                     smooth={true}
                     offset={50}
                     duration={500}
-                    className="cursor-pointer text-white dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
+                    className="cursor-pointer text-zinc-700 dark:text-white hover:scale-105 hover:duration-150   dark:hover:text-gemerald-500 px-3 py-2 rounded-md text-md lg:text-lg  font-medium"
                   >
                     <div
                       className={
                         router.pathname == "/user/becomeinstructor"
-                          ? " text-emerald-300  font-extrabold : scale-110"
+                          ? " text-emerald-500  font-extrabold : scale-110"
                           : ""
                       }
                     >
                       <Link href="/user/becomeinstructor">Become Instructor</Link>
                     </div>
+                  </button>
+                  <button>
+                  <div>
+                    {renderThemeChanger()}
+                  </div>
                   </button>
                 </div>
               </div>

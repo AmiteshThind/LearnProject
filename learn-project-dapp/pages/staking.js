@@ -26,7 +26,7 @@ function staking() {
 
   return (
     <div>
-      <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+      <div className="  bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white ">
         <div>
           {isAuthenticated && user.attributes.role == "instructor" ? (
             <InstructorNavbar />
@@ -38,7 +38,7 @@ function staking() {
         </div>
 
         <div className="flex flex-col mt-10 items-center">
-          <div className="text-5xl text-center my-5 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">
+          <div className="text-5xl text-center my-5 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
             Stake LEARN to Earn Passive Income.
           </div>
           <div className="text-lg w-4/5 md:w-3/5  text-center">
@@ -51,26 +51,26 @@ function staking() {
           <div className="w-full justify-center flex-wrap flex md:mt-10">
             <div class="   md:mx-10 w-full lg:w-1/6 text-center my-3 mx-5">
               <div class="stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10   ">
-                <div class="stat-title">Current APR</div>
-                <div class="stat-value text-3xl text-zinc-800">890%</div>
+                <div class="stat-title font-bold">Current APR</div>
+                <div class="stat-value text-3xl text-white dark:text-zinc-800">890%</div>
               </div>
             </div>
             <div class=" md:mx-10 text-center w-full lg:w-1/6 my-3 mx-5 ">
               <div class="  stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10 ">
-                <div class="stat-title">Total Value Locked</div>
-                <div class="stat-value text-3xl text-zinc-800">$89,400</div>
+                <div class="stat-title font-bold">Total Value Locked</div>
+                <div class="stat-value text-3xl text-white dark:text-zinc-800">$89,400</div>
               </div>
             </div>
             <div class="  md:mx-10 text-center w-full lg:w-1/6 my-3 mx-5 ">
               <div class="stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10 ">
-                <div class="stat-title">Rewards Per Day</div>
-                <div class="stat-value text-3xl text-zinc-800">80 LEARN</div>
+                <div class="stat-title font-bold">Rewards Per Day</div>
+                <div class="stat-value text-3xl  text-white dark:text-zinc-800">80 LEARN</div>
               </div>
             </div>
           </div>
           <div className="text-3xl flex justify-center flex-wrap mt-5 mb-2 w-full">
-            <div className="w-full sm:w-5/12 flex-wrap bg-zinc-800  mx-2 rounded-3xl    ">
-              <div class="tabs  justify-evenly bg-zinc-800 p-5 mx-2 rounded-3xl flex my-5 ">
+            <div className="w-full sm:w-5/12 flex-wrap bg-white dark:bg-zinc-800  mx-2 rounded-3xl    ">
+              <div class="tabs  justify-evenly bg-white dark:bg-zinc-800 p-5 mx-2 rounded-3xl flex my-5 ">
                 <button
                   onClick={() => setStakeTabActive(true)}
                   className={`
@@ -100,7 +100,7 @@ function staking() {
                     onChange={(e) => setAmount(e.target.value)}
                     type="number"
                     placeholder="Enter Amount"
-                    class=" input input-ghost text-white mb-5 mt-3 "
+                    class=" input dark:bg-zinc-700 text-zinc-800 dark:text-white bg-zinc-100 mb-5 mt-3 "
                   />
                   {stakeTabActive ? (
                     <button
@@ -134,17 +134,17 @@ function staking() {
                 </div>
               </div>
             </div>
-            <div className="w-full sm:w-3/12 flex-wrap bg-zinc-800 rounded-3xl mb-2 mt-2 mx-2 sm:mx-5">
+            <div className="w-full sm:w-3/12 flex-wrap bg-white dark:bg-zinc-800 rounded-3xl mb-2 mt-2 mx-2 sm:mx-5">
               <div className="flex justify-evenly h-full flex-wrap ml-5 text-xl font-extrabold item   flex-col">
                 <div className="mr-5 ">
-                  <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 brightness-150 mb-2">
+                  <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 mb-2">
                     Earned
                   </div>
                   <div className="flex items-center ">
                     <div className="mr-5">23.3</div>
                     <button
                       disabled={!isAuthenticated}
-                      className={`hover:scale-95 duration-150 py-2 w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${
+                      className={`text-white hover:scale-95 duration-150 py-2 w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${
                         !isAuthenticated ? "brightness-75" : "brightness-100"
                       }`}
                     >
@@ -155,7 +155,7 @@ function staking() {
 
                 <div>
                   <div className="mr-5 ">
-                    <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 brightness-150 mb-2">
+                    <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400  mb-2">
                       Deposited
                     </div>
                     <div className="flex items-center ">
@@ -165,7 +165,7 @@ function staking() {
                 </div>
                 <div>
                   <div className="mr-5 ">
-                    <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 brightness-150 mb-2">
+                    <div className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400  mb-2">
                       In Wallet
                     </div>
                     <div className="flex items-center ">

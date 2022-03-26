@@ -7,7 +7,7 @@ function Accordion({ children, title, number }) {
 
     return <div>
         <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:-translate-y-1 justify-between  bg-transparent border-2 border-teal-500 cursor-pointer hover:bg-teal-500  mx-10  py-6 font-bold mt-5 rounded-2xl">
-            <div className='ml-5 text-lg text-white'>
+            <div className='ml-5 text-lg  text-zinc-700 dark:text-white'>
             <span className='mr-2 text-emerald'>{number}.</span>
             <span>{title}</span>
             </div>

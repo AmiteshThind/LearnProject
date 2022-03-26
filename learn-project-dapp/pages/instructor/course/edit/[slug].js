@@ -116,6 +116,11 @@ function CourseEdit() {
     }
 
     const courseToUpdate = new Course();
+    let acl = new Moralis.ACL();
+    acl.setRoleReadAccess("admin",true);
+    acl.setReadAccess(Moralis.User.current().id,true);
+    acl.setWriteAccess(Moralis.User.current().id,true);
+    courseToUpdate.setACL(acl);
     courseToUpdate.set("name", values.name);
     courseToUpdate.set("description", values.description);
     if (!values.paid) {
