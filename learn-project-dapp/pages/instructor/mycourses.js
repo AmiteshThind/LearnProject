@@ -36,7 +36,7 @@ function MyCourses() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white ">
       {isAuthenticated && user.attributes.role == "admin" ? (
         <AdminNavBar />
       ) : (
@@ -54,7 +54,7 @@ function MyCourses() {
         <div className="w-full justify-center items-center h-[25rem]   flex">
           <svg
             role="status"
-            class="mr-2 w-30 h-36 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-500"
+            class="mr-2 w-30 h-36 text-white animate-spin   fill-emerald-500"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

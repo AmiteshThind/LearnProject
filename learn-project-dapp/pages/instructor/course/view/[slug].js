@@ -688,7 +688,7 @@ function CourseView() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white ">
       <InstructorNavbar />
       {!isLoading ? (
         <div>
@@ -705,7 +705,7 @@ function CourseView() {
               </div>
               {course.length == 1 && (
                 <div className="flex  flex-wrap justify-center">
-                  <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
+                  <div className="flex  sm:p-5 md:p-10 p-5 lg:p-15 xl:p-15 pt-10 sm:mx-10 bg-white dark:bg-zinc-800 sm:mb-5  h-full sm:w-full md:w-6/12 shadow-teal-800 rounded-3xl lg:w-6/12 xl:6/12       items-start flex-col      flex-stretch   ">
                     {course[0].attributes.feedback && (
                       <div className="text-red-400 mb-2 w-full border border-rose-400 rounded-2xl p-2">
                         <span className="font-extrabold">Note:</span>
@@ -800,7 +800,7 @@ function CourseView() {
                               <label
                                 onClick={() => setShowPublishModal(false)}
                                 for="my-modal-2"
-                                class="btn bg-white border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
+                                class="btn dark:bg-white  bg-zinc-700 border-gray-300 text-black hover:bg-gray-100 hover:border-gray-300"
                               >
                                 Cancel
                               </label>
@@ -809,10 +809,10 @@ function CourseView() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-md mt-1 px-1 text-white ">
+                    <div className="text-md mt-1 px-1 text-zinc-700 dark:text-white ">
                       {course[0].attributes.lessonCount} Lessons
                     </div>
-                    <div className="text-sm  mt-2 text-white">
+                    <div className="text-sm  mt-2 text-zinc-700 dark:text-white">
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border-2 badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none py-3">
                         {course[0].attributes.category}
                       </span>
@@ -828,12 +828,12 @@ function CourseView() {
                       />
                     </div>
                     <div className="mt-3 w-full relative flex flex-col flex-wrap">
-                      <div className="mb-3  font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
+                      <div className="mb-3   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
                         Description
                       </div>
                       <div className="prose flex    ">
                         <ReactMarkdown
-                          className="w-12/12 flex-grow text-white "
+                          className="w-12/12 flex-grow text-zinc-700 dark:text-white "
                           remarkPlugins={[remarkGfm]}
                           children={course[0].attributes.description}
                         />
@@ -841,7 +841,7 @@ function CourseView() {
                     </div>
                   </div>
 
-                  <div className="flex h-full bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
+                  <div className="flex h-full bg-white dark:bg-zinc-800 sm:mx-10 shadow-teal-800 rounded-3xl border-none pt-5 pb-10 w-full lg:w-4/12 md:w-3/12 sm:w-full flex-col mt-5 sm:mt-0    mb-10    ">
                     <Toaster />
                     {lessonUpdatedSubmitted && (
                       <div className="border border-yellow-400 rounded-2xl py-2 text-sm px-3  mb-3 text-yellow-400 mx-5 ">
@@ -857,7 +857,7 @@ function CourseView() {
                         onClick={() => {
                           setVisible(true);
                         }}
-                        class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
+                        class="  text-zinc-700 dark:text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
                       >
                         <PlusCircleIcon className="h-6 w-6 mx-1 " /> Add Lesson
                       </button>
@@ -865,7 +865,7 @@ function CourseView() {
                         onClick={() => {
                           setQuizVisible(true);
                         }}
-                        class="  text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
+                        class="  text-zinc-700 dark:text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
                       >
                         <DocumentTextIcon className="h-6 w-6 mx-1  " /> Add Quiz
                       </button>
@@ -941,7 +941,7 @@ function CourseView() {
                           >
                             <ul
                               onDragOver={(e) => e.preventDefault()}
-                              class=" rounded-xl  mx-10 text-white text-sm  font-medium"
+                              class=" rounded-xl  mx-10 text-zinc-700 dark:text-white text-sm  font-medium"
                             >
                               {lessons
                                 .filter(
@@ -1124,7 +1124,7 @@ function CourseView() {
         </div>
       ) : (
         <div className="w-full justify-center items-center h-[25rem]   flex">
-        <svg role="status" class="mr-2 w-30 h-36 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg role="status" class="mr-2 w-30 h-36 text-white animate-spin   fill-emerald-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
             <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
         </svg>

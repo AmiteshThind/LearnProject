@@ -157,14 +157,14 @@ function CourseEdit() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white">
       <InstructorNavbar />
       {!isLoading ? (
         <div>
           <div className="flex justify-center">
             <div class="w-3/4 justify-center    min-h-screen ">
               <div class="w-fullmx-auto px-6  flex justify-center items-center  ">
-                <div class="bg-zinc-800 w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
+                <div class="bg-white dark:bg-zinc-800 w-full shadow-2xl  rounded-3xl  sm:p-12 mt-5 mb-5 ">
                   <p class="text-3xl font-bold leading-7 text-center text-emerald-500">
                     {" "}
                   </p>

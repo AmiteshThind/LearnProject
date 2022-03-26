@@ -78,7 +78,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="  bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white ">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white">
       <div>
         {isAuthenticated && user.attributes.role == "admin" ? (
           <AdminNavBar />
@@ -95,7 +95,7 @@ function Dashboard() {
             0,
             null
           )} */}
-              <div className="w-3/4 bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
+              <div className=" w-3/4 bg-white dark:bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
                 <div className="text-5xl font-extrabold pt-8 pb-4 px-8 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
                   My Revenue
                 </div>
@@ -103,7 +103,7 @@ function Dashboard() {
                   <div class="   md:mx-10 w-full lg:w-1/6 text-center my-3 mx-5">
                     <div class="stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10   ">
                       <div class="stat-title">Total Students</div>
-                      <div class="stat-value text-3xl text-zinc-800">
+                      <div class="stat-value text-3xl dark:text-zinc-700 text-white">
                         {totalStudentsEnrolled}
                       </div>
                     </div>
@@ -111,7 +111,7 @@ function Dashboard() {
                   <div class=" md:mx-10 text-center w-full lg:w-1/6 my-3 mx-5 ">
                     <div class="  stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10 ">
                       <div class="stat-title">Amount Earned</div>
-                      <div class="stat-value text-3xl text-zinc-800">
+                      <div class="stat-value text-3xl dark:text-zinc-700 text-white">
                         ${totalAmountEarned}
                       </div>
                     </div>
@@ -119,7 +119,7 @@ function Dashboard() {
                   <div class=" md:mx-10 text-center w-full lg:w-1/6 my-3 mx-5 ">
                     <div class="  stat bg-gradient-to-b from-emerald-500 to-teal-400    rounded-3xl py-10 ">
                       <div class="stat-title">Amount Claimed</div>
-                      <div class="stat-value text-3xl text-zinc-800">
+                      <div class="stat-value text-3xl dark:text-zinc-700 text-white">
                         ${totalClaimed}
                       </div>
                     </div>
@@ -128,9 +128,9 @@ function Dashboard() {
                     onClick={claim}
                     class=" hover:scale-95 duration-150  md:mx-10   text-center w-full lg:w-1/6 my-3 mx-5 "
                   >
-                    <div class="stat border border-teal-500 hover:border-emerald-500 hover:bg-teal-500 bg-transparent text-white    rounded-3xl py-10 ">
-                      <div class="stat-title text-white">Claim</div>
-                      <div class="stat-value text-white text-3xl  ">
+                    <div class="stat border border-teal-500 hover:border-emerald-500 bg-teal-500 bg-transparent text-zinc-700 dark:text-white    rounded-3xl py-10 ">
+                      <div class="stat-title dark:text-zinc-700 text-white">Claim</div>
+                      <div class="stat-value dark:text-zinc-700 text-white text-3xl  ">
                         ${totalAmountEarned - totalClaimed}
                       </div>
                     </div>
@@ -138,7 +138,7 @@ function Dashboard() {
                 </div>
                 <div className="mx-5 flex flex-wrap  justify-center my-8 ">
                   {courses.map((course) => (
-                    <div className="w-full mx-5 my-3 border border-zinc-600 rounded-2xl p-3 ">
+                    <div className="w-full mx-5 my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                       <div className="flex flex-wrap  md:flex-none  justify-center text-center w-full items-center">
                         <div className="flex-shrink-0   h-20 w-20">
                           <img

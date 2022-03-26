@@ -9,8 +9,8 @@ export default function CourseList({ courses }) {
     <div className="flex flex-col mt-5  hidden;  ">
       <div className="">
         <div className="py-2  falign-middle table-auto  min-w-full sm:px-6 lg:px-8">
-          <div className="shadow-2xl mb-10 m-12   overflow-auto   bg-zinc-800 rounded-xl">
-          <div className="mx-5 flex flex-wrap  justify-center my-8 text-white ">
+          <div className="shadow-2xl mb-10 m-12   overflow-auto  bg-white dark:bg-zinc-800 rounded-xl">
+          <div className="mx-5 flex flex-wrap  justify-center my-8  dark:text-white text-zinc-700 ">
           <div className="text-5xl font-extrabold pt-4 pb-4  mb-4 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
               My Courses
             </div>
@@ -18,7 +18,7 @@ export default function CourseList({ courses }) {
                  <Link
                         href={`/instructor/course/view/${course.attributes.slug}`}
                       >
-                <div className="w-full mx-5 my-3 border border-zinc-600 rounded-2xl p-3 cursor-pointer hover:border-emerald-500 ">
+                <div className="w-full mx-5 my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 cursor-pointer hover:border-emerald-500 ">
                   <div className="flex flex-wrap  md:flex-none    text-center w-full items-center">
                     <div className="flex-shrink-0 justify-center flex w-full lg:w-1/6">
                       <img
@@ -32,19 +32,19 @@ export default function CourseList({ courses }) {
                     </div>
 
                     <div className="text-xl font-semibold justify-center flex  w-full lg:w-1/6  text-center flex-wrap ">
-                      <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                      <span className="text-zinc-700 dark:text-white ">
                         {course.attributes.lessonCount} Lessons
                       </span>
                     </div>
 
                     <div className="text-xl font-semibold justify-center flex w-full  lg:w-1/6  flex-wrap    text-center">
-                      <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                      <span className="text-zinc-700 dark:text-white ">
                         {course.attributes.studentsEnrolled} Students
                       </span>
                     </div>
                     
                     <div className="text-xl font-semibold w-full flex justify-center flex-wrap   lg:w-1/6  ">
-                      <span className="text-transparent  bg-clip-text text-center bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
+                      <span className="text-zinc-700 dark:text-white">
                         {course.attributes.paid?
                         course.attributes.price +"BUSD"
                             : "Free" }

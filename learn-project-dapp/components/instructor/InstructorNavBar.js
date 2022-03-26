@@ -290,9 +290,9 @@ function InstructorNavbar() {
                     </label>
                     <ul
                       tabindex="0"
-                      class="dropdown-content  p-2 text-white bg-white dark:bg-zinc-800     rounded-box w-52"
+                      class="dropdown-content border border-zinc-200 dark:border-zinc-700  p-2 text-white bg-white dark:bg-zinc-800     rounded-box w-52"
                     >
-                      <li>
+                      <li className="  ">
                         <button
                           activeClass="Services"
                           to="work"
