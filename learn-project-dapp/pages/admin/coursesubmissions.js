@@ -74,7 +74,7 @@ function coursesubmissions() {
   };
 
   return (
-    <div className="bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white">
+    <div className="bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white">
       <div>
         <AdminNavBar />
       </div>
@@ -82,14 +82,14 @@ function coursesubmissions() {
         <div>
           <div>
             <div className="flex justify-center ">
-              <div className="w-3/4 bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
+              <div className="w-3/4 bg-white dark:bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
                 <div className="text-5xl font-extrabold pt-8 pb-4 px-8 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
                   Courses Pending Approval
                 </div>
 
                 <div className="mx-5 flex flex-wrap  justify-center my-8 ">
                   {coursesToApprove.map((course, index) => (
-                    <div className="w-full mx-5 my-3 border border-zinc-600 rounded-2xl p-3 ">
+                    <div className="w-full mx-5 my-3 border  border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                       <div className="flex flex-wrap  md:flex-none  justify-between text-center w-full items-center">
                         <div className="flex-shrink-0   h-20 w-20">
                           <img
@@ -126,8 +126,8 @@ function coursesubmissions() {
                             id={"my-modal" + index}
                             class="modal-toggle"
                           />
-                          <div class="modal text-white">
-                            <div class="modal-box bg-zinc-800">
+                          <div class="modal text-zinc-700 dark:text-white">
+                            <div class="modal-box bg-white dark:bg-zinc-800">
                               <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                 Feedback
                               </label>
@@ -138,7 +138,7 @@ function coursesubmissions() {
                                 required
                                 placeholder="eg. Some sections are left blank. Please delete or add to those sections."
                                 type="text"
-                                className=" input input-ghost text-white  w-full h-[8rem]"
+                                className=" input input-ghost text-zinc-700 dark:text-white w-full h-[8rem]"
                               ></textarea>
 
                               <div class="modal-action">

@@ -90,7 +90,7 @@ function instructorsubmissions() {
   };
 
   return (
-    <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white">
       <div>
         <AdminNavBar />
       </div>
@@ -103,14 +103,14 @@ function instructorsubmissions() {
             0,
             null
           )} */}
-              <div className="w-3/4 bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
+              <div className="w-3/4 bg-white dark:bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
                 <div className="text-5xl font-extrabold pt-8 pb-4 px-8 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
                   Instructor Applications
                 </div>
 
                 <div className="mx-5 flex flex-wrap  justify-center my-8 ">
                   {instructorSubmissions.map((instructor) => (
-                    <div className="w-full mx-5 my-3 border border-zinc-600 rounded-2xl p-3 ">
+                    <div className="w-full mx-5 my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                       <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
                         <div className="text-xl font-semibold my-3 w-full md:w-1/4    ">
                           {instructor.attributes.name}
@@ -131,8 +131,8 @@ function instructorsubmissions() {
                             id="my-modal2"
                             class="modal-toggle"
                           />
-                          <div class="modal text-white">
-                            <div class="modal-box bg-zinc-800">
+                          <div class="modal text-zinc-700 dark:text-white">
+                            <div class="modal-box bg-white dark:bg-zinc-800">
                               <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                 {instructor.attributes.name}'s Submission
                               </label>
@@ -140,7 +140,7 @@ function instructorsubmissions() {
                               <form onClick={(e) => e.preventDefault()}>
                                 <div class="md:flex items-center   ">
                                   <div class="w-full md:w-1/2 flex flex-col  ">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       Name*
                                     </label>
                                     <input
@@ -148,11 +148,11 @@ function instructorsubmissions() {
                                       disabled
                                       required
                                       type="text"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
+                                      class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
                                     />
                                   </div>
                                   <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       Email*
                                     </label>
                                     <input
@@ -160,31 +160,31 @@ function instructorsubmissions() {
                                       disabled
                                       required
                                       type="email"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
+                                      class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
                                     />
                                   </div>
                                 </div>
                                 <div class="md:flex items-center mt-8">
                                   <div class="w-full md:w-1/2 flex flex-col">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       Telegram Id
                                     </label>
                                     <input
                                       disabled
                                       value={instructor.attributes.telegramId}
                                       type="text"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl    mt-2"
+                                      class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl    mt-2"
                                     />
                                   </div>
                                   <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       LinkedIn
                                     </label>
                                     <input
                                       disabled
                                       value={instructor.attributes.linkedIn}
                                       type="text"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
+                                      class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
                                     />
                                   </div>
                                 </div>
@@ -193,31 +193,31 @@ function instructorsubmissions() {
                                     placeholder="www.satoshi.com"
                                     class="w-full md:w-1/2 flex flex-col"
                                   >
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none  text-zinc-700 dark:text-white">
                                       Twitter
                                     </label>
                                     <input
                                       disabled
                                       value={instructor.attributes.twitter}
                                       type="text"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 "
+                                      class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 "
                                     />
                                   </div>
                                   <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       Portfolio
                                     </label>
                                     <input
                                       disabled
                                       value={instructor.attributes.website}
                                       type="text"
-                                      class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2"
+                                      class="border border-zinc-200 dark:border-zinc-60 bg-transparent p-3 rounded-xl  mt-2"
                                     />
                                   </div>
                                 </div>
                                 <div>
                                   <div class="w-full flex flex-col mt-8">
-                                    <label class="font-semibold leading-none text-white">
+                                    <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                       Expereince*
                                     </label>
                                     <textarea
@@ -225,7 +225,7 @@ function instructorsubmissions() {
                                       disabled
                                       required
                                       type="text"
-                                      class="h-40 border border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
+                                      class="h-40 border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl   mt-2"
                                     ></textarea>
                                   </div>
                                 </div>
@@ -240,7 +240,7 @@ function instructorsubmissions() {
                                       disabled
                                       required
                                       type="text"
-                                      class="h-40 border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2"
+                                      class="h-40 border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2"
                                     ></textarea>
                                   </div>
                                 </div>

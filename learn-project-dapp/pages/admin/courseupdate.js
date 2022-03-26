@@ -264,7 +264,7 @@ function courseupdate() {
   };
 
   return (
-    <div className=" bg-fixed min-h-screen bg-gradient-to-b from-zinc-800    via-emerald-700  to-teal-500 text-white">
+    <div className=" bg-fixed min-h-screen dark:bg-gradient-to-b dark:from-zinc-800    dark:via-emerald-700  dark:to-teal-500 bg-gradient-to-tr from-rose-200    via-teal-100  to-violet-200 text-zinc-700 dark:text-white">
       <div>
         <AdminNavBar />
       </div>
@@ -277,7 +277,7 @@ function courseupdate() {
             0,
             null
           )} */}
-              <div className="w-3/4 bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
+              <div className="w-3/4 bg-white dark:bg-zinc-800 rounded-3xl mb-5  flex-col mt-10">
                 <div className="text-5xl font-extrabold pt-8 pb-4 px-8 w-full text-center justify-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400 ">
                   Course Updates
                 </div>
@@ -289,7 +289,7 @@ function courseupdate() {
                     </div>
                     <div>
                       {courseDescriptionToUpdate.map((course, index) => (
-                        <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
+                        <div className="w-full   my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                           <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
                             <div className="text-xl font-semibold my-3 w-full md:w-1/4    ">
                               {course.attributes.originalCourseName}
@@ -309,15 +309,15 @@ function courseupdate() {
                                 id={"my-modal2" + index}
                                 class="modal-toggle"
                               />
-                              <div class="modal text-white">
-                                <div class="modal-box border border-zinc-600 bg-zinc-800">
+                              <div class="modal text-zinc-700 dark:text-white">
+                                <div class="modal-box border border-zinc-200 dark:border-zinc-600 bg-zinc-800">
                                   <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                     Course Description Update
                                   </label>
                                   <form>
                                     <div class="flex items-center  ">
                                       <div class="w-full flex flex-col   ">
-                                        <label class="font-semibold leading-none text-white">
+                                        <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                           Course Name
                                         </label>
                                         <input
@@ -326,14 +326,14 @@ function courseupdate() {
                                           disabled
                                           placeholder="eg. Beginners  Guide to Investing in Crypto "
                                           type="text"
-                                          class="  border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
+                                          class="  border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
                                         />
                                       </div>
                                     </div>
 
                                     <div>
                                       <div className="w-full flex flex-col mt-5  ">
-                                        <label class="font-semibold leading-none text-white">
+                                        <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                           Description
                                         </label>
                                         <textarea
@@ -343,14 +343,14 @@ function courseupdate() {
                                           required
                                           placeholder="Give a breif overfiew of what students can expect to learn from this course"
                                           type="text"
-                                          className="h-40 w-prose border border-zinc-600 bg-transparent p-3 rounded-xl  mt-3  "
+                                          className="h-40 w-prose border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-3  "
                                         ></textarea>
                                       </div>
                                     </div>
 
                                     <div class="flex items-center mt-5  ">
                                       <div class="w-full flex flex-col   ">
-                                        <label class="font-semibold leading-none text-white ">
+                                        <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                           Sections
                                         </label>
                                         <input
@@ -360,7 +360,7 @@ function courseupdate() {
                                           required
                                           placeholder="eg. Setup, Config, Defi ... "
                                           type="text"
-                                          class="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 "
+                                          class="border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 "
                                         />
                                       </div>
                                     </div>
@@ -368,20 +368,20 @@ function courseupdate() {
                                       <div className="flex  ">
                                         <div className="flex">
                                           <div className="flex flex-col  sm:mr-5 md:mr-5 lg:mr-5 xl:mr-5 ">
-                                            <label className=" font-semibold leading-none mb-3 text-white ">
+                                            <label className=" font-semibold leading-none mb-3 text-zinc-700 dark:text-white ">
                                               Paid
                                             </label>
                                             <div class="flex justify-center ">
                                               <div class="mb-3 w-full">
                                                 {course.attributes.paid && (
-                                                  <select class=" select select-ghost text-white text-center ">
+                                                  <select class=" select select-ghost text-zinc-700 dark:text-white text-center ">
                                                     <option selected>
                                                       Yes
                                                     </option>
                                                   </select>
                                                 )}
                                                 {!course.attributes.paid && (
-                                                  <select class=" select select-ghost text-white text-center ">
+                                                  <select class=" select select-ghost text-zinc-700 dark:text-whitetext-center ">
                                                     <option selected>No</option>
                                                   </select>
                                                 )}
@@ -393,7 +393,7 @@ function courseupdate() {
                                         {course.attributes.paid && (
                                           <div className="flex">
                                             <div className="flex flex-col mr-5 ">
-                                              <label className=" font-semibold leading-none mb-3 text-white ">
+                                              <label className=" font-semibold leading-none mb-3 text-zinc-700 dark:text-white ">
                                                 Price(BUSD)
                                               </label>
                                               <div class="flex justify-center text ">
@@ -402,7 +402,7 @@ function courseupdate() {
                                                     value={
                                                       course.attributes.price
                                                     }
-                                                    class="text-center select select-ghost text-white  "
+                                                    class="text-center select select-ghost text-zinc-700 dark:text-white  "
                                                   >
                                                     <option>
                                                       {course.attributes.price}
@@ -417,7 +417,7 @@ function courseupdate() {
 
                                       <div class="flex items-center  ">
                                         <div class="w-full flex flex-col   ">
-                                          <label class="font-semibold leading-none text-white">
+                                          <label class="font-semibold leading-none text-zinc-700 dark:text-white">
                                             Category
                                           </label>
                                           <input
@@ -426,14 +426,14 @@ function courseupdate() {
                                             disabled
                                             placeholder="eg. Beginners  Guide to Investing in Crypto "
                                             type="text"
-                                            class="  border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
+                                            class="  border border-zinc-200 dark:border-zinc-600 bg-transparent p-3 rounded-xl  mt-2  "
                                           />
                                         </div>
                                       </div>
                                     </div>
                                     {course.attributes.image_preview && (
                                       <div>
-                                        <label class="inline-block  font-semibold text-white">
+                                        <label class="inline-block  font-semibold text-zinc-700 dark:text-white">
                                           Course Image Preview
                                         </label>
 
@@ -441,7 +441,7 @@ function courseupdate() {
                                           <div class="w-full sm:w-4/12 md:w-8/12 lg:w-8/12 xl:w-3/12 rounded-lg shadow-xl ">
                                             <div class=" ">
                                               <div class="flex items-center justify-center w-full">
-                                                <label class="flex flex-col w-full h-full border-4 border-zinc-600 border-dashed rounded-2xl   hover:border-emerald-500">
+                                                <label class="flex flex-col w-full h-full border-4 border-zinc-200 dark:border-zinc-600 border-dashed rounded-2xl   hover:border-emerald-500">
                                                   <Image
                                                     src={
                                                       course.attributes
@@ -516,16 +516,16 @@ function courseupdate() {
                       </div>
                       <div>
                         {lessonsToUpdate.map((lesson, index) => (
-                          <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
+                          <div className="w-full   my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                             <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
                               <div className=" font-semibold my-3 w-full md:w-1/4    ">
                                 <div className="text-xl">
                                   {lesson.attributes.originalLessonName}
                                 </div>
-                                <div className="text-sm text-zinc-500">
+                                <div className="text-sm text-zinc-700 dark:text-white">
                                   Section: {lesson.attributes.originalSection}
                                 </div>
-                                <div className="text-sm text-zinc-500">
+                                <div className="text-sm text-zinc-700 dark:text-white">
                                   Course: {lesson.attributes.courseName}
                                 </div>
                               </div>
@@ -544,13 +544,13 @@ function courseupdate() {
                                   id={"my-modal3" + index}
                                   class="modal-toggle"
                                 />
-                                <div class="modal text-white">
-                                  <div class="modal-box border border-zinc-600 bg-zinc-800">
+                                <div class="modal text-zinc-700 dark:text-white">
+                                  <div class="modal-box border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-800">
                                     <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                       Lesson Update
                                     </label>
                                     <form>
-                                      <label className="block text-sm font-medium text-white">
+                                      <label className="block text-sm font-medium text-zinc-700 dark:text-white">
                                         Title
                                       </label>
 
@@ -558,13 +558,13 @@ function courseupdate() {
                                         <input
                                           type="text"
                                           name="title"
-                                          className="border border-zinc-600 bg-transparent p-3 rounded-xl  mt-2 w-full"
+                                          className="border dark:border-zinc-600 border-zinc-200 bg-transparent p-3 rounded-xl  mt-2 w-full"
                                           placeholder="eg. Setup Server"
                                           value={lesson.attributes.title}
                                           disabled
                                         />
                                       </div>
-                                      <label className="block text-sm font-medium my-3 text-white">
+                                      <label className="block text-sm font-medium my-3 text-zinc-700 dark:text-white">
                                         Section
                                       </label>
 
@@ -577,7 +577,7 @@ function courseupdate() {
                                                 value={
                                                   lesson.attributes.section
                                                 }
-                                                class="border border-zinc-600 bg-transparent text-center  p-3 rounded-2xl select-ghost w-full text-white truncate "
+                                                class="border border-zinc-200 dark:border-zinc-600 bg-transparent text-center  p-3 rounded-2xl select-ghost w-full text-zinc-700 dark:text-white truncate "
                                               >
                                                 <option value={""}>
                                                   {lesson.attributes.section}
@@ -588,7 +588,7 @@ function courseupdate() {
                                         </div>
                                       </div>
 
-                                      <label className="block text-sm my-3 font-medium text-white">
+                                      <label className="block text-sm my-3 font-medium text-zinc-700 dark:text-white">
                                         Content
                                       </label>
 
@@ -600,7 +600,7 @@ function courseupdate() {
                                           required
                                           placeholder="eg. Setting up a server"
                                           type="text"
-                                          className=" border border-zinc-600 bg-transparent p-3 rounded-xl  w-full h-[8rem]"
+                                          className=" border dark:border-zinc-600 border-zinc-200 bg-transparent p-3 rounded-xl  w-full h-[8rem]"
                                         ></textarea>
                                       </div>
                                       <div class="flex justify-center">
@@ -608,7 +608,7 @@ function courseupdate() {
                                           <div class="flex   flex-col   w-full">
                                             <div>
                                               <div className="flex justify-between ">
-                                                <label className="block text-sm font-medium text-white mt-3">
+                                                <label className="block text-sm font-medium text-zinc-700 dark:text-white mt-3">
                                                   Preview
                                                 </label>
                                                 <div class=" card">
@@ -628,7 +628,7 @@ function courseupdate() {
                                                   </div>
                                                 </div>
                                               </div>
-                                              <label className="block text-sm font-medium text-white mt-3 mb-3">
+                                              <label className="block text-sm font-medium text-zinc-700 dark:text-white mt-3 mb-3">
                                                 Video
                                               </label>
                                               {lesson.attributes.video &&
@@ -699,16 +699,16 @@ function courseupdate() {
                       </div>
                       <div>
                         {quizQuestionsToUpdate.map((question, index) => (
-                          <div className="w-full   my-3 border border-zinc-600 rounded-2xl p-3 ">
+                          <div className="w-full   my-3 border border-zinc-200 dark:border-zinc-600 rounded-2xl p-3 ">
                             <div className="flex flex-wrap  md:flex-none  justify-between  w-full items-center">
                               <div className=" font-semibold my-3 w-full md:w-1/4    ">
                                 <div className="text-xl">
                                   {question.attributes.originalQuizQuestion}
                                 </div>
-                                <div className="text-sm text-zinc-500">
+                                <div className="text-sm text-zinc-700 dark:text-white">
                                   Section: {question.attributes.section}
                                 </div>
-                                <div className="text-sm text-zinc-500">
+                                <div className="text-sm text-zinc-700 dark:text-white">
                                   Course: {question.attributes.courseName}
                                 </div>
                               </div>
@@ -727,13 +727,13 @@ function courseupdate() {
                                   id={"my-modal4" + index}
                                   class="modal-toggle"
                                 />
-                                <div class="modal text-white">
-                                  <div class="modal-box border border-zinc-600 bg-zinc-800">
+                                <div class="modal text-zinc-700 dark:text-white">
+                                  <div class="modal-box border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-800">
                                     <label className="  flex justify-center text-3xl font-extrabold mb-5">
                                       Quiz Question Update
                                     </label>
                                     <form>
-                                      <label className="block text-sm font-medium mt-3 text-white">
+                                      <label className="block text-sm font-medium mt-3 text-zinc-700 dark:text-white">
                                         Section
                                       </label>
                                       <div className="flex">
@@ -744,7 +744,7 @@ function courseupdate() {
                                                 value={
                                                   question.attributes.section
                                                 }
-                                                class="text-center select select-ghost w-full text-white truncate "
+                                                class="text-center select select-ghost w-full text-zinc-700 dark:text-white truncate "
                                               >
                                                 <option value={""}>
                                                   {question.attributes.section}
@@ -777,7 +777,7 @@ function courseupdate() {
                                         //quiz question component that will be iteraties based on number of quiz questions
                                       }
                                       <div className=" rounded-2xl  ">
-                                        <label className="block text-sm font-medium text-white">
+                                        <label className="block text-sm font-medium text-zinc-700 dark:text-white">
                                           Question
                                         </label>
                                         <div>
@@ -785,7 +785,7 @@ function courseupdate() {
                                             <input
                                               type="text"
                                               name="title"
-                                              className="input input-ghost text-white w-full"
+                                              className="input input-ghost text-zinc-700 dark:text-white w-full"
                                               placeholder="eg. What does P2P stand for?"
                                               value={
                                                 question.attributes.question
@@ -796,14 +796,14 @@ function courseupdate() {
                                         {question.attributes.options.map(
                                           (option, index) => (
                                             <div>
-                                              <label className="block text-sm font-medium mt-2 text-white">
+                                              <label className="block text-sm font-medium mt-2 text-zinc-700 dark:text-white">
                                                 {"Option" + " " + (index + 1)}
                                               </label>
                                               <div className="  relative rounded-md  mt-1  shadow-sm">
                                                 <input
                                                   type="text"
                                                   name="title"
-                                                  className="input input-ghost text-white w-full"
+                                                  className="input input-ghost text-zinc-700 dark:text-white w-full"
                                                   placeholder="Peer to Peer"
                                                   value={option}
                                                 />
@@ -811,7 +811,7 @@ function courseupdate() {
                                             </div>
                                           )
                                         )}
-                                        <label className="block mt-2 text-sm font-medium text-white">
+                                        <label className="block mt-2 text-sm font-medium text-zinc-700 dark:text-white">
                                           Answer
                                         </label>
                                         <div>
@@ -819,7 +819,7 @@ function courseupdate() {
                                             <input
                                               type="text"
                                               name="title"
-                                              className="input input-ghost text-white w-full"
+                                              className="input input-ghost text-zinc-700 dark:text-white w-full"
                                               placeholder="Peer to Peer"
                                               value={question.attributes.answer}
                                             />
