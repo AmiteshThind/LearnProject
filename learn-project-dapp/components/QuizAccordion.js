@@ -6,7 +6,7 @@ function QuizAccordion({ children, section }) {
     const [isOpen, setIsOpen] = useState(false)
 
     return <div>
-        <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold cursor-pointer  rounded-2xl">
+        <div onClick={() => setIsOpen(!isOpen)} className="flex transition transform hover:scale-105 duration-150 justify-between hover:bg-gradient-to-br from-teal-500 to-emerald-500   border-2  mx-2 my-3  py-5 font-bold cursor-pointer  rounded-2xl">
             <div className='ml-5 text-md text-zinc-700 dark:text-white'>
             <span className='text-zinc-700 dark:text-white'>{section +' '+ "Quiz"}</span>
             </div>

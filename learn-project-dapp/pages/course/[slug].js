@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ReactPlayer from "react-player";
 import Image from "next/image";
-import { PlayIcon } from "@heroicons/react/outline";
+import { PlayIcon } from "@heroicons/react/solid";
 import Accordion from "../../components/Accordion";
 import defaultImage from "../../public/images/defaultImage.png";
 import {
@@ -236,37 +236,40 @@ function SingleCourse() {
         <div className="flex flex-col p-5  items-stretch sm:p-10     ">
           <div className="flex flex-wrap justify-center ">
             <div className="w-full lg:w-6/12 h-full dark:bg-zinc-800 bg-white p-10 rounded-3xl rounded-bl-3xl flex mx-5 flex-col">
-              <div className=" text-4xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500   font-extrabold ">
+              <div className=" text-5xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500   font-extrabold ">
                 {course[0].attributes.name}
               </div>
-              <div className=" text-md text-transparent bg-clip-text bg-gradient-to-br  from-teal-500 to-emerald-500 mt-2   font-semibold ">
-                By {instructorUsername}
-              </div>
-
               <div class="badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none px-4 py-4 mt-4     truncate   ">
                 {course[0].attributes.category}
               </div>
-              <div className=" mt-4 text-md text-transparent bg-clip-text bg-gradient-to-br from-teal-500 to-emerald-500 font-semibold ">
+              <div class=" mt-4 text-2xl text-transparent bg-clip-text bg-gradient-to-br from-teal-500 to-emerald-500 font-extrabold ">
+                {course[0].attributes.paid
+                  ? course[0].attributes.price + " BUSD"
+                  :  "Free"}
+              </div>
+              <div className=" text-sm text-zinc-400 mt-4   font-semibold ">
+                By {instructorUsername}
+              </div>
+              <div className=" text-zinc-400 mt-2 text-sm text-transparent bg-clip-text bg-gradient-to-br from-teal-500 to-emerald-500 font-semibold ">
                 Updated {course[0].updatedAt.toISOString().split("T")[0]}
               </div>
 
-              <div class=" mt-4 text-3xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500 font-extrabold ">
-                {course[0].attributes.paid
-                  ? course[0].attributes.price + " BUSD"
-                  : "Free"}
-              </div>
 
-              <div className="prose flex mt-7 text-sm    ">
+              <label className=" font-extrabold text-4xl mt-8 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
+                Course Description
+              </label>
+              <div className=" prose-lg font-semibold flex mt-7 text-sm    ">
+                
                 <ReactMarkdown
                   className="w-12/12 flex-grow  "
                   remarkPlugins={[remarkGfm]}
                   children={course[0].attributes.description}
                 />
               </div>
-              <label className="font-extrabold text-3xl mt-10 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
-                Instructor
+              <label className=" font-extrabold text-4xl mt-10 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
+                Meet The Instructor
               </label>
-              <div className="w-full flex-wrap   p-5 flex rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-500   border-zinc-700">
+              <div className="w-full flex-wrap   p-5 flex rounded-3xl    ">
                 <div className="flex-wrap justify-center w-full flex">
                   <div class=" avatar">
                     <div class="w-24 h-24 md:w-48 md:h-48 rounded-full  ">
@@ -283,11 +286,11 @@ function SingleCourse() {
                     </div>
                   </div>
                 </div>
-                <div className="flex mt-2 flex-col  flex-wrap px-5  w-full  ">
+                <div className="flex mt-2 flex-col  flex-wrap   w-full  ">
                   <div className="text-xl flex-wrap font-extrabold">
-                    Hi I'm {instructorUsername}!
+                    Hi I'm {instructorUsername}
                   </div>
-                  <div className="mt-2 font-semibold text-zinc-700 flex-wrap">{instructorDescription}</div>
+                  <div className="mt-2 font-semibold text-zinc-700 dark:text-white flex-wrap">{instructorDescription}</div>
                 </div>
               </div>
             </div>
@@ -392,7 +395,7 @@ function SingleCourse() {
                             </li>
                           ))}
 
-                        <div className="flex transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500 cursor-pointer  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
+                        <div className="flex transition transform hover:scale-105  justify-between hover:bg-gradient-to-br from-teal-500 to-emerald-500 cursor-pointer  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
                           <div className="ml-5 text-md">
                             <span>{section + " " + "Quiz"}</span>
                           </div>
