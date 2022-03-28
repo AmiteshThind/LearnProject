@@ -128,9 +128,9 @@ function Dashboard() {
                     onClick={claim}
                     class=" hover:scale-95 duration-150  md:mx-10   text-center w-full lg:w-1/6 my-3 mx-5 "
                   >
-                    <div class="stat border border-teal-500 hover:border-emerald-500 bg-teal-500 bg-transparent text-zinc-700 dark:text-white    rounded-3xl py-10 ">
-                      <div class="stat-title dark:text-zinc-700 text-white">Claim</div>
-                      <div class="stat-value dark:text-zinc-700 text-white text-3xl  ">
+                    <div class=" btn hover:bg-teal-500  w-full flex flex-col items-center border border-teal-400 hover:border-emerald-500 bg-teal-400 bg-transparent text-zinc-700 dark:text-white    rounded-3xl py-10 ">
+                      <div class=" flex text-2xl dark:text-zinc-700 text-white">Claim</div>
+                      <div class=" flex stat-value dark:text-zinc-700 text-white text-3xl  ">
                         ${totalAmountEarned - totalClaimed}
                       </div>
                     </div>
