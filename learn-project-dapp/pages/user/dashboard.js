@@ -84,8 +84,8 @@ function Dashboard() {
                         </div>
                         <div className="text-xl font-semibold w-1/4 ">
                           <span className="text-transparent  bg-clip-text bg-gradient-to-br flex items-center from-teal-500 to-emerald-500 brightness-110 ">
-                            <PlusCircleIcon className="w-5 h-5 mx-1 my-3 sm:my-0 text-emerald-500" />
-                            {course.attributes.rewardsEarned} $LEARN
+                            <PlusCircleIcon className="w-6 h-6 mx-1 my-3 sm:my-0 text-emerald-500" />
+                            {course.attributes.rewardsEarned} LEARN
                           </span>
                         </div>
                         <div

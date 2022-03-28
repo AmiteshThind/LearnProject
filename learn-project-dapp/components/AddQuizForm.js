@@ -13,14 +13,14 @@ function AddQuizForm({ sections, questionDetails,setQuestionDetails }) {
   return (
     <div className="pr-2">
       <form>
-        <label className="block text-sm font-medium mt-3 text-white">
+        <label className="block text-sm font-medium mt-3 text-zinc-700 dark:text-white">
           Section
         </label> 
         <div className="flex">
           <div className="flex flex-col  ">
             <div class="flex justify-center ">
               <div class="  w-full">
-                <select value={questionDetails.section} onChange={(e)=>  setQuestionDetails(prevState => ({...prevState,["section"]: e.target.value}))}  class="text-center select select-ghost w-full text-white truncate ">
+                <select value={questionDetails.section} onChange={(e)=>  setQuestionDetails(prevState => ({...prevState,["section"]: e.target.value}))}  class="text-center select select-ghost w-full dark:text-white dark:bg-zinc-700 text-zinc-700 border dark:border-zinc-700  border-zinc-300 mt-2 truncate ">
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
                     <option value={section}>{section}</option>

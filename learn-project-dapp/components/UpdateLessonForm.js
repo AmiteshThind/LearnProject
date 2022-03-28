@@ -14,19 +14,19 @@ function UpdateLessonForm({
   return (
     <div className="pr-2">
       <form onSubmit={handleAddLesson}>
-        <label className="block text-sm font-medium text-white">Title</label>
+        <label className="block text-sm font-medium dark:text-white text-zinc-700">Title</label>
 
         <div className="mt-1 relative rounded-md shadow-sm">
           <input
             value={values.title}
             type="text"
             name="title"
-            className="input input-ghost text-white  w-full"
+            className="border border-zinc-300 dark:bg-zinc-700 dark:text-white dark:border-zinc-600 bg-transparent p-3 rounded-lg   mt-2  w-full"
             placeholder="eg. Setup Server"
             onChange={(e) => setValues({ ...values, title: e.target.value })}
           />
         </div>
-        <label className="block text-sm font-medium mt-3 text-white">
+        <label className="block text-sm font-medium mt-3 text-zinc-700 dark:text-white">
           Section
         </label>
 
@@ -39,7 +39,7 @@ function UpdateLessonForm({
                     setValues({ ...values, section: v.target.value })
                   }
                   value={values.section}
-                  class="text-center w-full mt-2 bg-gradient-to-b from-teal-500   to-emerald-500  rounded-md hover:border-emerald-500 shadow-sm py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
+                  class="text-center select select-ghost w-full  border dark:bg-zinc-700 border-zinc-300 dark:border-zinc-600 mt-2 text-zinc-700 dark:text-white truncate "
                 >
                   <option value={""}>Select</option>
                   {sections.map((section, index) => (
@@ -53,7 +53,7 @@ function UpdateLessonForm({
           </div>
         </div>
 
-        <label className="block text-sm mt-2 font-medium  text-white">
+        <label className="block text-sm mt-2 font-medium  dark:text-white text-zinc-700">
           Content
         </label>
 
@@ -65,7 +65,7 @@ function UpdateLessonForm({
             required
             placeholder="eg. Setting up a server"
             type="text"
-            className=" input input-ghost text-white h-[8rem] w-full mt-2"
+            className=" border border-zinc-300 dark:bg-zinc-700 dark:text-white dark:border-zinc-600 bg-transparent p-3 rounded-lg   h-[8rem] w-full mt-2"
           ></textarea>
         </div>
         <div class="flex justify-center">
@@ -74,7 +74,7 @@ function UpdateLessonForm({
               <label className="block text-sm font-medium text-white">
                 Video
               </label>
-              <label class="flex flex-col  mt-1 w-full h-full border-2   border-zinc-700 hover:border-emerald-500 rounded-md     ">
+              <label class="flex flex-col  mt-1 w-full h-full border-2  border-zinc-200 cursor-pointer dark:border-zinc-700 hover:border-emerald-500 rounded-md     ">
                 {progress > 0 && (
                   <div class="w-full bg-gray-200 h-1">
                     <div
@@ -106,7 +106,7 @@ function UpdateLessonForm({
               </label>
               <div>
                 <div className="flex justify-between ">
-                  <label className="block text-sm font-medium text-white mt-3">
+                  <label className="block text-sm font-medium dark:text-white text-zinc-700 mt-3">
                     Preview
                   </label>
                   <div class=" card">

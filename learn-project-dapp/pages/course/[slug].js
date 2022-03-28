@@ -258,7 +258,7 @@ function SingleCourse() {
               <label className=" font-extrabold text-4xl mt-8 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
                 Course Description
               </label>
-              <div className=" prose-lg font-semibold flex mt-7 text-sm    ">
+              <div className=" prose-lg  flex mt-7 text-lg    ">
                 
                 <ReactMarkdown
                   className="w-12/12 flex-grow  "
@@ -286,11 +286,11 @@ function SingleCourse() {
                     </div>
                   </div>
                 </div>
-                <div className="flex mt-2 flex-col  flex-wrap   w-full  ">
-                  <div className="text-xl flex-wrap font-extrabold">
+                <div className="flex mt-2 flex-col text-lg  flex-wrap   w-full  ">
+                  <div className="text-2xl flex-wrap ">
                     Hi I'm {instructorUsername}
                   </div>
-                  <div className="mt-2 font-semibold text-zinc-700 dark:text-white flex-wrap">{instructorDescription}</div>
+                  <div className="mt-2  text-zinc-700 dark:text-white flex-wrap">{instructorDescription}</div>
                 </div>
               </div>
             </div>
@@ -349,7 +349,7 @@ function SingleCourse() {
                     ? router.push(`/user/course/${slug}`)
                     : enrollUser();
                 }}
-                className={`py-3 bg-gradient-to-bl from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl text-white ${
+                className={`py-3 bg-gradient-to-b from-teal-500 to-emerald-500 w-full rounded-3xl hover:scale-95 duration-300 font-semibold my-2 text-xl text-white dark:hover:text-zinc-700 ${
                   !isAuthenticated ? "brightness-75" : "brightness-100"
                 }`}
               >
@@ -366,7 +366,7 @@ function SingleCourse() {
                       key={sectionIndex}
                       number={sectionIndex + 1}
                     >
-                      <ul class=" rounded-xl  mx-10 text-zinc-700 dark:text-white text-sm  font-medium">
+                      <ul class=" rounded-xl  mx-10   text-zinc-700 dark:text-white text-sm  font-medium">
                         {lessons
                           .filter(
                             (lesson) => lesson.attributes.section == section
@@ -377,7 +377,7 @@ function SingleCourse() {
                               class="px-4 py-5  w-full justify-between flex "
                             >
                               <div className="flex">
-                                <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-br from-emerald-500   to-teal-400 px-2.5 ">
+                                <span className="rounded-full h-[1.5rem] flex justify-center items-center flex-col bg-gradient-to-b from-emerald-500   to-teal-400 px-2.5 ">
                                   {lessonIndex + 1}
                                 </span>
                                 <span className=" px-3 py-1">
@@ -395,13 +395,13 @@ function SingleCourse() {
                             </li>
                           ))}
 
-                        <div className="flex transition transform hover:scale-105  justify-between hover:bg-gradient-to-br from-teal-500 to-emerald-500 cursor-pointer  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
+                        <div className="group flex transition transform hover:scale-105  justify-between hover:bg-gradient-to-b from-teal-500 to-emerald-500 cursor-pointer  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl">
                           <div className="ml-5 text-md">
-                            <span>{section + " " + "Quiz"}</span>
+                            <span className="group-hover:text-white dark:group-hover:text-zinc-700">{section + " " + "Quiz"}</span>
                           </div>
                           <LockClosedIcon
                             onClick={unlockMessage}
-                            className="h-6 text-emerald-500 w-6 mr-5 hover:text-emerald-700 cursor-pointer"
+                            className="h-6 text-emerald-500 group-hover:text-white dark:group-hover:text-zinc-700 w-6 mr-5   cursor-pointer"
                           />
                         </div>
                       </ul>

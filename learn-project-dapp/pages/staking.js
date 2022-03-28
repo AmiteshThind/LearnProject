@@ -106,7 +106,7 @@ function staking() {
                     <button
                       onClick={stake}
                       disabled={!isAuthenticated}
-                      className={`rounded-2xl w-full py-4  text-xl leading-none hover:scale-95  text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
+                      className={`rounded-3xl w-full py-4  text-xl leading-none hover:scale-95  text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
                         !isAuthenticated ? "brightness-75" : "brightness-100"
                       }`}
                     >
@@ -120,7 +120,7 @@ function staking() {
                     <button
                       onClick={unstake}
                       disabled={!isAuthenticated}
-                      className={`rounded-2xl w-full hover:scale-95    py-4 text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
+                      className={`rounded-3xl w-full hover:scale-95    py-4 text-xl leading-none text-white px-4 mb-2   font-semibold duration-150 bg-gradient-to-b from-emerald-500 to-teal-500 focus:ring-2 focus:ring-offset-2  focus:outline-none ${
                         !isAuthenticated ? "brightness-75" : "brightness-100"
                       }`}
                     >
@@ -144,7 +144,7 @@ function staking() {
                     <div className="mr-5">23.3</div>
                     <button
                       disabled={!isAuthenticated}
-                      className={`text-white hover:scale-95 duration-150 py-2 w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-2xl ${
+                      className={`text-white hover:scale-95 duration-150 py-2 w-3/5 bg-gradient-to-r from-emerald-500 to-teal-400 font-semibold rounded-3xl ${
                         !isAuthenticated ? "brightness-75" : "brightness-100"
                       }`}
                     >

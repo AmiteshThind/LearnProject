@@ -304,14 +304,15 @@ function CourseMainpage() {
                         </div>
                       </div>
 
-                      <div class="stat bg-white dark:bg-zinc-800  flex items-center p-3 justify-center">
+                      <div class="stat bg-white dark:bg-zinc-800  flex items-center  justify-center">
                         <div
                           onClick={claimLearn}
-                          class=" w-3/4 h-3/4   btn bg-gradient-to-br   from-teal-500 to-emerald-500      border-none text-xl"
+                          class=" w-3/4 h-3/4 rounded-full   btn bg-gradient-to-br   from-teal-500 to-emerald-500      border-none text-lg"
                         >
                           {" "}
                           Claim LEARN
                         </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -447,7 +448,7 @@ function CourseMainpage() {
                                     onClick={() => {
                                       openQuiz(section);
                                     }}
-                                    className="flex cursor-pointer transition transform hover:-translate-y-1 justify-between hover:bg-emerald-500   border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl"
+                                    className="flex cursor-pointer transition transform hover:-translate-y-1 justify-between hover:bg-gradient-to-b from-teal-500 to-emerald-500  border-2 border-emerald-500 mx-2 my-3  py-5 font-bold   rounded-2xl"
                                   >
                                     <div className="ml-5 text-md">
                                       <span>{section + " " + "Quiz"}</span>

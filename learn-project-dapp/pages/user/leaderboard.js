@@ -57,7 +57,7 @@ function Leaderboard() {
             null
           )} */}
             <div className="w-full xl:w-6/12 mx-4 dark:bg-zinc-800 bg-white rounded-3xl  flex-col mt-10">
-              <div className="text-4xl flex-wrap   text-center text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold  pt-8 pb-4 px-8 justify-center ">
+              <div className="text-5xl flex-wrap   text-center text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold  pt-8 pb-4 px-8 justify-center ">
                 Learn Leaderboard
               </div>
               {isAuthenticated ? (

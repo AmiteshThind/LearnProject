@@ -96,7 +96,7 @@ function becomeinstructor() {
                 <div class="max-w-4xl mx-auto px-6 sm:px-6 flex justify-center items-center  ">
                   <div class="dark:bg-zinc-800 bg-white w-full shadow-2xl rounded-3xl p-8 sm:p-12 mt-5 mb-5 text-white ">
                     <form onClick={(e) => e.preventDefault()}>
-                      <div className="flex justify-center mb-10 text-4xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">
+                      <div className="flex justify-center mb-10 text-5xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">
                         Instructor Application
                       </div>
                       <div class="md:flex items-center  ">

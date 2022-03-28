@@ -20,7 +20,7 @@ function CourseCreateForm({
 
   return (
     <form onSubmit={handleSubmit} className="m-5">
-      <div className="flex justify-center mb-5 text-4xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">
+      <div className="flex justify-center mb-5 text-5xl text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 font-extrabold">
         {!editing ? <div>Create Course</div> : <div> Update Course Details</div>}
       </div>
       {updateSubmitted && <div className="text-yellow-200 font-semibold my-5 border rounded-2xl p-4 flex-wrap border-yellow-200">

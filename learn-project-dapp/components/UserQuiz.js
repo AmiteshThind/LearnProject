@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Moralis } from "moralis";
 import toast, { Toaster } from "react-hot-toast";
+import { useMoralis } from "react-moralis";
 
 function UserQuiz({
   availableQuizSections,
@@ -21,6 +22,7 @@ function UserQuiz({
   const [isLoading, setIsLoading] = useState(true);
   const [rewardRate, setRewardRate] = useState(1);
   const [optionSelected, setOptionSelected] = useState("");
+  const {isAuthenticated} = useMoralis();
 
   useEffect(() => {
     checkIsQuizCompleted();
@@ -156,7 +158,7 @@ function UserQuiz({
                 <span className="text-zinc-700 dark:text-white">Must anwser all questions to claim $LEARN rewards.</span>
               </div>
 
-              <div className="text-4xl text-emerald-500 font-extrabold">
+              <div className="text-4xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500 font-extrabold">
                 {section} Quiz
               </div>
               <div className="text-xl font-extrabold dark:text-white text-zinc-500 flex-wrap my-3   ">
@@ -193,7 +195,7 @@ function UserQuiz({
           !showScore ? (
           <div className="w-full ">
             <div className=" flex items-center  flex-col flex-wrap w-3/8   p-5">
-              <div className="mt-10 text-5xl text-emerald-500 font-extrabold">
+              <div className="mt-10 text-5xl text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500 font-extrabold">
                 {section} Quiz
               </div>
 
@@ -222,12 +224,16 @@ function UserQuiz({
                 </div>
               </div>
 
-              <div
-                onClick={() => setQuizStarted(true)}
-                className="p-5 rounded-xl uppercase font-extrabold hover:scale-95 text-2xl  bg-emerald-500 my-10 cursor-pointer text-white"
+
+              <button
+               onClick={() => setQuizStarted(true)}
+               
+                className={`py-3 bg-gradient-to-b w-1/2 text-2xl mt-8 from-teal-500 to-emerald-500  rounded-3xl hover:scale-95 duration-300 font-semibold my-2   text-white ${
+                  !isAuthenticated ? "brightness-75" : "brightness-100"
+                }`}
               >
-                Begin Quiz
-              </div>
+              Begin Quiz
+              </button>
             </div>
           </div>
         ) : (
@@ -260,12 +266,24 @@ function UserQuiz({
                 </div>
               </div>
             </div>
-            <div
+            {/* <div
               onClick={() => claimLearn()}
               className="p-6 text-xl bg-gradient-to-br from-teal-500 to-emerald-500   my-10 rounded-xl font-extrabold hover:scale-95 cursor-pointer duration-150 text-white "
             >
               CLAIM $LEARN
-            </div>
+            </div> */}
+            <button
+                onClick={() => claimLearn()}
+               
+                className={`py-3 bg-gradient-to-b w-1/2 text-2xl mt-2 my-10 from-teal-500 to-emerald-500  rounded-3xl hover:scale-95 duration-300 font-semibold   text-white ${
+                  !isAuthenticated ? "brightness-75" : "brightness-100"
+                }`}
+              >
+                CLAIM $LEARN
+              </button>
+            
+            
+            
           </div>
         )}
       </div>

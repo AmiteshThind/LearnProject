@@ -30,7 +30,7 @@ export default function Home() {
 
       <div className='flex justify-center cursor-pointer items-center my-10   ' >
         <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} >
-          <Image src={mainPage} height={600} width={800}
+          <Image src={mainPage} height={400} width={600}
             className='rounded-lg z-50 ' />
             </Tilt>
         

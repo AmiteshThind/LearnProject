@@ -175,7 +175,7 @@ function Dashboard() {
         <div className="w-full justify-center items-center h-[25rem]   flex">
           <svg
             role="status"
-            class="mr-2 w-30 h-36 text-gray-200 animate-spin dark:text-gray-600 fill-emerald-500"
+            class="mr-2 w-30 h-36 text-white animate-spin  fill-emerald-500"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -238,7 +238,7 @@ function CourseView() {
         const newLesson = new Lesson();
         let acl = new Moralis.ACL();
         acl.setPublicReadAccess(true);
-        acl.setWriteAccess(Moralis.User.current().id,true);
+        acl.setWriteAccess(Moralis.User.current().id, true);
         newLesson.setACL(acl);
         newLesson.set("title", values.title);
         newLesson.set("content", values.content);
@@ -286,17 +286,17 @@ function CourseView() {
       } else {
         const Lesson = Moralis.Object.extend("UpdatedLesson");
         const query = new Moralis.Query(Lesson);
-        query.equalTo("lessonToUpdate",selectedLesson.id);
-        query.equalTo("state","pending");
+        query.equalTo("lessonToUpdate", selectedLesson.id);
+        query.equalTo("state", "pending");
         const result = await query.find();
-        if(result[0]){
+        if (result[0]) {
           await result[0].destroy();
         }
         const updatedLesson = new Lesson();
         let acl = new Moralis.ACL();
-        acl.setReadAccess(Moralis.User.current().id,true)
-        acl.setRoleReadAccess("admin",true)
-        acl.setWriteAccess(Moralis.User.current().id,true);
+        acl.setReadAccess(Moralis.User.current().id, true);
+        acl.setRoleReadAccess("admin", true);
+        acl.setWriteAccess(Moralis.User.current().id, true);
         updatedLesson.setACL(acl);
         updatedLesson.set("title", values.title);
         updatedLesson.set("content", values.content);
@@ -370,25 +370,23 @@ function CourseView() {
 
   const handleUpdateQuizQuestion = async (e) => {
     try {
-       
-
       const QuizQuestionToUpdate = Moralis.Object.extend("UpdatedQuizQuestion");
       //first check if this quiz question is already being updated, if it is then destroy it and resubmit
 
       const query = new Moralis.Query(QuizQuestionToUpdate);
-      query.equalTo("quizQuestionToUpdate",selectedQuizQuestion.id);
-      query.equalTo("state","pending");
+      query.equalTo("quizQuestionToUpdate", selectedQuizQuestion.id);
+      query.equalTo("state", "pending");
       const result = await query.find();
-      if(result[0]){
+      if (result[0]) {
         await result[0].destroy();
       }
-      console.log('wo')
+      console.log("wo");
 
       const quizQuestionToUpdate = new QuizQuestionToUpdate();
       let acl = new Moralis.ACL();
-      acl.setReadAccess(Moralis.User.current().id,true)
-      acl.setRoleReadAccess("admin",true)
-      acl.setWriteAccess(Moralis.User.current().id,true);
+      acl.setReadAccess(Moralis.User.current().id, true);
+      acl.setRoleReadAccess("admin", true);
+      acl.setWriteAccess(Moralis.User.current().id, true);
       quizQuestionToUpdate.set(acl);
       quizQuestionToUpdate.set("question", questionDetails.question.trim());
       quizQuestionToUpdate.set("answer", questionDetails.answer.trim());
@@ -398,7 +396,7 @@ function CourseView() {
       );
       quizQuestionToUpdate.set("section", questionDetails.section.trim());
       quizQuestionToUpdate.set("quizQuestionToUpdate", selectedQuizQuestion.id);
-      quizQuestionToUpdate.set("state","pending")
+      quizQuestionToUpdate.set("state", "pending");
       quizQuestionToUpdate.set(
         "originalQuizQuestion",
         selectedQuizQuestion.attributes.question
@@ -713,7 +711,7 @@ function CourseView() {
                       </div>
                     )}
                     <div className="flex flex-wrap  w-full justify-between ">
-                      <div className=" px-1 w-3/4  flex-wrap text-4xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
+                      <div className=" px-1 w-3/4  flex-wrap text-5xl   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 ">
                         <h1>{course[0].attributes.name} </h1>
                       </div>
                       <div className="flex      mr-10">
@@ -809,17 +807,22 @@ function CourseView() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-md mt-1 px-1 text-zinc-700 dark:text-white ">
-                      {course[0].attributes.lessonCount} Lessons
-                    </div>
+ 
                     <div className="text-sm  mt-2 text-zinc-700 dark:text-white">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full border-2 badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none py-3">
+                      <span className="px-2 inline-flex text-md leading-5 font-semibold rounded-full border-2 badge bg-gradient-to-l from-teal-500    to-emerald-500  border-none py-3">
                         {course[0].attributes.category}
                       </span>
                     </div>
+                    <div className="text-md mt-2 px-1 text-lg text-zinc-700 dark:text-white ">
+                      {course[0].attributes.lessonCount} Lessons
+                    </div>
 
                     <div className="flex-shrink-0 mr-5  ">
-                      <div className="mb-3 font-semibold">Image Preview</div>
+                      <div className="my-5">
+                    <label className=" font-extrabold text-4xl mt-8 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
+                        Image Preview
+                      </label>
+                      </div>
                       <Image
                         src={course[0].attributes.image_preview._url}
                         className="rounded-lg"
@@ -828,10 +831,10 @@ function CourseView() {
                       />
                     </div>
                     <div className="mt-3 w-full relative flex flex-col flex-wrap">
-                      <div className="mb-3   font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 to-teal-400 text-2xl">
-                        Description
-                      </div>
-                      <div className="prose flex    ">
+                      <label className=" font-extrabold text-4xl my-4 text-transparent bg-clip-text bg-gradient-to-br pb-2 from-teal-500 to-emerald-500">
+                        Course Description
+                      </label>
+                      <div className="prose-lg text-lg flex    ">
                         <ReactMarkdown
                           className="w-12/12 flex-grow text-zinc-700 dark:text-white "
                           remarkPlugins={[remarkGfm]}
@@ -857,7 +860,7 @@ function CourseView() {
                         onClick={() => {
                           setVisible(true);
                         }}
-                        class="  text-zinc-700 dark:text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
+                        class="   text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-b from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md   w-full px-3  ml-10 mr-5 py-3 flex"
                       >
                         <PlusCircleIcon className="h-6 w-6 mx-1 " /> Add Lesson
                       </button>
@@ -865,7 +868,7 @@ function CourseView() {
                         onClick={() => {
                           setQuizVisible(true);
                         }}
-                        class="  text-zinc-700 dark:text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-l from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
+                        class="   text-white font-bold  border-b-4 hover:border-b-2 hover:border-t-1 border-emerald-600   bg-gradient-to-b from-teal-500    to-emerald-500  shadow-sm shadow-emerald-500/50 rounded-2xl justify-center text-md mr-10  w-full px-3 py-3 flex"
                       >
                         <DocumentTextIcon className="h-6 w-6 mx-1  " /> Add Quiz
                       </button>
@@ -1124,10 +1127,22 @@ function CourseView() {
         </div>
       ) : (
         <div className="w-full justify-center items-center h-[25rem]   flex">
-        <svg role="status" class="mr-2 w-30 h-36 text-white animate-spin   fill-emerald-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-        </svg>
+          <svg
+            role="status"
+            class="mr-2 w-30 h-36 text-white animate-spin   fill-emerald-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
         </div>
       )}
     </div>
