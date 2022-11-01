@@ -41,7 +41,7 @@ function SingleCourse() {
 
   useEffect(() => {
     //load course from moralis based on slug
-    //console.log(course)
+    //need to host on personal server now as moralis server does not exist anymore 
 
     loadCourseandLessons();
     loadQuizQuestions();
